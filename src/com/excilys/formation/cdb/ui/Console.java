@@ -3,7 +3,6 @@ package com.excilys.formation.cdb.ui;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -51,11 +50,12 @@ public class Console {
 		    break;
 		case 4:
 		    System.out.println("NOM ?");
-		    String nom = sc.next();
+		    Computer c = new Computer(sc.next());
 		    System.out.println("DATE ? (format aaaa-mm-jj");
 		    String date = sc.next();
-		    date.matches("[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]");		   
-		    computerDAO.createComputer(new Computer(nom));
+		    date.matches("[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]");
+		    c.setDateIntroduced(Date.valueOf(date));
+		    computerDAO.createComputer(c);
 		    System.out.println("Odinateur inséré dans la BDD");
 		    break;
 		case 5:
