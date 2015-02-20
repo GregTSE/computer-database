@@ -2,19 +2,19 @@ package com.excilys.formation.cdb.bean;
 
 public class Company {
 
-	private int id;
+	private Long id;
 	private String name;
 
 	public Company() {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.id = new Long(id);
 	}
 
 	public String getName() {
@@ -27,7 +27,7 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Entreprise : " + name + " (id=" + id + ")\n";
+		return name;
 	}
 
 }

@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class Computer {
 
-	private int id;
+	private Long id;
 	private String name;
 	private Date dateIntroduced;
 	private Date dateDiscontinued;
@@ -15,7 +15,7 @@ public class Computer {
 		super();
 	}
 	
-	public Computer(int id, String name, Date dateIntroduced,
+	public Computer(Long id, String name, Date dateIntroduced,
 			Date dateDiscontinued, String company) {
 		super();
 		this.id = id;
@@ -24,13 +24,17 @@ public class Computer {
 		this.dateDiscontinued = dateDiscontinued;
 		this.company = company;
 	}
+	
+	public Computer(String name){
+		this(null, name, null, null, null);
+	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.id = new Long(id);
 	}
 
 	public String getName() {
@@ -67,9 +71,15 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return "[id=" + id + ", name=" + name + ", dateIntroduced="
-				+ dateIntroduced + ", dateDiscontinued=" + dateDiscontinued
-				+ ", company=" + company + "]";
+		String result =  name;
+		result += (dateIntroduced!=null)?", Introduit le : "+dateIntroduced:"";
+		result += (dateDiscontinued!=null)?", Retiré le : "+dateDiscontinued:"";
+		result += (company != null)?"\t(Entreprise : " + company + ")":"";
+		return result;
+	}
+	
+	public String toBasicString() {
+		return id + " : " + name;
 	}
 	
 	

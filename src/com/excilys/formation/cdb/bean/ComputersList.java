@@ -13,8 +13,9 @@ public class ComputersList {
 	@Override
 	public String toString() {
 		String result = "";
-		for (Computer comp : computers)
-			result += comp.toString() + "\n";
+		for (Computer comp : computers){
+			result += comp.toBasicString() + "\n";
+		}
 		return result;
 	}
 }

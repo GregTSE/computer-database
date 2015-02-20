@@ -1,6 +1,11 @@
 package com.excilys.formation.cdb.ui;
 
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 import com.excilys.formation.cdb.bean.CompaniesList;
 import com.excilys.formation.cdb.bean.Computer;
@@ -11,20 +16,83 @@ import com.excilys.formation.cdb.dao.ConnectionDAO;
 
 public class Console {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		System.out.println("Helloooo");
-		// System.out.println("Affichage des ordi ?");
-		// ComputerDAO computerDAO = new
-		// ComputerDAO(ConnectionDAO.getConnection());
-		// ComputersList comps = computerDAO.findAll();
-		// System.out.println(comps);
+	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
+	CompanyDAO companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
+	boolean stop = false;
 
-		System.out.println("Affichage des entreprises ?");
-		CompanyDAO compDAO = new CompanyDAO(ConnectionDAO.getConnection());
-		CompaniesList comps = compDAO.findAll();
-		System.out.println(comps);
+	while (!stop) {
 
+	    Scanner sc = new Scanner(System.in);
+	    System.out.println("\n\nMENU");
+	    System.out.println("1 - Afficher la liste des ordinateurs");
+	    System.out.println("2 - Afficher la liste des entreprises");
+	    System.out.println("3 - Afficher les détails d'un ordinateur");
+	    System.out.println("4 - Insérer un ordinateur dans la base");
+	    System.out.println("5 - Supprimer un ordinateur dans la base");
+	    System.out.println("6 - Mettre à jour un ordinateur");
+	    try {
+		int choice = sc.nextInt();
+		switch (choice) {
+		case 1:
+		    ComputersList computers = computerDAO.findAll();
+		    System.out.println(computers);
+		    break;
+		case 2:
+		    CompaniesList companies = companyDAO.findAll();
+		    System.out.println(companies);
+		    break;
+		case 3:
+		    System.out
+			    .println("Entrez l'identifiant de l'ordinateur : ");
+		    Computer computer = computerDAO.find(sc.nextInt());
+		    System.out.println(computer);
+		    break;
+		case 4:
+		    System.out.println("NOM ?");
+		    String nom = sc.next();
+		    System.out.println("DATE ? (format aaaa-mm-jj");
+		    String date = sc.next();
+		    date.matches("[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]");		   
+		    computerDAO.createComputer(new Computer(nom));
+		    System.out.println("Odinateur inséré dans la BDD");
+		    break;
+		case 5:
+		    System.out.println("id ?");
+		    computerDAO.delete(sc.nextInt());
+		    break;
+		case 6:
+		    boolean updated = false;
+		    System.out.println("id ?");
+		    while (!updated) {
+
+		    }
+
+		    break;
+		case 7:
+		    sc.close();
+		    Connection conn = ConnectionDAO.getInstance();
+		    if (conn != null) {
+			try {
+			    conn.close();
+			} catch (SQLException e) {
+			    e.printStackTrace();
+			    System.err.println("Erreur de fermeture BDD.");
+			}
+		    }
+		    stop = true;
+		    break;
+		default:
+		    System.out.println("Mauvaise entrée, veuillez entrez l'un des numéros du menu");
+
+		}
+	    } catch (InputMismatchException ime) {
+		System.out
+			.println("Mauvaise entrée, veuillez entrez l'un des numéros du menu");
+	    }
 	}
+	System.out.println("Fin de l'application.");
+    }
 
 }

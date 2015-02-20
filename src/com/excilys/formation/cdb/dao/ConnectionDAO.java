@@ -20,7 +20,7 @@ public class ConnectionDAO {
 		}
 	}
 
-	public static Connection getConnection() {
+	public static Connection getInstance() {
 		if (conn == null) {
 			new ConnectionDAO();
 		}
