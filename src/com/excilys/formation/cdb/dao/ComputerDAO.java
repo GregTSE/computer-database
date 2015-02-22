@@ -28,7 +28,7 @@ public class ComputerDAO {
     public Computer find(int id) {
 
 	Computer computer = null;
-	String query = "SELECT computer.name, introduced, discontinued, company_id FROM computer WHERE computer.id=?";
+	String query = "select comput.name, introduced, discontinued, c.name from computer comput left outer join company c on c.id = comput.company_id WHERE comput.id=?";
 	ResultSet results;
 
 	try {
