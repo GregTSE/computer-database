@@ -46,17 +46,23 @@ public class Console {
 		    System.out
 			    .println("Entrez l'identifiant de l'ordinateur : ");
 		    Computer computer = computerDAO.find(sc.nextInt());
-		    System.out.println(computer);
+		    if(computer!=null)
+		    	System.out.println(computer);
+		    else 
+		    	System.out.println("Identifiant non trouvé.");
 		    break;
 		case 4:
 		    System.out.println("NOM ?");
 		    Computer c = new Computer(sc.next());
 		    System.out.println("DATE ? (format aaaa-mm-jj");
 		    String date = sc.next();
-		    date.matches("[0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]");
-		    c.setDateIntroduced(Date.valueOf(date));
-		    computerDAO.createComputer(c);
-		    System.out.println("Odinateur inséré dans la BDD");
+		    if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+		    	c.setDateIntroduced(Date.valueOf(date));
+		    	computerDAO.createComputer(c);
+		    	System.out.println("Odinateur inséré dans la BDD");
+		    }
+		    else
+		    	System.out.println("Mauvaise date : insertion avortée.");
 		    break;
 		case 5:
 		    System.out.println("id ?");
