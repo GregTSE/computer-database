@@ -58,23 +58,33 @@ public class Console {
 		    	System.err.println("[Erreur : veuillez entrer un nombre]");
 		    	sc.nextLine();
 		    }
-		    
 		}
     }
     
-    
+    /**
+     * Display the current list of the computers
+     * @author Grégori Tirsatine
+     */
     private static void displayAllComputers(){
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	ComputersList computers = computerDAO.findAll();
 	    System.out.println(computers);
     }
     
+    /**
+     * Display the complete list of the companies
+     * @author Grégori Tirsatine
+     */
     private static void displayAllCompanies(){
     	CompanyDAO companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
     	CompaniesList companies = companyDAO.findAll();
 	    System.out.println(companies);
     }
     
+    /**
+     * Display the informations about a computer by id
+     * @author Grégori Tirsatine
+     */
     private static void displayComputerInfo() {
     	Scanner sc = new Scanner(System.in);
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
@@ -91,6 +101,10 @@ public class Console {
 	    }
     }
     
+    /**
+     * Call the method to insert a new computer in the database
+     * @author Grégori Tirsatine
+     */
     private static void insertComputer(){
     	Scanner sc = new Scanner(System.in);
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
@@ -125,32 +139,38 @@ public class Console {
 	    }
 	    computerDAO.createComputer(c);
 	    System.out.println("Ordinateur inséré dans la base de données.");
-	    sc.close();
     }
 
+    /**
+     * Call the method to delete a computer from the database
+     * @author Grégori Tirsatine
+     */
     private static void deleteComputer(){
-    	Scanner sc = new Scanner(System.in);
+    	Scanner sc0 = new Scanner(System.in);
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	System.out.println("Entrez l'identifiant de l'ordinateur :");
 	    try{
-	    	computerDAO.delete(sc.nextInt());
-	    	sc.nextLine();
+	    	computerDAO.delete(sc0.nextInt());
 	    } catch(InputMismatchException ime){
 	    	System.err.println("[Erreur : l'identifiant doit être un entier]");
 	    }
-	    finally {
-	    	sc.close();
-	    }
     }
     
+    /**
+     * Call the method to update a computer
+     */
     private static void updateComputer(){
     	 boolean updated = false;
 		    System.out.println("id ?");
 		    while (!updated) {
 
 		    }
+		    
     }
-    
+    /**
+     * Close the application
+     * @author Grégori Tirsatine
+     */
     private static void closeApplication(){
 	    Connection conn = ConnectionDAO.getInstance();
 	    if (conn != null) {
@@ -164,6 +184,10 @@ public class Console {
 	    System.out.println("Fin de l'application.");
     }
     
+    /**
+     * Display the main menu
+     * @author Grégori Tirsatine
+     */
     private static void displayMenu(){
 	    System.out.println("\n\nMENU");
 	    System.out.println("1 - Afficher la liste des ordinateurs");
