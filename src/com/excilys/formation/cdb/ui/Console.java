@@ -31,6 +31,7 @@ public class Console {
 	    System.out.println("4 - Insérer un ordinateur dans la base");
 	    System.out.println("5 - Supprimer un ordinateur dans la base");
 	    System.out.println("6 - Mettre à jour un ordinateur");
+	    System.out.println("7 - Quitter");
 	    try {
 		int choice = sc.nextInt();
 		switch (choice) {
@@ -52,17 +53,41 @@ public class Console {
 		    	System.out.println("Identifiant non trouvé.");
 		    break;
 		case 4:
-		    System.out.println("NOM ?");
+		    System.out.println("Nom de l'ordinateur ?");
 		    Computer c = new Computer(sc.next());
-		    System.out.println("DATE ? (format aaaa-mm-jj");
-		    String date = sc.next();
-		    if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
-		    	c.setDateIntroduced(Date.valueOf(date));
-		    	computerDAO.createComputer(c);
-		    	System.out.println("Odinateur inséré dans la BDD");
+		    System.out.println("Voulez-vous entrer une date de production ? ('o'/'n')");
+		    if(sc.next().equals("o")){
+			    System.out.println("Date ? (format aaaa-mm-jj)");
+			    String date = sc.next();
+			    if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+			    	c.setDateIntroduced(Date.valueOf(date));
+			    }
+			    else {
+			    	System.out.println("Mauvaise date : insertion avortée.");
+			    	sc.close();
+			    	break;
+			    }
 		    }
-		    else
-		    	System.out.println("Mauvaise date : insertion avortée.");
+		    System.out.println("Voulez-vous entrer une date de fin de production ? ('o'/'n')");
+		    if(sc.next().equals("o")){
+			    System.out.println("Date ? (format aaaa-mm-jj)");
+			    String date = sc.next();
+			    if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+			    	c.setDateDiscontinued(Date.valueOf(date));
+  			    }
+			    else {
+			    	System.out.println("Mauvaise date : insertion avortée.");
+			    	sc.close();
+			    	break;
+			    }
+		    }
+		    System.out.println("Voulez-vous préciser l'entreprise ? ('o'/'n')");
+		    if(sc.next().equals("o")){
+			    System.out.println("Veuillez entrer le nom de l'entreprise.");
+		    	c.setCompany(sc.next());
+		    }
+		    computerDAO.createComputer(c);
+		    System.out.println("Ordinateur inséré dans la base de données.");
 		    break;
 		case 5:
 		    System.out.println("id ?");
@@ -90,12 +115,12 @@ public class Console {
 		    stop = true;
 		    break;
 		default:
-		    System.out.println("Mauvaise entrée, veuillez entrez l'un des numéros du menu");
+		    System.out.println("Mauvaise entrée, veuillez entrer l'un des numéros du menu");
 
 		}
 	    } catch (InputMismatchException ime) {
 		System.out
-			.println("Mauvaise entrée, veuillez entrez l'un des numéros du menu");
+			.println("Mauvaise entrée, veuillez entrer un nombre");
 	    }
 	}
 	System.out.println("Fin de l'application.");

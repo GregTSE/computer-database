@@ -78,19 +78,34 @@ public class ComputerDAO {
 	String name = computer.getName();
 	Date dateIntroduced = computer.getDateIntroduced();
 	Date dateDiscontinued = computer.getDateDiscontinued();
-	int company = 1;// computer.getCompany();
+	//recup company
+	String nameCompany = computer.getCompany();
+	String queryCompanyId = "select * from computer where id=?";
 	String query = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
 
 	try {
+		ResultSet rslt;
+		PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
+		stmt0.setString(1, nameCompany);
+		rslt = stmt0.executeQuery();
+		
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setDate(2, dateIntroduced);
 	    preparedStmt.setDate(3, dateDiscontinued);
-	    preparedStmt.setInt(4, company);
+	    if(rslt.first()){
+	    	int idCompany = rslt.getInt(1);
+	    	System.out.println("idCompany : "+idCompany);
+	    	preparedStmt.setInt(4, idCompany);
+	    }
+	    else
+	    	preparedStmt.setNString(4, null);
+	    	
 	    preparedStmt.executeUpdate();
 	    // preparedStmt.setInt(4, company);
 	} catch (SQLException e) {
 	    System.err.println("Mauvaise date");
+	    e.printStackTrace();
 	}
 
     }
@@ -100,14 +115,14 @@ public class ComputerDAO {
     }
 
     public void delete(int id) {
-	String query = "delete from computer where id=" + id;
-	try {
-	    Statement stmt = connection.createStatement();
-
-	    stmt.executeUpdate(query);
-
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	}
+		String query = "delete from computer where id=" + id;
+		try {
+		    Statement stmt = connection.createStatement();
+	
+		    stmt.executeUpdate(query);
+	
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
     }
 }
