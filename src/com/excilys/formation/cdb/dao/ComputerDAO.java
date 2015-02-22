@@ -22,8 +22,7 @@ public class ComputerDAO {
     /**
      * 
      * @param id
-     *            L'identifiant de l'ordinateur dans la base de données
-     * @return Une instance de la classe Computer
+     * @return an instance of the Computer class
      */
     public Computer find(int id) {
 
