@@ -21,7 +21,7 @@ public class ComputerDAO {
 
     /**
      * Build an object Computer and fill the fields with the informations from the database
-     * @param id
+     * @param id of the computer
      * @return an instance of the Computer class
      */
     public Computer find(int id) {
@@ -79,7 +79,7 @@ public class ComputerDAO {
 
     /**
      * insert in the database the parameter 'computer'
-     * @param computer
+     * @param computer to insert in the database
      */
     public void createComputer(Computer computer) {
 	String name = computer.getName();
@@ -118,6 +118,7 @@ public class ComputerDAO {
 
     /**
      * update a computer by id
+     * @param computer with new fields
      */
     public void update(Computer computer) {
 	
@@ -139,6 +140,7 @@ public class ComputerDAO {
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setDate(2, dateIntroduced);
 	    preparedStmt.setDate(3, dateDiscontinued);
+	    
 	    if (rslt.first()) {
 		int idCompany = rslt.getInt(1);
 	    	preparedStmt.setInt(4, idCompany);
@@ -146,26 +148,25 @@ public class ComputerDAO {
 	    else {
 	    	preparedStmt.setNull(4, 0);
 	    }
+	    
 	    int id = computer.getId().intValue();
 	    preparedStmt.setInt(5,id);
 	    preparedStmt.executeUpdate();
 	   
 	} catch (SQLException e) {
-	    System.err.println("Mauvaise date");
 	    e.printStackTrace();
 	}
 
     }
 
     public void delete(int id) {
-		String query = "delete from computer where id=" + id;
-		try {
-		    Statement stmt = connection.createStatement();
-	
-		    stmt.executeUpdate(query);
-	
-		} catch (SQLException e) {
-		    e.printStackTrace();
-		}
+	String query = "delete from computer where id=" + id;
+	try {
+	    Statement stmt = connection.createStatement();
+	    stmt.executeUpdate(query);
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
     }
+    
 }

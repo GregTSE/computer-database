@@ -10,8 +10,6 @@ import com.excilys.formation.cdb.bean.CompaniesList;
 import com.excilys.formation.cdb.bean.Computer;
 import com.excilys.formation.cdb.bean.ComputersList;
 import com.excilys.formation.cdb.controller.Controller;
-import com.excilys.formation.cdb.dao.CompanyDAO;
-import com.excilys.formation.cdb.dao.ComputerDAO;
 import com.excilys.formation.cdb.dao.ConnectionDAO;
 
 public class Console {
@@ -32,52 +30,50 @@ public class Console {
     	boolean stopApp = false;
     	Scanner sc = new Scanner(System.in);
     	
-		while (!stopApp) {
-			
-		    displayMenu();
-		   	
-		    try {
-		    	int choice = sc.nextInt();
-		    	sc.nextLine();
-				switch (choice) {
-					case 1:
-						displayAllComputers();
-					    break;
-					case 2:
-						displayAllCompanies();
-					    break;
-					case 3:
-						displayComputerInfo();
-					    break;
-					case 4:
-						insertComputer();
-					    break;
-					case 5:
-					    deleteComputer();
-					    break;
-					case 6:
-					   updateComputer();
-					   break;
-					case 7:
-						closeApplication();
-						sc.close();
-						stopApp = true;
-					    break;
-					default:
-					    System.err.println("[Erreur : veuillez entrer l'un des numéros du menu]");
-				}
-		    } catch (InputMismatchException ime) {
-		    	System.err.println("[Erreur : veuillez entrer un nombre]");
-		    	sc.nextLine();
-		    }
-		}
+	while (!stopApp) {	
+	    displayMenu(); 	
+	    try {
+		int choice = sc.nextInt();
+		sc.nextLine();
+		switch (choice) {
+			case 1:
+			    displayAllComputers();
+			    break;
+			case 2:
+			    displayAllCompanies();
+			    break;
+			case 3:
+			    displayComputerInfo();
+			    break;
+			case 4:
+			    insertComputer();
+			    break;
+			case 5:
+			    deleteComputer();
+			    break;
+			case 6:
+			   updateComputer();
+			   break;
+			case 7:
+			    closeApplication();
+			    sc.close();
+			    stopApp = true;
+			    break;
+			default:
+			    System.err.println("[Erreur : veuillez entrer l'un des numéros du menu]");
+			}
+	    	} catch (InputMismatchException ime) {
+	    	    System.err.println("[Erreur : veuillez entrer un nombre]");
+		    sc.nextLine();
+	    	}
+	 }
     }
     
     /**
      * Display the current list of the computers
      * @author Gregori Tirsatine
      */
-    private void displayAllComputers(){	
+    private void displayAllComputers() {	
     	ComputersList computers = controller.findAllComputers();
 	System.out.println(computers);
     }
@@ -86,7 +82,7 @@ public class Console {
      * Display the complete list of the companies
      * @author Gregori Tirsatine
      */
-    private void displayAllCompanies(){
+    private void displayAllCompanies() {
     	CompaniesList companies = controller.findAllCompanies();
     	System.out.println(companies);
     }
@@ -102,10 +98,10 @@ public class Console {
 		int id = sc.nextInt();
 		Computer computer = controller.findById(id);
 	    	if(computer!=null)
-		    	System.out.println(computer);
-		    else 
-		    	System.err.println("[Identifiant non trouvé]");
-	    } catch (InputMismatchException ime){
+	    	    System.out.println(computer);
+	    	else 
+	    	    System.err.println("[Identifiant non trouvé]");
+	    } catch (InputMismatchException ime) {
 	    	System.err.println("[Erreur d'identifiant]");
 	    	sc.nextLine();
 	    }
@@ -115,54 +111,54 @@ public class Console {
      * Call the method to insert a new computer in the database
      * @author Gregori Tirsatine
      */
-    private void insertComputer(){
+    private void insertComputer() {
     	Scanner sc = new Scanner(System.in);
     	System.out.println("Nom de l'ordinateur ?");
-	    Computer c = new Computer(sc.nextLine());
-	    System.out.println("Voulez-vous entrer une date de production ? ('o'/'n')");
-	    if(sc.nextLine().equals("o")){
-		System.out.println("Date ? (format aaaa-mm-jj)");
-		String date = sc.nextLine();
-		if(controller.checkDate(date)){
-		    c.setDateIntroduced(Date.valueOf(date));
-		}
-		else {
-		    System.err.println("[Erreur : date non prise en compte]");
-		}
+	Computer c = new Computer(sc.nextLine());
+	System.out.println("Voulez-vous entrer une date de production ? ('o'/'n')");
+	if (sc.nextLine().equals("o")) {
+	    System.out.println("Date ? (format aaaa-mm-jj)");
+	    String date = sc.nextLine();
+	    if (controller.checkDate(date)) {
+		c.setDateIntroduced(Date.valueOf(date));
 	    }
-	    System.out.println("Voulez-vous entrer une date de fin de production ? ('o'/'n')");
-	    if(sc.nextLine().equals("o")){
-		System.out.println("Date ? (format aaaa-mm-jj)");
-		String date = sc.nextLine();
-		if (controller.checkDate(date)) {
-		    c.setDateDiscontinued(Date.valueOf(date));
-		}
-		else {
-		    System.err.println("[Erreur : date non prise en compte]");
-		}
+	    else {
+		System.err.println("[Erreur : date non prise en compte]");
 	    }
-	    System.out.println("Voulez-vous préciser l'entreprise ? ('o'/'n')");
-	    if (sc.nextLine().equals("o")) {
-		System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
-		c.setCompany(sc.nextLine());
+	}
+	System.out.println("Voulez-vous entrer une date de fin de production ? ('o'/'n')");
+	if (sc.nextLine().equals("o")) {
+	    System.out.println("Date ? (format aaaa-mm-jj)");
+	    String date = sc.nextLine();
+	    if (controller.checkDate(date)) {
+		c.setDateDiscontinued(Date.valueOf(date));
 	    }
-	    controller.createComputer(c);
-	    System.out.println("Ordinateur inséré dans la base de données.");
+	    else {
+		System.err.println("[Erreur : date non prise en compte]");
+	    }
+	}
+	System.out.println("Voulez-vous préciser l'entreprise ? ('o'/'n')");
+	if (sc.nextLine().equals("o")) {
+	    System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
+	    c.setCompany(sc.nextLine());
+	}
+	controller.createComputer(c);
+	System.out.println("Ordinateur inséré dans la base de données.");
     }
 
     /**
      * Call the method to delete a computer from the database
      * @author Gregori Tirsatine
      */
-    private void deleteComputer(){
+    private void deleteComputer() {
     	Scanner sc = new Scanner(System.in);
     	System.out.println("Entrez l'identifiant de l'ordinateur :");
-	    try{
-		int id = sc.nextInt();
-	    	controller.deleteComputer(id);
-	    } catch(InputMismatchException ime){
-	    	System.err.println("[Erreur : l'identifiant doit être un entier]");
-	    }
+    	try {
+    	    int id = sc.nextInt();
+    	    controller.deleteComputer(id);
+    	} catch(InputMismatchException ime) {
+    	    System.err.println("[Erreur : l'identifiant doit être un entier]");
+    	}
     }
     
     /**
@@ -170,8 +166,8 @@ public class Console {
      */
     private void updateComputer(){
 	Scanner sc = new Scanner(System.in);
-	
     	System.out.println("Entrez l'identifiant de l'ordinateur à mettre à jour :");
+    	
     	try {
     	    int id = sc.nextInt();
     	    Computer computer = controller.findById(id);
@@ -187,7 +183,7 @@ public class Console {
     		}
     		
     		System.out.println("Souhaitez-vous modifier la date de production ? ('o'/'n')");
-		if(sc.nextLine().equals("o")){
+		if (sc.nextLine().equals("o")) {
 		    System.out.println("Date ? (format aaaa-mm-jj)");
 		    String date = sc.nextLine();
 		    if (controller.checkDate(date)) {
@@ -199,7 +195,7 @@ public class Console {
 		}
     		
 		System.out.println("Souhaitez-vous modifier la date de fin de production ? ('o'/'n')");
-    		if(sc.nextLine().equals("o")){
+    		if (sc.nextLine().equals("o")) {
 		    System.out.println("Date ? (format aaaa-mm-jj)");
 		    String date = sc.nextLine();
 		    if (controller.checkDate(date)) {
@@ -221,10 +217,7 @@ public class Console {
 	    
 	} catch(InputMismatchException ime) {
 	    System.err.println("[Erreur : l'identifiant doit être un entier]");
-	}
-    	
-		    
-		    
+	}	    
     }
     
     /**
@@ -232,16 +225,16 @@ public class Console {
      * @author Gregori Tirsatine
      */
     private void closeApplication(){
-	    Connection conn = ConnectionDAO.getInstance();
-	    if (conn != null) {
-			try {
-			    conn.close();
-			} catch (SQLException e) {
-			    e.printStackTrace();
-			    System.err.println("[Erreur de fermeture BDD]");
-			}
+	Connection conn = ConnectionDAO.getInstance();
+	if (conn != null) {
+	    try {
+		conn.close();
+	    } catch (SQLException e) {
+		e.printStackTrace();
+		System.err.println("[Erreur de fermeture BDD]");
 	    }
-	    System.out.println("Fin de l'application.");
+	}
+	System.out.println("Fin de l'application.");
     }
     
     /**
@@ -249,13 +242,13 @@ public class Console {
      * @author Gregori Tirsatine
      */
     private void displayMenu(){
-	    System.out.println("\n\nMENU");
-	    System.out.println("1 - Afficher la liste des ordinateurs");
-	    System.out.println("2 - Afficher la liste des entreprises");
-	    System.out.println("3 - Afficher les détails d'un ordinateur");
-	    System.out.println("4 - Insérer un ordinateur dans la base");
-	    System.out.println("5 - Supprimer un ordinateur dans la base");
-	    System.out.println("6 - Mettre à jour un ordinateur");
-	    System.out.println("7 - Quitter");
+	System.out.println("\n\nMENU");
+	System.out.println("1 - Afficher la liste des ordinateurs");
+	System.out.println("2 - Afficher la liste des entreprises");
+	System.out.println("3 - Afficher les détails d'un ordinateur");
+	System.out.println("4 - Insérer un ordinateur dans la base");
+	System.out.println("5 - Supprimer un ordinateur dans la base");
+	System.out.println("6 - Mettre à jour un ordinateur");
+	System.out.println("7 - Quitter");
     }
 }
