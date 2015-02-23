@@ -100,9 +100,8 @@ public class ComputerDAO {
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setDate(2, dateIntroduced);
 	    preparedStmt.setDate(3, dateDiscontinued);
-	    if(rslt.first()){
+	    if (rslt.first()) {
 	    	int idCompany = rslt.getInt(1);
-	    	System.out.println("idCompany : "+idCompany);
 	    	preparedStmt.setInt(4, idCompany);
 	    }
 	    else
@@ -120,7 +119,41 @@ public class ComputerDAO {
     /**
      * update a computer by id
      */
-    public void update() {
+    public void update(Computer computer) {
+	
+	String name = computer.getName();
+	Date dateIntroduced = computer.getDateIntroduced();
+	Date dateDiscontinued = computer.getDateDiscontinued();
+	String nameCompany = computer.getCompany();
+	
+	String query = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
+	String queryCompanyId = "select * from computer where id=?";
+	
+	try {
+	    ResultSet rslt;
+	    PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
+	    stmt0.setString(1, nameCompany);
+	    rslt = stmt0.executeQuery();
+		
+	    PreparedStatement preparedStmt = connection.prepareStatement(query);
+	    preparedStmt.setString(1, name);
+	    preparedStmt.setDate(2, dateIntroduced);
+	    preparedStmt.setDate(3, dateDiscontinued);
+	    if (rslt.first()) {
+		int idCompany = rslt.getInt(1);
+	    	preparedStmt.setInt(4, idCompany);
+	    }
+	    else {
+	    	preparedStmt.setNull(4, 0);
+	    }
+	    int id = computer.getId().intValue();
+	    preparedStmt.setInt(5,id);
+	    preparedStmt.executeUpdate();
+	   
+	} catch (SQLException e) {
+	    System.err.println("Mauvaise date");
+	    e.printStackTrace();
+	}
 
     }
 

@@ -120,30 +120,30 @@ public class Console {
 	    Computer c = new Computer(sc.nextLine());
 	    System.out.println("Voulez-vous entrer une date de production ? ('o'/'n')");
 	    if(sc.nextLine().equals("o")){
-		    System.out.println("Date ? (format aaaa-mm-jj)");
-		    String date = sc.nextLine();
-		    if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
-		    	c.setDateIntroduced(Date.valueOf(date));
-		    }
-		    else {
-		    	System.err.println("[Erreur : date non prise en compte]");
-		    }
+		System.out.println("Date ? (format aaaa-mm-jj)");
+		String date = sc.nextLine();
+		if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+		    c.setDateIntroduced(Date.valueOf(date));
+		}
+		else {
+		    System.err.println("[Erreur : date non prise en compte]");
+		}
 	    }
 	    System.out.println("Voulez-vous entrer une date de fin de production ? ('o'/'n')");
 	    if(sc.nextLine().equals("o")){
-		    System.out.println("Date ? (format aaaa-mm-jj)");
-		    String date = sc.nextLine();
-		    if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
-		    	c.setDateDiscontinued(Date.valueOf(date));
-		    }
-		    else {
-		    	System.err.println("[Erreur : date non prise en compte]");
-		    }
+		System.out.println("Date ? (format aaaa-mm-jj)");
+		String date = sc.nextLine();
+		if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+		    c.setDateDiscontinued(Date.valueOf(date));
+		}
+		else {
+		    System.err.println("[Erreur : date non prise en compte]");
+		}
 	    }
 	    System.out.println("Voulez-vous préciser l'entreprise ? ('o'/'n')");
-	    if(sc.nextLine().equals("o")){
-		    System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
-	    	c.setCompany(sc.nextLine());
+	    if (sc.nextLine().equals("o")) {
+		System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
+		c.setCompany(sc.nextLine());
 	    }
 	    computerDAO.createComputer(c);
 	    System.out.println("Ordinateur inséré dans la base de données.");
@@ -168,13 +168,63 @@ public class Console {
      * Call the method to update a computer
      */
     private void updateComputer(){
-    	 boolean updated = false;
-		    System.out.println("id ?");
-		    while (!updated) {
-
+	Scanner sc = new Scanner(System.in);
+	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
+    	System.out.println("Entrez l'identifiant de l'ordinateur à mettre à jour :");
+    	try {
+    	    Computer computer = computerDAO.find(sc.nextInt());
+    	    sc.nextLine();
+    	    if ( computer == null ) {
+    		System.out.println("Cet ordinateur n'existe pas");
+    	    } else {
+    		System.out.println(computer.toString()+"\n");
+    		System.out.println("Souhaitez-vous modifier le nom ? ('o'/'n')");
+    		if (sc.nextLine().equals("o")) {
+    		    System.out.println("Veuillez entrer le nom de l'ordinateur.");
+    		    computer.setName(sc.nextLine());
+    		}
+    		
+    		System.out.println("Souhaitez-vous modifier la date de production ? ('o'/'n')");
+		if(sc.nextLine().equals("o")){
+		    System.out.println("Date ? (format aaaa-mm-jj)");
+		    String date = sc.nextLine();
+		    if (date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")) {
+			computer.setDateIntroduced(Date.valueOf(date));
 		    }
+		    else {
+			System.err.println("[Erreur : date non prise en compte]");
+		    }
+		}
+    		
+		System.out.println("Souhaitez-vous modifier la date de fin de production ? ('o'/'n')");
+    		if(sc.nextLine().equals("o")){
+		    System.out.println("Date ? (format aaaa-mm-jj)");
+		    String date = sc.nextLine();
+		    if (date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")) {
+			computer.setDateDiscontinued(Date.valueOf(date));
+		    }
+		    else {
+			System.err.println("[Erreur : date non prise en compte]");
+		    }
+		}
+    		
+    		System.out.println("Souhaitez-vous mettre à jour l'entreprise ? ('o'/'n')");
+    		if (sc.nextLine().equals("o")) {
+    		    System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
+    		    computer.setCompany(sc.nextLine());
+    		}
+    		computerDAO.update(computer);
+    		System.out.println("Ordinateur mis à jour.");
+    	    }
+	    
+	} catch(InputMismatchException ime) {
+	    System.err.println("[Erreur : l'identifiant doit être un entier]");
+	}
+    	
+		    
 		    
     }
+    
     /**
      * Close the application
      * @author Gregori Tirsatine
