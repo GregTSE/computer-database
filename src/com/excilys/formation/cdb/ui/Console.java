@@ -19,6 +19,10 @@ public class Console {
 	super();
     }
     
+    /**
+     * Method to start the application
+     * @author Gregori Tirsatine
+     */
     public void start() {
 	
     	boolean stopApp = false;
@@ -49,7 +53,7 @@ public class Console {
 					    break;
 					case 6:
 					   updateComputer();
-					    break;
+					   break;
 					case 7:
 						closeApplication();
 						sc.close();
@@ -67,7 +71,7 @@ public class Console {
     
     /**
      * Display the current list of the computers
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void displayAllComputers(){
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
@@ -77,7 +81,7 @@ public class Console {
     
     /**
      * Display the complete list of the companies
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void displayAllCompanies(){
     	CompanyDAO companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
@@ -87,7 +91,7 @@ public class Console {
     
     /**
      * Display the informations about a computer by id
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void displayComputerInfo() {
     	Scanner sc = new Scanner(System.in);
@@ -107,7 +111,7 @@ public class Console {
     
     /**
      * Call the method to insert a new computer in the database
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void insertComputer(){
     	Scanner sc = new Scanner(System.in);
@@ -147,7 +151,7 @@ public class Console {
 
     /**
      * Call the method to delete a computer from the database
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void deleteComputer(){
     	Scanner sc0 = new Scanner(System.in);
@@ -173,7 +177,7 @@ public class Console {
     }
     /**
      * Close the application
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void closeApplication(){
 	    Connection conn = ConnectionDAO.getInstance();
@@ -190,7 +194,7 @@ public class Console {
     
     /**
      * Display the main menu
-     * @author Grégori Tirsatine
+     * @author Gregori Tirsatine
      */
     private void displayMenu(){
 	    System.out.println("\n\nMENU");

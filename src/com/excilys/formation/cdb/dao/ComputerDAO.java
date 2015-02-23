@@ -20,7 +20,7 @@ public class ComputerDAO {
     }
 
     /**
-     * 
+     * Build an object Computer and fill the fields with the informations from the database
      * @param id
      * @return an instance of the Computer class
      */
@@ -47,6 +47,10 @@ public class ComputerDAO {
 	return computer;
     }
 
+    /**
+     * Build a list of computers with fields 'id' and 'name'
+     * @return the list of computers
+     */
     public ComputersList findAll() {
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 
@@ -73,6 +77,10 @@ public class ComputerDAO {
 	return compsList;
     }
 
+    /**
+     * insert in the database the parameter 'computer'
+     * @param computer
+     */
     public void createComputer(Computer computer) {
 	String name = computer.getName();
 	Date dateIntroduced = computer.getDateIntroduced();
@@ -109,6 +117,9 @@ public class ComputerDAO {
 
     }
 
+    /**
+     * update a computer by id
+     */
     public void update() {
 
     }
