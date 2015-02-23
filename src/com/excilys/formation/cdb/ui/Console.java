@@ -15,8 +15,12 @@ import com.excilys.formation.cdb.dao.ConnectionDAO;
 
 public class Console {
 
-    public static void main(String[] args) {
-    	
+    public Console(){
+	super();
+    }
+    
+    public void start() {
+	
     	boolean stopApp = false;
     	Scanner sc = new Scanner(System.in);
     	
@@ -65,7 +69,7 @@ public class Console {
      * Display the current list of the computers
      * @author Grégori Tirsatine
      */
-    private static void displayAllComputers(){
+    private void displayAllComputers(){
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	ComputersList computers = computerDAO.findAll();
 	    System.out.println(computers);
@@ -75,7 +79,7 @@ public class Console {
      * Display the complete list of the companies
      * @author Grégori Tirsatine
      */
-    private static void displayAllCompanies(){
+    private void displayAllCompanies(){
     	CompanyDAO companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
     	CompaniesList companies = companyDAO.findAll();
 	    System.out.println(companies);
@@ -85,7 +89,7 @@ public class Console {
      * Display the informations about a computer by id
      * @author Grégori Tirsatine
      */
-    private static void displayComputerInfo() {
+    private void displayComputerInfo() {
     	Scanner sc = new Scanner(System.in);
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	System.out.println("Entrez l'identifiant de l'ordinateur : ");
@@ -105,7 +109,7 @@ public class Console {
      * Call the method to insert a new computer in the database
      * @author Grégori Tirsatine
      */
-    private static void insertComputer(){
+    private void insertComputer(){
     	Scanner sc = new Scanner(System.in);
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	System.out.println("Nom de l'ordinateur ?");
@@ -145,7 +149,7 @@ public class Console {
      * Call the method to delete a computer from the database
      * @author Grégori Tirsatine
      */
-    private static void deleteComputer(){
+    private void deleteComputer(){
     	Scanner sc0 = new Scanner(System.in);
     	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	System.out.println("Entrez l'identifiant de l'ordinateur :");
@@ -159,7 +163,7 @@ public class Console {
     /**
      * Call the method to update a computer
      */
-    private static void updateComputer(){
+    private void updateComputer(){
     	 boolean updated = false;
 		    System.out.println("id ?");
 		    while (!updated) {
@@ -171,7 +175,7 @@ public class Console {
      * Close the application
      * @author Grégori Tirsatine
      */
-    private static void closeApplication(){
+    private void closeApplication(){
 	    Connection conn = ConnectionDAO.getInstance();
 	    if (conn != null) {
 			try {
@@ -188,7 +192,7 @@ public class Console {
      * Display the main menu
      * @author Grégori Tirsatine
      */
-    private static void displayMenu(){
+    private void displayMenu(){
 	    System.out.println("\n\nMENU");
 	    System.out.println("1 - Afficher la liste des ordinateurs");
 	    System.out.println("2 - Afficher la liste des entreprises");
