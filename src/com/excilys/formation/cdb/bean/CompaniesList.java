@@ -2,7 +2,12 @@ package com.excilys.formation.cdb.bean;
 
 import java.util.ArrayList;
 
-public class CompaniesList {
+
+/**
+ * List of Companies
+ * @author Gregori Tirsatine
+ */
+public final class CompaniesList {
 
 	private ArrayList<Company> companies;
 

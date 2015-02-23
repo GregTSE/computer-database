@@ -9,14 +9,18 @@ import java.util.Scanner;
 import com.excilys.formation.cdb.bean.CompaniesList;
 import com.excilys.formation.cdb.bean.Computer;
 import com.excilys.formation.cdb.bean.ComputersList;
+import com.excilys.formation.cdb.controller.Controller;
 import com.excilys.formation.cdb.dao.CompanyDAO;
 import com.excilys.formation.cdb.dao.ComputerDAO;
 import com.excilys.formation.cdb.dao.ConnectionDAO;
 
 public class Console {
+    
+    private Controller controller;
 
-    public Console(){
+    public Console(Controller ctrl){
 	super();
+	this.controller = ctrl;
     }
     
     /**
@@ -73,10 +77,9 @@ public class Console {
      * Display the current list of the computers
      * @author Gregori Tirsatine
      */
-    private void displayAllComputers(){
-    	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
-    	ComputersList computers = computerDAO.findAll();
-	    System.out.println(computers);
+    private void displayAllComputers(){	
+    	ComputersList computers = controller.findAllComputers();
+	System.out.println(computers);
     }
     
     /**
@@ -84,9 +87,8 @@ public class Console {
      * @author Gregori Tirsatine
      */
     private void displayAllCompanies(){
-    	CompanyDAO companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
-    	CompaniesList companies = companyDAO.findAll();
-	    System.out.println(companies);
+    	CompaniesList companies = controller.findAllCompanies();
+    	System.out.println(companies);
     }
     
     /**
@@ -95,10 +97,10 @@ public class Console {
      */
     private void displayComputerInfo() {
     	Scanner sc = new Scanner(System.in);
-    	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	System.out.println("Entrez l'identifiant de l'ordinateur : ");
 	    try {
-	    	Computer computer = computerDAO.find(sc.nextInt());
+		int id = sc.nextInt();
+		Computer computer = controller.findById(id);
 	    	if(computer!=null)
 		    	System.out.println(computer);
 		    else 
@@ -115,14 +117,13 @@ public class Console {
      */
     private void insertComputer(){
     	Scanner sc = new Scanner(System.in);
-    	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
     	System.out.println("Nom de l'ordinateur ?");
 	    Computer c = new Computer(sc.nextLine());
 	    System.out.println("Voulez-vous entrer une date de production ? ('o'/'n')");
 	    if(sc.nextLine().equals("o")){
 		System.out.println("Date ? (format aaaa-mm-jj)");
 		String date = sc.nextLine();
-		if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+		if(controller.checkDate(date)){
 		    c.setDateIntroduced(Date.valueOf(date));
 		}
 		else {
@@ -133,7 +134,7 @@ public class Console {
 	    if(sc.nextLine().equals("o")){
 		System.out.println("Date ? (format aaaa-mm-jj)");
 		String date = sc.nextLine();
-		if(date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")){
+		if (controller.checkDate(date)) {
 		    c.setDateDiscontinued(Date.valueOf(date));
 		}
 		else {
@@ -145,7 +146,7 @@ public class Console {
 		System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
 		c.setCompany(sc.nextLine());
 	    }
-	    computerDAO.createComputer(c);
+	    controller.createComputer(c);
 	    System.out.println("Ordinateur inséré dans la base de données.");
     }
 
@@ -154,11 +155,11 @@ public class Console {
      * @author Gregori Tirsatine
      */
     private void deleteComputer(){
-    	Scanner sc0 = new Scanner(System.in);
-    	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
+    	Scanner sc = new Scanner(System.in);
     	System.out.println("Entrez l'identifiant de l'ordinateur :");
 	    try{
-	    	computerDAO.delete(sc0.nextInt());
+		int id = sc.nextInt();
+	    	controller.deleteComputer(id);
 	    } catch(InputMismatchException ime){
 	    	System.err.println("[Erreur : l'identifiant doit être un entier]");
 	    }
@@ -169,10 +170,11 @@ public class Console {
      */
     private void updateComputer(){
 	Scanner sc = new Scanner(System.in);
-	ComputerDAO computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
+	
     	System.out.println("Entrez l'identifiant de l'ordinateur à mettre à jour :");
     	try {
-    	    Computer computer = computerDAO.find(sc.nextInt());
+    	    int id = sc.nextInt();
+    	    Computer computer = controller.findById(id);
     	    sc.nextLine();
     	    if ( computer == null ) {
     		System.out.println("Cet ordinateur n'existe pas");
@@ -188,7 +190,7 @@ public class Console {
 		if(sc.nextLine().equals("o")){
 		    System.out.println("Date ? (format aaaa-mm-jj)");
 		    String date = sc.nextLine();
-		    if (date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")) {
+		    if (controller.checkDate(date)) {
 			computer.setDateIntroduced(Date.valueOf(date));
 		    }
 		    else {
@@ -200,7 +202,7 @@ public class Console {
     		if(sc.nextLine().equals("o")){
 		    System.out.println("Date ? (format aaaa-mm-jj)");
 		    String date = sc.nextLine();
-		    if (date.matches("((19|20)\\d\\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")) {
+		    if (controller.checkDate(date)) {
 			computer.setDateDiscontinued(Date.valueOf(date));
 		    }
 		    else {
@@ -213,7 +215,7 @@ public class Console {
     		    System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
     		    computer.setCompany(sc.nextLine());
     		}
-    		computerDAO.update(computer);
+    		controller.updateComputer(computer);
     		System.out.println("Ordinateur mis à jour.");
     	    }
 	    

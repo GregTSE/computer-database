@@ -11,12 +11,11 @@ public class Computer {
 	private Date dateDiscontinued;
 	private String company;
 	
-	public Computer(){
+	public Computer() {
 		super();
 	}
 	
-	public Computer(Long id, String name, Date dateIntroduced,
-			Date dateDiscontinued, String company) {
+	public Computer(Long id, String name, Date dateIntroduced, Date dateDiscontinued, String company) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -25,7 +24,7 @@ public class Computer {
 		this.company = company;
 	}
 	
-	public Computer(String name){
+	public Computer(String name) {
 		this(null, name, null, null, null);
 	}
 
@@ -78,6 +77,9 @@ public class Computer {
 		return result;
 	}
 	
+	/**
+	 * @return a String with 'id' and 'name' of company
+	 */
 	public String toBasicString() {
 		return id + " : " + name;
 	}
