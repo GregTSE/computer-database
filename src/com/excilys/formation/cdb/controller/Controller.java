@@ -1,11 +1,11 @@
 package com.excilys.formation.cdb.controller;
 
-import com.excilys.formation.cdb.bean.CompaniesList;
-import com.excilys.formation.cdb.bean.Computer;
-import com.excilys.formation.cdb.bean.ComputersList;
-import com.excilys.formation.cdb.dao.CompanyDAO;
-import com.excilys.formation.cdb.dao.ComputerDAO;
-import com.excilys.formation.cdb.dao.ConnectionDAO;
+import com.excilys.formation.cdb.model.CompaniesList;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.model.ComputersList;
+import com.excilys.formation.cdb.persistence.CompanyDAO;
+import com.excilys.formation.cdb.persistence.ComputerDAO;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
 
 public class Controller {
     

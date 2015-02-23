@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.bean;
+package com.excilys.formation.cdb.model;
 
 public class Company {
 

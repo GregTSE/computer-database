@@ -1,11 +1,11 @@
-package com.excilys.formation.cdb.dao;
+package com.excilys.formation.cdb.persistence;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.excilys.formation.cdb.bean.CompaniesList;
-import com.excilys.formation.cdb.bean.Company;
+import com.excilys.formation.cdb.model.CompaniesList;
+import com.excilys.formation.cdb.model.Company;
 import com.mysql.jdbc.Connection;
 
 public class CompanyDAO {

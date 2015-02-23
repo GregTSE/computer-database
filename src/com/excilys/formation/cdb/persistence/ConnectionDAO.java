@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.dao;
+package com.excilys.formation.cdb.persistence;
 
 import java.sql.DriverManager;
 

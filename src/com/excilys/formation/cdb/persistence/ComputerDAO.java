@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.dao;
+package com.excilys.formation.cdb.persistence;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.excilys.formation.cdb.bean.Computer;
-import com.excilys.formation.cdb.bean.ComputersList;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.model.ComputersList;
 import com.mysql.jdbc.Connection;
 
 public class ComputerDAO {
@@ -91,10 +91,10 @@ public class ComputerDAO {
 	String query = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
 
 	try {
-		ResultSet rslt;
-		PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
-		stmt0.setString(1, nameCompany);
-		rslt = stmt0.executeQuery();
+	    ResultSet rslt;
+	    PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
+	    stmt0.setString(1, nameCompany);
+	    rslt = stmt0.executeQuery();
 		
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
@@ -113,7 +113,6 @@ public class ComputerDAO {
 	    System.err.println("Mauvaise date");
 	    e.printStackTrace();
 	}
-
     }
 
     /**

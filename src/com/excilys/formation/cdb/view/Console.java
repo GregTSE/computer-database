@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.ui;
+package com.excilys.formation.cdb.view;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.excilys.formation.cdb.bean.CompaniesList;
-import com.excilys.formation.cdb.bean.Computer;
-import com.excilys.formation.cdb.bean.ComputersList;
 import com.excilys.formation.cdb.controller.Controller;
-import com.excilys.formation.cdb.dao.ConnectionDAO;
+import com.excilys.formation.cdb.model.CompaniesList;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.model.ComputersList;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
 
 public class Console {
     

@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.bean;
+package com.excilys.formation.cdb.model;
 
 import java.sql.Date;
 
@@ -71,9 +71,9 @@ public class Computer {
 	@Override
 	public String toString() {
 		String result =  name;
-		result += (dateIntroduced!=null)?", Introduit le : "+dateIntroduced:"";
-		result += (dateDiscontinued!=null)?", Retiré le : "+dateDiscontinued:"";
-		result += (company != null)?"\t(Entreprise : " + company + ")":"";
+		result += (dateIntroduced != null) ? ", Introduit le : "+dateIntroduced : "";
+		result += (dateDiscontinued != null) ? ", Retiré le : "+dateDiscontinued : "";
+		result += (company != null) ? "\t(Entreprise : " + company + ")" : "";
 		return result;
 	}
 	
