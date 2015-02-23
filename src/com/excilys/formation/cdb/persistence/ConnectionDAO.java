@@ -1,6 +1,7 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import com.mysql.jdbc.Connection;
 
@@ -25,6 +26,16 @@ public class ConnectionDAO {
 			new ConnectionDAO();
 		}
 		return conn;
+	}
+	
+	public static void close(){
+	    if (conn != null && !conn.isClosed()) {
+		    try {
+			conn.close();
+		    } catch (SQLException e) {
+			throw new IllegalStateException("Database cannot be closed");
+		    }
+	    }	
 	}
 
 }

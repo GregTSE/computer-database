@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.launcher;
 
-import com.excilys.formation.cdb.controller.Controller;
 import com.excilys.formation.cdb.view.Console;
 
 /**
@@ -11,8 +10,7 @@ import com.excilys.formation.cdb.view.Console;
 public class Launcher {
 
     public static void main(String[] args) {
-	Controller ctrl = new Controller();
-	Console console = new Console(ctrl);
+	Console console = new Console();
 	console.start();
     }
 

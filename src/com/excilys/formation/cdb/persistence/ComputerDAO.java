@@ -1,12 +1,11 @@
 package com.excilys.formation.cdb.persistence;
 
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.model.ComputersList;
 import com.mysql.jdbc.Connection;
@@ -37,7 +36,7 @@ public class ComputerDAO {
 
 	    if (results.first()) {
 		computer = new Computer(new Long(id), results.getString(1),
-			results.getDate(2), results.getDate(3),
+			results.getString(2), results.getString(3),
 			results.getString(4));
 	    }
 
@@ -83,8 +82,8 @@ public class ComputerDAO {
      */
     public void createComputer(Computer computer) {
 	String name = computer.getName();
-	Date dateIntroduced = computer.getDateIntroduced();
-	Date dateDiscontinued = computer.getDateDiscontinued();
+	String dateIntroduced = computer.getDateIntroduced();
+	String dateDiscontinued = computer.getDateDiscontinued();
 	//recup company
 	String nameCompany = computer.getCompany();
 	String queryCompanyId = "select * from computer where id=?";
@@ -98,8 +97,8 @@ public class ComputerDAO {
 		
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
-	    preparedStmt.setDate(2, dateIntroduced);
-	    preparedStmt.setDate(3, dateDiscontinued);
+	    preparedStmt.setString(2, dateIntroduced);
+	    preparedStmt.setString(3, dateDiscontinued);
 	    if (rslt.first()) {
 	    	int idCompany = rslt.getInt(1);
 	    	preparedStmt.setInt(4, idCompany);
@@ -122,8 +121,8 @@ public class ComputerDAO {
     public void update(Computer computer) {
 	
 	String name = computer.getName();
-	Date dateIntroduced = computer.getDateIntroduced();
-	Date dateDiscontinued = computer.getDateDiscontinued();
+	String dateIntroduced = computer.getDateIntroduced();
+	String dateDiscontinued = computer.getDateDiscontinued();
 	String nameCompany = computer.getCompany();
 	
 	String query = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
@@ -137,8 +136,8 @@ public class ComputerDAO {
 		
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
-	    preparedStmt.setDate(2, dateIntroduced);
-	    preparedStmt.setDate(3, dateDiscontinued);
+	    preparedStmt.setString(2, dateIntroduced);
+	    preparedStmt.setString(3, dateDiscontinued);
 	    
 	    if (rslt.first()) {
 		int idCompany = rslt.getInt(1);

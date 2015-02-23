@@ -1,21 +1,19 @@
 package com.excilys.formation.cdb.model;
 
-import java.sql.Date;
-
 
 public class Computer {
 
 	private Long id;
 	private String name;
-	private Date dateIntroduced;
-	private Date dateDiscontinued;
+	private String dateIntroduced;
+	private String dateDiscontinued;
 	private String company;
 	
 	public Computer() {
 		super();
 	}
 	
-	public Computer(Long id, String name, Date dateIntroduced, Date dateDiscontinued, String company) {
+	public Computer(Long id, String name, String dateIntroduced, String dateDiscontinued, String company) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,19 +42,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getDateIntroduced() {
+	public String getDateIntroduced() {
 		return dateIntroduced;
 	}
 
-	public void setDateIntroduced(Date dateIntroduced) {
+	public void setDateIntroduced(String dateIntroduced) {
 		this.dateIntroduced = dateIntroduced;
 	}
 
-	public Date getDateDiscontinued() {
+	public String getDateDiscontinued() {
 		return dateDiscontinued;
 	}
 
-	public void setDateDiscontinued(Date dateDiscontinued) {
+	public void setDateDiscontinued(String dateDiscontinued) {
 			this.dateDiscontinued = dateDiscontinued;
 	}
 
@@ -70,6 +68,7 @@ public class Computer {
 
 	@Override
 	public String toString() {
+	    //utiliser Builder
 		String result =  name;
 		result += (dateIntroduced != null) ? ", Introduit le : "+dateIntroduced : "";
 		result += (dateDiscontinued != null) ? ", Retiré le : "+dateDiscontinued : "";
@@ -83,6 +82,63 @@ public class Computer {
 	public String toBasicString() {
 		return id + " : " + name;
 	}
+
+	@Override
+	public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result
+		    + ((company == null) ? 0 : company.hashCode());
+	    result = prime
+		    * result
+		    + ((dateDiscontinued == null) ? 0 : dateDiscontinued
+			    .hashCode());
+	    result = prime
+		    * result
+		    + ((dateIntroduced == null) ? 0 : dateIntroduced.hashCode());
+	    result = prime * result + ((id == null) ? 0 : id.hashCode());
+	    result = prime * result + ((name == null) ? 0 : name.hashCode());
+	    return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj)
+		return true;
+	    if (obj == null)
+		return false;
+	    if (getClass() != obj.getClass())
+		return false;
+	    Computer other = (Computer) obj;
+	    if (company == null) {
+		if (other.company != null)
+		    return false;
+	    } else if (!company.equals(other.company))
+		return false;
+	    if (dateDiscontinued == null) {
+		if (other.dateDiscontinued != null)
+		    return false;
+	    } else if (!dateDiscontinued.equals(other.dateDiscontinued))
+		return false;
+	    if (dateIntroduced == null) {
+		if (other.dateIntroduced != null)
+		    return false;
+	    } else if (!dateIntroduced.equals(other.dateIntroduced))
+		return false;
+	    if (id == null) {
+		if (other.id != null)
+		    return false;
+	    } else if (!id.equals(other.id))
+		return false;
+	    if (name == null) {
+		if (other.name != null)
+		    return false;
+	    } else if (!name.equals(other.name))
+		return false;
+	    return true;
+	}
+	
+	
 	
 	
 	
