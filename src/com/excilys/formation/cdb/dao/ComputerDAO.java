@@ -98,10 +98,10 @@ public class ComputerDAO {
 	    	preparedStmt.setInt(4, idCompany);
 	    }
 	    else
-	    	preparedStmt.setNString(4, null);
+	    	preparedStmt.setNull(4, 0);
 	    	
 	    preparedStmt.executeUpdate();
-	    // preparedStmt.setInt(4, company);
+	   
 	} catch (SQLException e) {
 	    System.err.println("Mauvaise date");
 	    e.printStackTrace();
