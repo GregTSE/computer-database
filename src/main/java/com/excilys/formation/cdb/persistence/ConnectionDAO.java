@@ -4,7 +4,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.mysql.jdbc.Connection;
-
+//public enum Example{
+//    INSTANCE;
+//
+//    public static Example getInstance(){
+//         return Example.INSTANCE;
+//    }
 public class ConnectionDAO {
 
 	private static Connection conn = null;
@@ -29,12 +34,13 @@ public class ConnectionDAO {
 	}
 	
 	public static void close(){
-	    if (conn != null && !conn.isClosed()) {
-		    try {
+	    try {
+		if (conn != null && !conn.isClosed()) {
+		    
 			conn.close();
-		    } catch (SQLException e) {
-			throw new IllegalStateException("Database cannot be closed");
-		    }
+		   
+			
+		    }  } catch (SQLException e) {//throw new IllegalStateException("Database cannot be closed");
 	    }	
 	}
 

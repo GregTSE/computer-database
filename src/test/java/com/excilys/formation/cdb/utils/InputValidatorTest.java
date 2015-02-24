@@ -1,8 +1,10 @@
-package com.excilys.formation.validator;
+package com.excilys.formation.cdb.utils;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.excilys.formation.cdb.utils.InputValidator;
 
 public class InputValidatorTest {
 

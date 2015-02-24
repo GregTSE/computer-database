@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +32,6 @@ public class ComputerDAO {
 	Computer computer = null;
 	String query = "select comput.name, introduced, discontinued, company_id , c.name from computer comput left outer join company c on c.id = comput.company_id WHERE comput.id=?";
 	ResultSet results;
-	
-	
-
 	try {
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setInt(1, id);
@@ -43,10 +42,17 @@ public class ComputerDAO {
 		if (idCompany != null) {
 		   company = new Company(idCompany,results.getString(5));		   
 		}
+		Timestamp introducedTS = results.getTimestamp(2);
+		LocalDate introduced = null, discontinued = null;
+		Timestamp discontinuedTS = results.getTimestamp(3);
+		if( introducedTS != null )
+		    introduced = introducedTS.toLocalDateTime().toLocalDate();
+		if ( discontinuedTS != null ) {
+		    discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
+		}
 		
 		computer = new Computer(new Long(id), results.getString(1),
-			results.getString(2), results.getString(3),
-			company);
+			introduced , discontinued, company);
 	    }
 
 	} catch (SQLException e) {
@@ -123,8 +129,8 @@ public class ComputerDAO {
     public void update(Computer computer) {
 	
 	String name = computer.getName();
-	String dateIntroduced = computer.getDateIntroduced();
-	String dateDiscontinued = computer.getDateDiscontinued();
+	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced().toEpochDay());
+	Timestamp dateDiscontinued = new Timestamp(computer.getDateDiscontinued().toEpochDay());
 	String nameCompany = computer.getCompany().getName();
 	
 	String query = "update computer set name=?, introduced=?, discontinued=?, company_id=? where id=?";
@@ -138,8 +144,8 @@ public class ComputerDAO {
 		
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
-	    preparedStmt.setString(2, dateIntroduced);
-	    preparedStmt.setString(3, dateDiscontinued);
+	    preparedStmt.setTimestamp(2, dateIntroduced);
+	    preparedStmt.setTimestamp(3, dateDiscontinued);
 	    
 	    if (rslt.first()) {
 		int idCompany = rslt.getInt(1);

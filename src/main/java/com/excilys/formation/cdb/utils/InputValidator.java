@@ -1,4 +1,4 @@
-package com.excilys.formation.validator;
+package com.excilys.formation.cdb.utils;
 
 public class InputValidator {
     

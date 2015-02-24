@@ -1,5 +1,7 @@
 package com.excilys.formation.cdb.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,7 +10,7 @@ import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.service.CompanyService;
 import com.excilys.formation.cdb.service.ComputerService;
-import com.excilys.formation.validator.InputValidator;
+import com.excilys.formation.cdb.utils.InputValidator;
 
 //@TODO voir pour les problemes de sc.close()
 
@@ -45,16 +47,16 @@ public class Console {
 			    displayAllCompanies();
 			    break;
 			case 3:
-			    displayComputerInfo();
+			    displayComputerInfo(sc);
 			    break;
 			case 4:
-			    createComputer();
+			    createComputer(sc);
 			    break;
 			case 5:
-			    deleteComputer();
+			    deleteComputer(sc);
 			    break;
 			case 6:
-			   updateComputer();
+			   updateComputer(sc);
 			   break;
 			case 7:
 			    closeConnection();
@@ -94,8 +96,7 @@ public class Console {
     /**
      * Display the informations about a computer by id
      */
-    private void displayComputerInfo() {
-    	Scanner sc = new Scanner(System.in);
+    private void displayComputerInfo(Scanner sc) {
     	System.out.println("Enter the computer's id : ");
 	String id = sc.nextLine();
 	if (InputValidator.isInt(id)) {
@@ -114,8 +115,7 @@ public class Console {
     /**
      * Call the method to insert a new computer in the database
      */
-    private void createComputer() {
-    	Scanner sc = new Scanner(System.in);
+    private void createComputer(Scanner sc) {
     	
     	System.out.println("Name of the computer :");	
 	String name = sc.nextLine();
@@ -137,14 +137,12 @@ public class Console {
 	
 	computerService.create(name, introduced, discontinued, idCompany);
 	System.out.println("Success : ");
-	//sc.close();
     }
 
     /**
      * Call the method to delete a computer from the database
      */
-    private void deleteComputer() {
-    	Scanner sc = new Scanner(System.in);
+    private void deleteComputer(Scanner sc) {
     	System.out.println("ID of computer :");
     	
     	String id = sc.nextLine();
@@ -159,8 +157,7 @@ public class Console {
     /**
      * Call the method to update a computer
      */
-    private void updateComputer(){
-	Scanner sc = new Scanner(System.in);
+    private void updateComputer(Scanner sc){
     	System.out.println("ID of computer :");
     	
     	String id = sc.nextLine();
@@ -174,17 +171,20 @@ public class Console {
     		computer.setName(sc.nextLine());
     	    }
     	    
+  
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	    
     	    System.out.println("Introduced date : (format aaaa-mm-jj)");
     	    String introduced  = sc.nextLine();
     	    if (InputValidator.checkDateFormat(introduced)) {
-    		computer.setDateIntroduced(introduced);
+    		 computer.setDateIntroduced(LocalDate.parse(introduced, formatter));
     	    }
 
     		
     	    System.out.println("Discontinued date : (format aaaa-mm-jj)");
     	    String discontinued = sc.nextLine();
     	    if (InputValidator.checkDateFormat(discontinued)) {
-    		computer.setDateDiscontinued(discontinued);
+    		computer.setDateIntroduced(LocalDate.parse(discontinued, formatter));
     	    }
     	
     	    System.out.println("ID of the Company :");   
@@ -195,7 +195,6 @@ public class Console {
     	} else {
     	    System.out.println("[ID must be an integer]");
     	}
-    	sc.close();
     }
     
     /**
