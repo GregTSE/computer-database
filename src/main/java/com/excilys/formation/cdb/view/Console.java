@@ -12,8 +12,10 @@ import com.excilys.formation.cdb.service.CompanyService;
 import com.excilys.formation.cdb.service.ComputerService;
 import com.excilys.formation.cdb.utils.InputValidator;
 
-//@TODO voir pour les problemes de sc.close()
-
+/**
+ * Console user interface
+ * @author Greg T.
+ */
 public class Console {
     
     private ComputerService computerService;
@@ -95,6 +97,7 @@ public class Console {
     
     /**
      * Display the informations about a computer by id
+     * @param Scanner
      */
     private void displayComputerInfo(Scanner sc) {
     	System.out.println("Enter the computer's id : ");
@@ -114,6 +117,7 @@ public class Console {
     
     /**
      * Call the method to insert a new computer in the database
+     * @param Scanner
      */
     private void createComputer(Scanner sc) {
     	
@@ -141,6 +145,7 @@ public class Console {
 
     /**
      * Call the method to delete a computer from the database
+     * @param Scanner
      */
     private void deleteComputer(Scanner sc) {
     	System.out.println("ID of computer :");
@@ -156,6 +161,7 @@ public class Console {
     
     /**
      * Call the method to update a computer
+     * @param Scanner
      */
     private void updateComputer(Scanner sc){
     	System.out.println("ID of computer :");
@@ -199,7 +205,6 @@ public class Console {
     
     /**
      * Close the application
-     * @author Gregori Tirsatine
      */
     private void closeConnection(){
 	ConnectionDAO.close();
@@ -208,7 +213,6 @@ public class Console {
     
     /**
      * Display the main menu
-     * @author Gregori Tirsatine
      */
     private void displayMenu(){
 	System.out.println("\n\nMENU");
