@@ -71,9 +71,9 @@ public class Computer {
 	public String toString() {
 	    //utiliser Builder
 		String result =  name;
-		result += (dateIntroduced != null) ? ", Introduit le : "+dateIntroduced : "";
-		result += (dateDiscontinued != null) ? ", Retiré le : "+dateDiscontinued : "";
-		result += (company.getName() != null) ? "\t(Entreprise : " + company.getName() + ")" : "";
+		result += (dateIntroduced != null) ? ", Introduced : "+dateIntroduced : "";
+		result += (dateDiscontinued != null) ? ", Discontinued : "+dateDiscontinued : "";
+		result += (company.getName() != null) ? "\t(Company : " + company.getName() + ")" : "";
 		return result;
 	}
 	
@@ -138,10 +138,5 @@ public class Computer {
 		return false;
 	    return true;
 	}
-	
-	
-	
-	
-	
 	
 }
