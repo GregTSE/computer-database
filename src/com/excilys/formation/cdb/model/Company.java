@@ -8,6 +8,11 @@ public class Company {
 	public Company() {
 		super();
 	}
+	
+	public Company(Long id, String name){
+	    this.id = id;
+	    this.name = name;
+	}
 
 	public Long getId() {
 		return id;

@@ -1,10 +1,10 @@
 package com.excilys.formation.cdb.view;
 
+import java.util.List;
 import java.util.Scanner;
 
-import com.excilys.formation.cdb.model.CompaniesList;
+import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.model.ComputersList;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.service.CompanyService;
 import com.excilys.formation.service.ComputerService;
@@ -23,7 +23,6 @@ public class Console {
     
     /**
      * Method to start the application
-     * @author Gregori Tirsatine
      */
     public void start() {
 	
@@ -47,7 +46,7 @@ public class Console {
 			    displayComputerInfo();
 			    break;
 			case 4:
-			    insertComputer();
+			    createComputer();
 			    break;
 			case 5:
 			    deleteComputer();
@@ -61,10 +60,10 @@ public class Console {
 			    stopApp = true;
 			    break;
 			default:
-			    System.err.println("[Erreur : veuillez entrer l'un des numéros du menu]");
+			    System.out.println("[Please put a number (1-7)]");
 		}
 	    } else {
-		System.err.println("[Erreur : veuiller entrer un nombre]");
+		System.out.println("[Please put a number (1-7)]");
 	    }
 	}
     }
@@ -72,26 +71,26 @@ public class Console {
     
     /**
      * Display the current list of the computers
-     * @author Gregori Tirsatine
      */
     private void displayAllComputers() {
-	//modifier les computers en computersDTO
-    	ComputersList computers = computerService.findAll();
-	System.out.println(computers);
+    	List<Computer> computers = computerService.findAll();
+    	for (Computer computer : computers) {
+    	    System.out.println(computer.toBasicString());
+    	}
     }
     
     /**
      * Display the complete list of the companies
-     * @author Gregori Tirsatine
      */
     private void displayAllCompanies() {
-    	CompaniesList companies = companyService.findAll();
-    	System.out.println(companies);
+    	List<Company> companies = companyService.findAll();
+    	for (Company company : companies) {
+    	    System.out.println(company.toString());
+    	}
     }
     
     /**
      * Display the informations about a computer by id
-     * @author Gregori Tirsatine
      */
     private void displayComputerInfo() {
     	Scanner sc = new Scanner(System.in);
@@ -102,50 +101,37 @@ public class Console {
 	    if(computer!=null) {
 		System.out.println(computer);
 	    } else { 
-		System.err.println("[Error : Id not found]");
+		System.out.println("[Error : ID not found]");
 	    }
 	} else {
-	    System.err.println("[Error : wrong Id format]");
+	    System.out.println("[Error : wrong ID format]");
 	}
+	//sc.close();
     }
     
     /**
      * Call the method to insert a new computer in the database
-     * @author Gregori Tirsatine
      */
-    private void insertComputer() {
+    private void createComputer() {
     	Scanner sc = new Scanner(System.in);
-    	System.out.println("Nom de l'ordinateur ?");
-	Computer c = new Computer(sc.nextLine());
-	System.out.println("Voulez-vous entrer une date de production ? ('o'/'n')");
-	if (sc.nextLine().equals("o")) {
-	    System.out.println("Date ? (format aaaa-mm-jj)");
-	    String date = sc.nextLine();
-	    if (InputValidator.checkDateFormat(date)) {
-		c.setDateIntroduced(date);
-	    }
-	    else {
-		System.err.println("[Erreur : date non prise en compte]");
-	    }
-	}
-	System.out.println("Voulez-vous entrer une date de fin de production ? ('o'/'n')");
-	if (sc.nextLine().equals("o")) {
-	    System.out.println("Date ? (format aaaa-mm-jj)");
-	    String date = sc.nextLine();
-	    if (InputValidator.checkDateFormat(date)) {
-		c.setDateDiscontinued(date);
-	    }
-	    else {
-		System.err.println("[Erreur : date non prise en compte]");
-	    }
-	}
-	System.out.println("Voulez-vous préciser l'entreprise ? ('o'/'n')");
-	if (sc.nextLine().equals("o")) {
-	    System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
-	    c.setCompany(sc.nextLine());
-	}
-	computerService.insert(c);
-	System.out.println("Ordinateur inséré dans la base de données.");
+    	System.out.println("Name of the computer :");	
+	String name = sc.nextLine();
+	System.out.println("Introduced date : (format aaaa-mm-jj)");
+	String introduced  = sc.nextLine();
+	if (!InputValidator.checkDateFormat(introduced)) {
+    		introduced = null;
+	}	
+	System.out.println("Discontinued date : (format aaaa-mm-jj)");
+	String discontinued = sc.nextLine();
+	if (!InputValidator.checkDateFormat(discontinued)) {
+    		discontinued = null;
+    	}
+	System.out.println("ID of the Company :");    
+	String idCompany = sc.nextLine();
+	//Verifier que la company existe
+	computerService.create(name, introduced, discontinued, idCompany);
+	System.out.println("Success : ");
+	//sc.close();
     }
 
     /**
@@ -162,6 +148,7 @@ public class Console {
     	} else {
     	    System.err.println("[Error : wrong Id format]");
     	}
+    	sc.close();
     }
     
     /**
@@ -175,51 +162,36 @@ public class Console {
     	if( InputValidator.isInt(id)) {
     	    Computer computer = computerService.find(Integer.parseInt(id));
     	    if ( computer == null ) {
-    		System.out.println("Cet ordinateur n'existe pas");
+    		System.out.println("This computer does not exist.");
     	    } else {
     		System.out.println(computer.toString()+"\n");
-    		System.out.println("Souhaitez-vous modifier le nom ? ('o'/'n')");
-    		if (sc.nextLine().equals("o")) {
-    		    System.out.println("Veuillez entrer le nom de l'ordinateur.");
-    		    computer.setName(sc.nextLine());
-    		}
-    		
-    		System.out.println("Souhaitez-vous modifier la date de production ? ('o'/'n')");
-		if (sc.nextLine().equals("o")) {
-		    System.out.println("Date ? (format aaaa-mm-jj)");
-		    String date = sc.nextLine();
-		    if (InputValidator.checkDateFormat(date)) {
-			computer.setDateIntroduced(date);
-		    }
-		    else {
-			System.err.println("[Erreur : date non prise en compte]");
-		    }
-		}
-    		
-		System.out.println("Souhaitez-vous modifier la date de fin de production ? ('o'/'n')");
-    		if (sc.nextLine().equals("o")) {
-		    System.out.println("Date ? (format aaaa-mm-jj)");
-		    String date = sc.nextLine();
-		    if (InputValidator.checkDateFormat(date)) {
-			computer.setDateDiscontinued(date);
-		    }
-		    else {
-			System.err.println("[Erreur : date non prise en compte]");
-		    }
-		}
-    		
-    		System.out.println("Souhaitez-vous mettre à jour l'entreprise ? ('o'/'n')");
-    		if (sc.nextLine().equals("o")) {
-    		    System.out.println("Veuillez entrer l'identifiant de l'entreprise.");
-    		    
-    		    computer.setCompany(sc.nextLine());
-    		}
-    		computerService.update(computer);
-    		System.out.println("Ordinateur mis à jour.");
+    		System.out.println("Name of the computer:");
+    		computer.setName(sc.nextLine());
     	    }
-	} else {
-	    System.err.println("[Erreur : l'identifiant doit être un entier]");
-	}	    
+    	    
+    	    System.out.println("Introduced date : (format aaaa-mm-jj)");
+    	    String introduced  = sc.nextLine();
+    	    if (InputValidator.checkDateFormat(introduced)) {
+    		computer.setDateIntroduced(introduced);
+    	    }
+
+    		
+    	    System.out.println("Discontinued date : (format aaaa-mm-jj)");
+    	    String discontinued = sc.nextLine();
+    	    if (InputValidator.checkDateFormat(discontinued)) {
+    		computer.setDateDiscontinued(discontinued);
+    	    }
+    	
+    	    System.out.println("Name of the Company :");    
+    	    //computer.setCompany(sc.nextLine());
+   
+    	    computerService.update(computer);
+    	    System.out.println("Update OK.");
+ 
+    	} else {
+    	    System.out.println("[ID must be an integer]");
+    	}
+    	sc.close();
     }
     
     /**
@@ -228,7 +200,7 @@ public class Console {
      */
     private void closeConnection(){
 	ConnectionDAO.close();
-	System.out.println("Fin de l'application.");
+	System.out.println("Application closed.");
     }
     
     /**
@@ -243,6 +215,6 @@ public class Console {
 	System.out.println("4 - Insert a computer");
 	System.out.println("5 - Delete a computer");
 	System.out.println("6 - Update a computer");
-	System.out.println("7 - Close the application");
+	System.out.println("7 - Quit");
     }
 }

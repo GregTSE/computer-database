@@ -7,13 +7,13 @@ public class Computer {
 	private String name;
 	private String dateIntroduced;
 	private String dateDiscontinued;
-	private String company;
+	private Company company;
 	
 	public Computer() {
 		super();
 	}
 	
-	public Computer(Long id, String name, String dateIntroduced, String dateDiscontinued, String company) {
+	public Computer(Long id, String name, String dateIntroduced, String dateDiscontinued, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -58,11 +58,11 @@ public class Computer {
 			this.dateDiscontinued = dateDiscontinued;
 	}
 
-	public String getCompany() {
+	public Company getCompany() {
 		return company;
 	}
 
-	public void setCompany(String company) {
+	public void setCompany(Company company) {
 		this.company = company;
 	}
 
@@ -72,7 +72,7 @@ public class Computer {
 		String result =  name;
 		result += (dateIntroduced != null) ? ", Introduit le : "+dateIntroduced : "";
 		result += (dateDiscontinued != null) ? ", Retiré le : "+dateDiscontinued : "";
-		result += (company != null) ? "\t(Entreprise : " + company + ")" : "";
+		result += (company.getName() != null) ? "\t(Entreprise : " + company.getName() + ")" : "";
 		return result;
 	}
 	

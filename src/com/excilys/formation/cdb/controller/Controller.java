@@ -1,8 +1,6 @@
 package com.excilys.formation.cdb.controller;
 
-import com.excilys.formation.cdb.model.CompaniesList;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.model.ComputersList;
 import com.excilys.formation.cdb.persistence.CompanyDAO;
 import com.excilys.formation.cdb.persistence.ComputerDAO;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
@@ -18,21 +16,21 @@ public class Controller {
 	this.companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
     }
     
-    public ComputersList findAllComputers() {	
-	return computerDAO.findAll();
-    }
+//    public ComputersList findAllComputers() {	
+//	return computerDAO.findAll();
+//    }
     
-    public CompaniesList findAllCompanies() {
-    	return companyDAO.findAll();
-    }
+//    public CompaniesList findAllCompanies() {
+//    	return companyDAO.findAll();
+//    }
     
     public Computer findById(int id) {
     	return computerDAO.find(id);
     }
     
-    public void createComputer(Computer computer) {
-	computerDAO.createComputer(computer);
-    }
+//    public void createComputer(Computer computer) {
+//	computerDAO.createComputer(computer);
+//    }
     
     public void deleteComputer(int id) {
 	computerDAO.delete(id);

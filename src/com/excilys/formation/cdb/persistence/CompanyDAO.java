@@ -3,8 +3,8 @@ package com.excilys.formation.cdb.persistence;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-import com.excilys.formation.cdb.model.CompaniesList;
 import com.excilys.formation.cdb.model.Company;
 import com.mysql.jdbc.Connection;
 
@@ -16,7 +16,7 @@ public class CompanyDAO {
 		this.connection = connection;
 	}
 
-	public CompaniesList findAll() {
+	public List<Company> findAll() {
 		ArrayList<Company> companies = new ArrayList<Company>();
 
 		String query = "SELECT * FROM company";
@@ -36,7 +36,7 @@ public class CompanyDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		CompaniesList compsList = new CompaniesList(companies);
-		return compsList;
+		
+		return companies;
 	}
 }
