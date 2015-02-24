@@ -10,6 +10,8 @@ import com.excilys.formation.service.CompanyService;
 import com.excilys.formation.service.ComputerService;
 import com.formation.excilys.validator.InputValidator;
 
+//@TODO voir pour les problemes de sc.close()
+
 public class Console {
     
     private ComputerService computerService;
@@ -114,21 +116,25 @@ public class Console {
      */
     private void createComputer() {
     	Scanner sc = new Scanner(System.in);
+    	
     	System.out.println("Name of the computer :");	
 	String name = sc.nextLine();
+	
 	System.out.println("Introduced date : (format aaaa-mm-jj)");
 	String introduced  = sc.nextLine();
 	if (!InputValidator.checkDateFormat(introduced)) {
     		introduced = null;
 	}	
+	
 	System.out.println("Discontinued date : (format aaaa-mm-jj)");
 	String discontinued = sc.nextLine();
 	if (!InputValidator.checkDateFormat(discontinued)) {
     		discontinued = null;
     	}
+	
 	System.out.println("ID of the Company :");    
 	String idCompany = sc.nextLine();
-	//Verifier que la company existe
+	
 	computerService.create(name, introduced, discontinued, idCompany);
 	System.out.println("Success : ");
 	//sc.close();
@@ -136,11 +142,10 @@ public class Console {
 
     /**
      * Call the method to delete a computer from the database
-     * @author Gregori Tirsatine
      */
     private void deleteComputer() {
     	Scanner sc = new Scanner(System.in);
-    	System.out.println("Entrez l'identifiant de l'ordinateur :");
+    	System.out.println("ID of computer :");
     	
     	String id = sc.nextLine();
     	if (InputValidator.isInt(id)) {
@@ -148,7 +153,7 @@ public class Console {
     	} else {
     	    System.err.println("[Error : wrong Id format]");
     	}
-    	sc.close();
+    	//sc.close();
     }
     
     /**
@@ -156,7 +161,7 @@ public class Console {
      */
     private void updateComputer(){
 	Scanner sc = new Scanner(System.in);
-    	System.out.println("Entrez l'identifiant de l'ordinateur à mettre à jour :");
+    	System.out.println("ID of computer :");
     	
     	String id = sc.nextLine();
     	if( InputValidator.isInt(id)) {
@@ -182,8 +187,7 @@ public class Console {
     		computer.setDateDiscontinued(discontinued);
     	    }
     	
-    	    System.out.println("Name of the Company :");    
-    	    //computer.setCompany(sc.nextLine());
+    	    System.out.println("ID of the Company :");   
    
     	    computerService.update(computer);
     	    System.out.println("Update OK.");
