@@ -6,9 +6,9 @@ import java.util.Scanner;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
-import com.excilys.formation.service.CompanyService;
-import com.excilys.formation.service.ComputerService;
-import com.formation.excilys.validator.InputValidator;
+import com.excilys.formation.cdb.service.CompanyService;
+import com.excilys.formation.cdb.service.ComputerService;
+import com.excilys.formation.validator.InputValidator;
 
 //@TODO voir pour les problemes de sc.close()
 

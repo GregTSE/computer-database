@@ -1,4 +1,4 @@
-package com.excilys.formation.service;
+package com.excilys.formation.cdb.service;
 
 import java.util.List;
 
