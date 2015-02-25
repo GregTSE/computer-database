@@ -1,4 +1,4 @@
-package com.excilys.formation.servlets;
+package com.excilys.formation.cdb.servlets;
 
 import java.io.IOException;
 
