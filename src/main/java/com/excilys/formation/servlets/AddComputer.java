@@ -17,7 +17,6 @@ import com.excilys.formation.cdb.utils.InputValidator;
 @WebServlet("/AddComputer")
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String VIEW = "WEB-INF/views/addComputer.jsp";
 	private static final String COMPUT_NAME = "computerName";
 	private static final String INTRODUCED = "introduced";
 	private static final String DISCONTINUED = "discontinued";
@@ -70,7 +69,7 @@ public class AddComputer extends HttpServlet {
 	        ComputerService computerService = new ComputerService();
 	        computerService.create(name, introduced, discontinued, "1");
 	        //redirection
-	        getServletContext().getRequestDispatcher("/views/debug.jsp").forward(request, response);
+	        getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 
 	}
 

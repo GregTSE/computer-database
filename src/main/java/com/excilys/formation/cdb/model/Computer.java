@@ -73,7 +73,7 @@ public class Computer {
 		String result =  name;
 		result += (dateIntroduced != null) ? ", Introduced : "+dateIntroduced : "";
 		result += (dateDiscontinued != null) ? ", Discontinued : "+dateDiscontinued : "";
-		result += (company.getName() != null) ? "\t(Company : " + company.getName() + ")" : "";
+		result += (company != null) ? "\t(Company : " + company.getName() + ")" : "";
 		return result;
 	}
 	
