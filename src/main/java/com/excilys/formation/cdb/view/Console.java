@@ -10,7 +10,7 @@ import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.service.CompanyService;
 import com.excilys.formation.cdb.service.ComputerService;
-import com.excilys.formation.cdb.utils.InputValidator;
+import com.excilys.formation.cdb.utils.Util;
 
 /**
  * Console user interface
@@ -39,7 +39,7 @@ public class Console {
 	    displayMenu();
 	    String choice = sc.nextLine();
 	    
-	    if (InputValidator.isInt(choice)) {
+	    if (Util.checkId(choice)) {
 		
 		switch (Integer.parseInt(choice)) {
 			case 1:
@@ -102,7 +102,7 @@ public class Console {
     private void displayComputerInfo(Scanner sc) {
     	System.out.println("Enter the computer's id : ");
 	String id = sc.nextLine();
-	if (InputValidator.isInt(id)) {
+	if (Util.checkId(id)) {
 	    Computer computer = computerService.find(Integer.parseInt(id));
 	    if(computer!=null) {
 		System.out.println(computer);
@@ -126,20 +126,23 @@ public class Console {
 	
 	System.out.println("Introduced date : (format aaaa-mm-jj)");
 	String introduced  = sc.nextLine();
-	if (!InputValidator.checkDateFormat(introduced)) {
+	if (!Util.checkDateFormat(introduced)) {
     		introduced = null;
 	}	
 	
 	System.out.println("Discontinued date : (format aaaa-mm-jj)");
 	String discontinued = sc.nextLine();
-	if (!InputValidator.checkDateFormat(discontinued)) {
+	if (!Util.checkDateFormat(discontinued)) {
     		discontinued = null;
     	}
 	
 	System.out.println("ID of the Company :");    
 	String idCompany = sc.nextLine();
-	
-	computerService.create(name, introduced, discontinued, idCompany);
+	Company company = null;
+	if (Util.checkId(idCompany)) {
+	    company = Util.getCompany(idCompany);
+	}
+	computerService.create(name, introduced, discontinued, company);
 	System.out.println("Success : ");
     }
 
@@ -151,7 +154,7 @@ public class Console {
     	System.out.println("ID of computer :");
     	
     	String id = sc.nextLine();
-    	if (InputValidator.isInt(id)) {
+    	if (Util.checkId(id)) {
     	    computerService.delete(Integer.parseInt(id));
     	} else {
     	    System.err.println("[Error : wrong Id format]");
@@ -167,7 +170,7 @@ public class Console {
     	System.out.println("ID of computer :");
     	
     	String id = sc.nextLine();
-    	if( InputValidator.isInt(id)) {
+    	if( Util.checkId(id)) {
     	    Computer computer = computerService.find(Integer.parseInt(id));
     	    if ( computer == null ) {
     		System.out.println("This computer does not exist.");
@@ -182,14 +185,14 @@ public class Console {
     	    
     	    System.out.println("Introduced date : (format aaaa-mm-jj)");
     	    String introduced  = sc.nextLine();
-    	    if (InputValidator.checkDateFormat(introduced)) {
+    	    if (Util.checkDateFormat(introduced)) {
     		 computer.setDateIntroduced(LocalDate.parse(introduced, formatter));
     	    }
 
     		
     	    System.out.println("Discontinued date : (format aaaa-mm-jj)");
     	    String discontinued = sc.nextLine();
-    	    if (InputValidator.checkDateFormat(discontinued)) {
+    	    if (Util.checkDateFormat(discontinued)) {
     		computer.setDateIntroduced(LocalDate.parse(discontinued, formatter));
     	    }
     	

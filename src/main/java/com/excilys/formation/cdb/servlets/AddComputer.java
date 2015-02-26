@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.service.ComputerService;
-import com.excilys.formation.cdb.utils.InputValidator;
+import com.excilys.formation.cdb.utils.Util;
 
 /**
  * Servlet implementation class AddComputer
@@ -20,7 +21,7 @@ public class AddComputer extends HttpServlet {
 	private static final String COMPUT_NAME = "computerName";
 	private static final String INTRODUCED = "introduced";
 	private static final String DISCONTINUED = "discontinued";
-	private static final String COMPANY_ID = "CompanyId";
+	private static final String COMPANY_ID = "companyId";
 
        
     /**
@@ -52,24 +53,27 @@ public class AddComputer extends HttpServlet {
 
 	        String companyId = request.getParameter(COMPANY_ID);
 	      
-	        if (!InputValidator.checkDateFormat(discontinued)) {
+	        if (!Util.checkDateFormat(discontinued)) {
 	    		discontinued = null;
 	    	}
-	        if (!InputValidator.checkDateFormat(introduced)) {
+	        if (!Util.checkDateFormat(introduced)) {
 	    		introduced = null;
 	    	}
+
 	        request.setAttribute("computerName", name);
 	        request.setAttribute("introduced", introduced);
 	        request.setAttribute("discontinued", discontinued);
-	        request.setAttribute("companyId", companyId);
-
+	        
+	        Company company = new Company(Long.parseLong(companyId),name);
+	        request.setAttribute("company", company);
 	        //verifier les champs
 	        
 	        //Ajouter a la BDD
 	        ComputerService computerService = new ComputerService();
-	        computerService.create(name, introduced, discontinued, "1");
+	        computerService.create(name, introduced, discontinued, company);
 	        //redirection
-	        getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+	        response.sendRedirect("./DashBoard");
+	      //  getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 
 	}
 

@@ -2,6 +2,7 @@ package com.excilys.formation.cdb.service;
 
 import java.util.List;
 
+import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.ComputerDAO;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
@@ -23,8 +24,8 @@ public class ComputerService {
     	return computerDAO.find(id);
     }
     
-    public void create(String name, String introduced, String discontinued, String idCompany) {
-	computerDAO.create(name, introduced, discontinued, idCompany);
+    public void create(String name, String introduced, String discontinued, Company company) {
+	computerDAO.create(name, introduced, discontinued, company);
     }
     
     public void delete(int id) {
@@ -33,5 +34,9 @@ public class ComputerService {
     
     public void update(Computer computer) {
 	computerDAO.update(computer);
+    }
+    
+    public int count() {
+	return computerDAO.count();
     }
 }

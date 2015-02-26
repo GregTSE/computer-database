@@ -66,9 +66,10 @@ public class ComputerDAO {
      * @return the list of computers
      */
     public List<Computer> findAll() {
+	
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 
-	String query = "SELECT id, name FROM computer";
+	String query = "select comput.id, comput.name, introduced, discontinued, company_id , c.name from computer comput left outer join company c on c.id = comput.company_id";
 	ResultSet results;
 
 	try {
@@ -77,10 +78,21 @@ public class ComputerDAO {
 	    results = stmt.executeQuery(query);
 
 	    while (results.next()) {
-		Computer computer = new Computer();
-		computer.setId(results.getInt(1));
-		computer.setName(results.getString(2));
-		computers.add(computer);
+		Company company = null;
+		Long idCompany = results.getLong(5);
+		if (idCompany > 0) {
+		    company = new Company(idCompany,results.getString(6));		   
+		}
+		Timestamp introducedTS = results.getTimestamp(3);
+		LocalDate introduced = null, discontinued = null;
+		Timestamp discontinuedTS = results.getTimestamp(4);
+		if( introducedTS != null )
+		    introduced = introducedTS.toLocalDateTime().toLocalDate();
+		if ( discontinuedTS != null ) {
+		    discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
+		}	
+		computers.add(new Computer(results.getLong(1), results.getString(2),
+				introduced , discontinued, company));
 	    }
 
 	} catch (Exception e) {
@@ -95,29 +107,24 @@ public class ComputerDAO {
      * insert in the database the parameter 'computer'
      * @param computer to insert in the database
      */
-    public void create(String name, String introduced, String discontinued, String idCompany) {
-	String queryCompanyId = "select * from company where id=?";
+    public void create(String name, String introduced, String discontinued, Company company) {
 	String query = "insert into computer (name,introduced,discontinued,company_id) values (?,?,?,?)";
 
 	try {
-	    ResultSet rslt;
-	    PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
-	    stmt0.setString(1, idCompany);
-	    rslt = stmt0.executeQuery();
-		
+	   
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setString(2, introduced);
 	    preparedStmt.setString(3, discontinued);
-	    if (rslt.first()) {
-	    	preparedStmt.setInt(4, Integer.parseInt(idCompany));
+	    if (company != null) {
+	    	preparedStmt.setLong(4, company.getId());
 	    } else {
 	    	preparedStmt.setNull(4, 0);
 	    }
 	    preparedStmt.executeUpdate();
 	   
 	} catch (SQLException e) {
-	    System.err.println("Mauvaise date");
+	    
 	    e.printStackTrace();
 	}
     }
@@ -173,6 +180,26 @@ public class ComputerDAO {
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	}
+    }
+    
+    public int count(){
+	String query = "select count(id) from computer";
+	int result = -1;
+
+	    
+	Statement stmt;
+	try {
+	    stmt = connection.createStatement();
+	    ResultSet rslt = stmt.executeQuery(query);
+	    stmt.executeQuery(query);
+	    if (rslt.first()) {
+		result = rslt.getInt(1);
+	    }
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	return result;
     }
     
 }

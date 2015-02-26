@@ -18,4 +18,8 @@ public class CompanyService {
    public List<Company> findAll(){
        return companyDAO.findAll();
    }
+   
+   public Company find(Long id){
+       return companyDAO.find(id);
+   }
 }

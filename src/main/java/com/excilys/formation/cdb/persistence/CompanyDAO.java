@@ -1,6 +1,7 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,23 @@ public class CompanyDAO {
 		}
 		
 		return companies;
+	}
+	
+	public Company find(Long id){
+	    Company c = null;
+	    String query = "SELECT name FROM company WHERE id="+id;
+	    try {
+		Statement stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+	       
+		} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    finally {
+		return c;
+	    }
+	    
+	    
 	}
 }

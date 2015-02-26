@@ -6,6 +6,7 @@
 <meta charset="utf-8">
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!-- Bootstrap -->
 <link href="${request.getContextPath()}css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -22,7 +23,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                121 Computers found
+                ${ fn:length(computers)} Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -85,11 +86,11 @@
 	                        </td> 
 	                      
 	                       <td>
-	                            <a href="editComputer.html" onclick="">${computer.getName()}</a>
+	                            <a href="editComputer.html" onclick="">${computer.name}</a>
 	                        </td>
-	                        <td>${computer.getDateIntroduced()}</td> 
-	                        <td>${computer.getDateDiscontinued()}</td>
-	                        <td>${computer.getCompany().getName()}</td>
+	                        <td>${computer.dateIntroduced}</td> 
+	                        <td>${computer.dateDiscontinued}</td>
+	                        <td>${computer.company.name}</td>
 	                    </tr>
                     </c:forEach>
                 </tbody>

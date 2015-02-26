@@ -41,9 +41,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" >                 
-                                    	<c:forEach var="company" items="${companies}">
-    										<option value="${company.getId()}">  ${company.getName()} </option>
+                                <select class="form-control" id="companyId" name="companyId" >                 
+                                    	<c:forEach var="comp" items="${companies}">
+    										<option value="${comp.id}"> ${comp.name} </option>
 										</c:forEach>									
                                 </select>
                             </div>                  

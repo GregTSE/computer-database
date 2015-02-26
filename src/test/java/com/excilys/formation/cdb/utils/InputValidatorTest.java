@@ -4,32 +4,32 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.excilys.formation.cdb.utils.InputValidator;
+import com.excilys.formation.cdb.utils.Util;
 
 public class InputValidatorTest {
 
     @Test
     public void testIsInt() {
-	assertFalse(InputValidator.isInt("3.12"));
-	assertTrue(InputValidator.isInt("0"));
-	assertFalse(InputValidator.isInt("test"));
-	assertFalse(InputValidator.isInt(null));
+	assertFalse(Util.checkId("3.12"));
+	assertTrue(Util.checkId("0"));
+	assertFalse(Util.checkId("test"));
+	assertFalse(Util.checkId(null));
     }
 
     @Test
     public void testCheckDateFormat() {
-	assertTrue(InputValidator.checkDateFormat("2000-01-01"));
+	assertTrue(Util.checkDateFormat("2000-01-01"));
 	//month 13
-	assertFalse(InputValidator.checkDateFormat("2000-13-01"));
+	assertFalse(Util.checkDateFormat("2000-13-01"));
 	//day 32
-	assertFalse(InputValidator.checkDateFormat("2000-10-32"));
+	assertFalse(Util.checkDateFormat("2000-10-32"));
 	//years : 3 numbers
-	assertFalse(InputValidator.checkDateFormat("199-01-01"));
+	assertFalse(Util.checkDateFormat("199-01-01"));
 	//date null
-	assertFalse(InputValidator.checkDateFormat(null));
+	assertFalse(Util.checkDateFormat(null));
 	//empty String
-	assertFalse(InputValidator.checkDateFormat(""));
-	assertFalse(InputValidator.checkDateFormat("test"));
+	assertFalse(Util.checkDateFormat(""));
+	assertFalse(Util.checkDateFormat("test"));
     }
 
 }
