@@ -36,6 +36,10 @@ public class ComputerService {
 	computerDAO.update(computer);
     }
     
+    public List<Computer> search(String str){
+	return computerDAO.search(str);
+    }
+    
     public int count() {
 	return computerDAO.count();
     }

@@ -26,14 +26,16 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${ fn:length(computers)} Computers found</h1>
+			<h1 id="homeTitle">
+				${ fn:length(computers)} Computers found
+			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="#" method="GET" class="form-inline">
+					<form id="searchForm"  action="./Filter" method="GET" class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+							class="form-control" placeholder="Search name" />
+						<input type="submit" id="searchsubmit" value="Filter by name"
 							class="btn btn-primary" />
 					</form>
 				</div>
@@ -79,7 +81,8 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
 
-							<td><a href="editComputer.html" onclick="">${computer.name}</a>
+							<td>
+								<a href="editComputer.html" onclick="">${computer.name}</a>
 							</td>
 							<td>${computer.dateIntroduced}</td>
 							<td>${computer.dateDiscontinued}</td>
@@ -106,16 +109,18 @@
 				</a></li>
 			</ul>
 		</div>
+		
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<button type="button" class="btn btn-default">10</button>
 			<button type="button" class="btn btn-default">50</button>
 			<button type="button" class="btn btn-default">100</button>
 		</div>
-
+		
 	</footer>
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/dashboard.js"></script>
 
 </body>
 </html>

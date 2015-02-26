@@ -182,6 +182,43 @@ public class ComputerDAO {
 	}
     }
     
+    public List<Computer> search(String str){
+	
+	ArrayList<Computer> computers = new ArrayList<Computer>();
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ?";
+	ResultSet results;
+
+	try {
+	   PreparedStatement pstmt = connection.prepareStatement(query);
+	   pstmt.setString(1, str+'%');
+	   results = pstmt.executeQuery();
+
+	    while (results.next()) {
+		Company company = null;
+		Long idCompany = results.getLong(5);
+		if (idCompany > 0) {
+		    company = new Company(idCompany,results.getString(6));		   
+		}
+		Timestamp introducedTS = results.getTimestamp(3);
+		LocalDate introduced = null, discontinued = null;
+		Timestamp discontinuedTS = results.getTimestamp(4);
+		if( introducedTS != null )
+		    introduced = introducedTS.toLocalDateTime().toLocalDate();
+		if ( discontinuedTS != null ) {
+		    discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
+		}	
+		computers.add(new Computer(results.getLong(1), results.getString(2),
+				introduced , discontinued, company));
+	    }
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+	
+	return computers;
+    }
+    
     public int count(){
 	String query = "select count(id) from computer";
 	int result = -1;
