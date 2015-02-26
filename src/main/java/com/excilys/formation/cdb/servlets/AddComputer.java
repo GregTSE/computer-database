@@ -43,38 +43,33 @@ public class AddComputer extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    /* Récupération des champs du formulaire. */
-
-	        String name = request.getParameter(COMPUT_NAME);
-
-	        String introduced = request.getParameter(INTRODUCED);
-
-	        String discontinued = request.getParameter(DISCONTINUED);
-
-	        String companyId = request.getParameter(COMPANY_ID);
+	    
+	    String name = request.getParameter(COMPUT_NAME);
+	    String introduced = request.getParameter(INTRODUCED);
+	    String discontinued = request.getParameter(DISCONTINUED);
+	    String companyId = request.getParameter(COMPANY_ID);
 	      
-	        if (!Util.checkDateFormat(discontinued)) {
-	    		discontinued = null;
-	    	}
-	        if (!Util.checkDateFormat(introduced)) {
-	    		introduced = null;
-	    	}
+	    if (!Util.checkDateFormat(discontinued)) {
+		discontinued = null;
+	    }
+	    if (!Util.checkDateFormat(introduced)) {
+		introduced = null;
+	    }
 
-	        request.setAttribute("computerName", name);
-	        request.setAttribute("introduced", introduced);
-	        request.setAttribute("discontinued", discontinued);
-	        
-	        Company company = new Company(Long.parseLong(companyId),name);
-	        request.setAttribute("company", company);
-	        //verifier les champs
-	        
-	        //Ajouter a la BDD
-	        ComputerService computerService = new ComputerService();
-	        computerService.create(name, introduced, discontinued, company);
-	        //redirection
-	        response.sendRedirect("./DashBoard");
-	      //  getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
-
+	    request.setAttribute("computerName", name);
+	    request.setAttribute("introduced", introduced);
+	    request.setAttribute("discontinued", discontinued);
+	    
+	    Company company = new Company(Long.parseLong(companyId),name);
+	    request.setAttribute("company", company);
+	    //check fields !!!
+	    
+	    //Add intto the db
+	    ComputerService computerService = new ComputerService();
+	    computerService.create(name, introduced, discontinued, company);
+	    
+	    //redirection
+	    response.sendRedirect("./DashBoard");	    
 	}
 
 }
