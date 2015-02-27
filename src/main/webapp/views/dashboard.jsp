@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,8 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 
 <!-- Bootstrap -->
 <link href="${request.getContextPath()}css/bootstrap.min.css"
@@ -82,7 +86,7 @@
 								class="cb" value="0"></td>
 
 							<td>
-								<a href="editComputer.html" onclick="">${computer.name}</a>
+								<a href="./views/editComputer.jsp" onclick="">${computer.name}</a>
 							</td>
 							<td>${computer.dateIntroduced}</td>
 							<td>${computer.dateDiscontinued}</td>
@@ -100,6 +104,7 @@
 				<li><a href="#" aria-label="Previous"> <span
 						aria-hidden="true">&laquo;</span>
 				</a></li>
+				
 				<li><a href="#">1</a></li>
 				<li><a href="#">2</a></li>
 				<li><a href="#">3</a></li>

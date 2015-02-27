@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<taglib>
+	<tlib-version>1.1.2</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	 <short-name>page</short-name>
+
+<uri>/WEB-INF/mylib.tld</uri>
+
+<tag>
+		<name>switchtag</name>
+		<tag-class>monpackage.SwitchTag</tag-class>
+		<attribute>
+			<name>test</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>casetag</name>
+		<tag-class>monpackage.CaseTag</tag-class>
+		<description>Tag qui affiche le corps ...</description>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>iteratetag</name>
+		<tag-class>monpackage.IterateTag</tag-class>
+		<description>Tag qui affiche le corps ...</description>
+		<attribute>
+			<name>count</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Integer</type>
+		</attribute>
+	</tag>
+</taglib>
