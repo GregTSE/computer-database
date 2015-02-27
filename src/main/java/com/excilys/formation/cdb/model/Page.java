@@ -10,28 +10,35 @@ import com.excilys.formation.cdb.service.ComputerService;
 public class Page {
     
     private int num;
+    private int begin;
+    private int end;
     private int offset;
     private List<ComputerDTO> computersDTO;
-    private int countComputers=1;
+    private int countComputers=571;
     
+    private final int NB_OF_PAGES = 5;
     public Page() {
 	super();
     }
 
     public Page(int num, int offset) {
 	super();
+	ComputerService cs = new ComputerService();
 	
 	this.num = num;
+	this.begin = (num-(num%NB_OF_PAGES)+1);
+	this.end = (begin + NB_OF_PAGES-1);
+	System.out.println(begin);
+	System.out.println(end);
 	this.offset = offset;
 	this.computersDTO = new ArrayList<ComputerDTO>();
 	
-	ComputerService cs = new ComputerService();
+
 	List<Computer> computers = cs.findAll(num*offset,offset);
-	System.out.println(computers.get(0).getName());
 	for(Computer c : computers) {
 	    computersDTO.add(MapperDTO.ComputerToDTO(c));
 	}
-	
+	//countComputers  = cs.count();
 	
     }
 
@@ -112,6 +119,26 @@ public class Page {
 
     public void setCountComputers(int countComputers) {
         this.countComputers = countComputers;
+    }
+
+    public int getBegin() {
+        return begin;
+    }
+
+    public void setBegin(int begin) {
+        this.begin = begin;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
+    }
+
+    public void setComputersDTO(List<ComputerDTO> computersDTO) {
+        this.computersDTO = computersDTO;
     }
 
 }

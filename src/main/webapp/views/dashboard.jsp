@@ -81,7 +81,7 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach var="computer" items="${computers}">
+					<c:forEach var="computer" items="${page.computersDTO}">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
@@ -113,8 +113,8 @@
 				<li><a href="#" aria-label="Previous"> <span
 						aria-hidden="true">&laquo;</span>
 				</a></li>
-				<c:forEach var="index" begin="${page.num}" end="${page.num+5}">
-					<li><a href="./DashBoard?index=${index}&offset=10">${index}</a></li>
+				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
+					<li><a href="./DashBoard?index=${index}&offset=${page.offset}">${index}</a></li>
 				</c:forEach>
 				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>

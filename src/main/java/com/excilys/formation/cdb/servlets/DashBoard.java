@@ -48,9 +48,8 @@ public class DashBoard extends HttpServlet {
 	    }
 	    
 	    Page p = new Page(index, offset);
-	       List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
-	       computersDTO.addAll(p.getComputersDTO());
-	       request.setAttribute("computers", computersDTO);
+	       
+	       request.setAttribute("page", p);
 	       getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 	       
 //	   } else {
