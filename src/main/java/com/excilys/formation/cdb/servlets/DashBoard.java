@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ComputerService;
+import com.excilys.formation.cdb.utils.Util;
 
 /**
  * Servlet implementation class DashBoard
@@ -32,6 +34,9 @@ public class DashBoard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	   if (Util.checkId(request.getParameter("index"))) {
+	       Page p = new Page(2,3);
+	   }
 	    ComputerService computerService = new ComputerService();
 	    List<Computer> computers = new ArrayList<Computer>();
 	    computers = computerService.findAll();

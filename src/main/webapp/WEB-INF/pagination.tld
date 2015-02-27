@@ -1,0 +1,10 @@
+<taglib>
+  <tlib-version>1.1.2</tlib-version>
+  <jsp-version>2.1</jsp-version>
+  <short-name>pagination</short-name>
+  <tag>
+    <name>Hello</name>
+    <tag-class>paginationTag</tag-class>
+    <body-content>empty</body-content>
+  </tag>
+</taglib>

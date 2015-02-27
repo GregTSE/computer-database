@@ -11,7 +11,7 @@ public class MapperDTO {
 	super();
     }
     
-    public ComputerDTO ComputerToDTO(Computer computer) {
+    public static ComputerDTO ComputerToDTO(Computer computer) {
 	return new ComputerDTO(computer.getId(), computer.getName(), computer.getDateIntroduced().toString(), computer.getDateDiscontinued().toString(), computer.getCompany());
     }
     

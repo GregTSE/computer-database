@@ -20,6 +20,10 @@ public class ComputerService {
 	return computerDAO.findAll();
     }
     
+    public List<Computer> findAll(int num, int offset) {	
+	return computerDAO.findAll(num, offset);
+    }
+    
     public Computer find(int id) {
     	return computerDAO.find(id);
     }
