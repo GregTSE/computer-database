@@ -12,7 +12,7 @@ import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class ComputerDAO {
 
@@ -102,6 +102,43 @@ public class ComputerDAO {
 	
 	return computers;
     }
+    
+    public List<Computer> findAll(int num, int offset) {
+	
+   	ArrayList<Computer> computers = new ArrayList<Computer>();
+
+   	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id LIMIT ?, ?";
+   	ResultSet results;
+
+   	try {
+   	    PreparedStatement pstmt = connection.prepareStatement(query);
+   	    pstmt.setInt(1, num);
+   	    pstmt.setInt(2, offset);
+   	    results = pstmt.executeQuery(query);
+
+   	    while (results.next()) {
+   		Company company = null;
+   		Long idCompany = results.getLong(5);
+   		if (idCompany > 0) {
+   		    company = new Company(idCompany,results.getString(6));		   
+   		}
+   		Timestamp introducedTS = results.getTimestamp(3);
+   		LocalDate introduced = null, discontinued = null;
+   		Timestamp discontinuedTS = results.getTimestamp(4);
+   		if( introducedTS != null )
+   		    introduced = introducedTS.toLocalDateTime().toLocalDate();
+   		if ( discontinuedTS != null ) {
+   		    discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
+   		}	
+   		computers.add(new Computer(results.getLong(1), results.getString(2),
+   				introduced , discontinued, company));
+   	    }
+
+   	} catch (Exception e) {
+   	    e.printStackTrace();
+   	}
+   	return computers;
+       }
 
     /**
      * insert in the database the parameter 'computer'

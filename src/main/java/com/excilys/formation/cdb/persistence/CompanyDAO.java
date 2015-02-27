@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class CompanyDAO {
 	

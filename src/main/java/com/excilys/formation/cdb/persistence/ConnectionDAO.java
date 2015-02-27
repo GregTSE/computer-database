@@ -2,8 +2,8 @@ package com.excilys.formation.cdb.persistence;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Connection;
 
-import com.mysql.jdbc.Connection;
 //public enum Example{
 //    INSTANCE;
 //
@@ -20,7 +20,7 @@ public class ConnectionDAO {
 			String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
 			String user = "admincdb";
 			String passwd = "qwerty1234";
-			conn = (Connection) DriverManager.getConnection(url, user, passwd);
+			conn = DriverManager.getConnection(url, user, passwd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
