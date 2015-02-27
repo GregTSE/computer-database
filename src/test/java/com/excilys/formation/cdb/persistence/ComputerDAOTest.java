@@ -11,13 +11,11 @@ import com.mysql.jdbc.Connection;
 public class ComputerDAOTest {
     
     private static Connection connection;
-    private ComputerDAO cDAO;
-    
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-	//open connection before test cases
-	connection =  ConnectionDAO.getInstance();
-    }
+//    public static void setUpBeforeClass() throws Exception {
+//	//open connection before test cases
+//	connection =  ConnectionDAO.getInstance();
+//    }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
