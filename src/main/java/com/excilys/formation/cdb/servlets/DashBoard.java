@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ComputerService;
@@ -34,15 +35,33 @@ public class DashBoard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   if (Util.checkId(request.getParameter("index"))) {
-	       Page p = new Page(2,3);
-	   }
-	    ComputerService computerService = new ComputerService();
-	    List<Computer> computers = new ArrayList<Computer>();
-	    computers = computerService.findAll();
+	   int offset = 10;
+	   int index = 1;
+	   String strIndex = request.getParameter("index");
+	   String strOffset = request.getParameter("offset");
+	   
+	    if (Util.checkId(strIndex)) {
+	       index = Integer.parseInt(strIndex);
+	    }
+	    if(Util.checkId(strOffset)){
+		offset = Integer.parseInt(strOffset);
+	    }
 	    
-	    request.setAttribute("computers", computers);
-	    getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+	    Page p = new Page(index, offset);
+	       List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
+	       computersDTO.addAll(p.getComputersDTO());
+	       request.setAttribute("computers", computersDTO);
+	       getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+	       
+//	   } else {
+//	    
+//	    ComputerService computerService = new ComputerService();
+//	    List<Computer> computers = new ArrayList<Computer>();
+//	    computers = computerService.findAll();
+//	    
+//	    request.setAttribute("computers", computers);
+//	    getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+//	   }
 	}
 
 	/**
@@ -50,7 +69,7 @@ public class DashBoard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	    System.out.println("doPost(DashBoard)");
+	    
 	}
 
 }

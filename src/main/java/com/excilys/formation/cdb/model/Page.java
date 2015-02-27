@@ -12,6 +12,7 @@ public class Page {
     private int num;
     private int offset;
     private List<ComputerDTO> computersDTO;
+    private int countComputers=1;
     
     public Page() {
 	super();
@@ -19,15 +20,18 @@ public class Page {
 
     public Page(int num, int offset) {
 	super();
+	
 	this.num = num;
 	this.offset = offset;
 	this.computersDTO = new ArrayList<ComputerDTO>();
 	
 	ComputerService cs = new ComputerService();
-	List<Computer> computers = cs.findAll(num,offset);
+	List<Computer> computers = cs.findAll(num*offset,offset);
+	System.out.println(computers.get(0).getName());
 	for(Computer c : computers) {
 	    computersDTO.add(MapperDTO.ComputerToDTO(c));
 	}
+	
 	
     }
 
@@ -100,6 +104,14 @@ public class Page {
     public String toString() {
 	return "Page [num=" + num + ", offset=" + offset + ", computers="
 		+ computersDTO + "]";
+    }
+
+    public int getCountComputers() {
+        return countComputers;
+    }
+
+    public void setCountComputers(int countComputers) {
+        this.countComputers = countComputers;
     }
 
 }

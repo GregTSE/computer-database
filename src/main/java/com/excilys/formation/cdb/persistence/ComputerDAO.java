@@ -114,7 +114,7 @@ public class ComputerDAO {
    	    PreparedStatement pstmt = connection.prepareStatement(query);
    	    pstmt.setInt(1, num);
    	    pstmt.setInt(2, offset);
-   	    results = pstmt.executeQuery(query);
+   	    results = pstmt.executeQuery();
 
    	    while (results.next()) {
    		Company company = null;
@@ -259,14 +259,12 @@ public class ComputerDAO {
     public int count(){
 	String query = "select count(id) from computer";
 	int result = -1;
-
-	    
 	Statement stmt;
 	try {
 	    stmt = connection.createStatement();
 	    ResultSet rslt = stmt.executeQuery(query);
 	    stmt.executeQuery(query);
-	    if (rslt.first()) {
+	    if (rslt != null) {
 		result = rslt.getInt(1);
 	    }
 	} catch (SQLException e) {

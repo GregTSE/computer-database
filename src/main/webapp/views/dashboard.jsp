@@ -24,7 +24,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
+			<a class="navbar-brand" href="./DashBoard"> Application -
 				Computer Database </a>
 		</div>
 	</header>
@@ -32,7 +32,7 @@
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				${ fn:length(computers)} Computers found 
+				${page.countComputers} Computers found 
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -101,9 +101,11 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" class="btn btn-default" type=submit name="offset">10</button>
-			<button type="button" class="btn btn-default" type=submit name="offset">50</button>
-			<button type="button" class="btn btn-default" type=submit name="offset">100</button>
+			<form action="./DashBoard" Method="GET">
+                <input type="submit" name="offset" value="10" />
+                <input type="submit" name="offset" value="50" />
+                <input type="submit" name="offset" value="100" />
+            </form>
 		</div>
 		
 		<div class="container text-center">
@@ -112,7 +114,7 @@
 						aria-hidden="true">&laquo;</span>
 				</a></li>
 				<c:forEach var="index" begin="${page.num}" end="${page.num+5}">
-					<li><a href="./DashBoard?index=${index}&offset={$offset}">${index}</a></li>
+					<li><a href="./DashBoard?index=${index}&offset=10">${index}</a></li>
 				</c:forEach>
 				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
