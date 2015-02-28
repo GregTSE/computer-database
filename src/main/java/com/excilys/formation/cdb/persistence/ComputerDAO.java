@@ -223,10 +223,10 @@ public class ComputerDAO {
 	
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ?";
-	ResultSet results;
-
+	ResultSet results = null;
+	PreparedStatement pstmt = null;
 	try {
-	   PreparedStatement pstmt = connection.prepareStatement(query);
+	   pstmt = connection.prepareStatement(query);
 	   pstmt.setString(1, str+'%');
 	   results = pstmt.executeQuery();
 
@@ -247,26 +247,28 @@ public class ComputerDAO {
 		computers.add(new Computer(results.getLong(1), results.getString(2),
 				introduced , discontinued, company));
 	    }
+	    pstmt.close();
+		results.close();
 
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-
 	
 	return computers;
     }
     
     public int count(){
-	String query = "select count(id) from computer";
-	int result = -1;
+	String query = "SELECT COUNT(id) FROM computer";
+	int result = 0;
 	Statement stmt;
 	try {
 	    stmt = connection.createStatement();
 	    ResultSet rslt = stmt.executeQuery(query);
-	    stmt.executeQuery(query);
-	    if (rslt != null) {
-		result = rslt.getInt(1);
+	    if (rslt.first()) {
+	    	result = rslt.getInt(1);
 	    }
+	    rslt.close();
+	    stmt.close();
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

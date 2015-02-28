@@ -110,13 +110,16 @@
 		
 		<div class="container text-center">
 			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span
+				<li><a href="./DashBoard?index=${page.num+1}&offset=${page.offset}" aria-label="Previous"> <span
 						aria-hidden="true">&laquo;</span>
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
-					<li><a href="./DashBoard?index=${index}&offset=${page.offset}">${index}</a></li>
+					<li><a href="./DashBoard?index=${index}&offset=${page.offset}">
+							<c:if test= "${ index == page.num }"> <br/> </c:if>
+								 ${index}
+						</a></li>
 				</c:forEach>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				<li><a href="./DashBoard?index=${page.num+1}&offset=${page.offset}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
 			</ul>
 		</div>

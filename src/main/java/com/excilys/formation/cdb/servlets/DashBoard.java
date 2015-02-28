@@ -37,20 +37,22 @@ public class DashBoard extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	   int offset = 10;
 	   int index = 1;
+	   
 	   String strIndex = request.getParameter("index");
 	   String strOffset = request.getParameter("offset");
 	   
 	    if (Util.checkId(strIndex)) {
 	       index = Integer.parseInt(strIndex);
 	    }
+	   
 	    if(Util.checkId(strOffset)){
 		offset = Integer.parseInt(strOffset);
 	    }
 	    
 	    Page p = new Page(index, offset);
 	       
-	       request.setAttribute("page", p);
-	       getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+       request.setAttribute("page", p);
+       getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 	       
 //	   } else {
 //	    

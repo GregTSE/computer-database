@@ -10,35 +10,35 @@ import com.excilys.formation.cdb.service.ComputerService;
 public class Page {
     
     private int num;
+    private int numGroup;
     private int begin;
     private int end;
     private int offset;
     private List<ComputerDTO> computersDTO;
-    private int countComputers=571;
+    private int countComputers;
     
-    private final int NB_OF_PAGES = 5;
+    private static final int NB_OF_DISPLAYED_PAGES = 5;
+    
     public Page() {
-	super();
+    	super();
     }
 
+    
     public Page(int num, int offset) {
-	super();
-	ComputerService cs = new ComputerService();
+		ComputerService cs = new ComputerService();	
+		this.num = num;
+		this.numGroup = (num-1)/NB_OF_DISPLAYED_PAGES;
+		this.begin = (numGroup * NB_OF_DISPLAYED_PAGES + 1);
+		this.end = (begin + NB_OF_DISPLAYED_PAGES-1);
+		this.offset = offset;
+		this.computersDTO = new ArrayList<ComputerDTO>();
+		
 	
-	this.num = num;
-	this.begin = (num-(num%NB_OF_PAGES)+1);
-	this.end = (begin + NB_OF_PAGES-1);
-	System.out.println(begin);
-	System.out.println(end);
-	this.offset = offset;
-	this.computersDTO = new ArrayList<ComputerDTO>();
-	
-
-	List<Computer> computers = cs.findAll(num*offset,offset);
-	for(Computer c : computers) {
-	    computersDTO.add(MapperDTO.ComputerToDTO(c));
-	}
-	//countComputers  = cs.count();
+		List<Computer> computers = cs.findAll((num-1)*offset,offset);
+		for(Computer c : computers) {
+		    computersDTO.add(MapperDTO.ComputerToDTO(c));
+		}
+		countComputers = cs.count();
 	
     }
 
