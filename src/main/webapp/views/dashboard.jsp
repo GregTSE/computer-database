@@ -115,8 +115,9 @@
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
 					<li><a href="./DashBoard?index=${index}&offset=${page.offset}">
-							<c:if test= "${ index == page.num }"> <br/> </c:if>
+							<c:if test= "${ index == page.num }"> <b> </c:if>
 								 ${index}
+							 <c:if test= "${ index == page.num }"> </b> </c:if>
 						</a></li>
 				</c:forEach>
 				<li><a href="./DashBoard?index=${page.num+1}&offset=${page.offset}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>

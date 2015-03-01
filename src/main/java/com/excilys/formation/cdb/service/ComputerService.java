@@ -13,7 +13,7 @@ public class ComputerService {
     
     public ComputerService(){
 	super();
-	this.computerDAO = new ComputerDAO(ConnectionDAO.getInstance());
+	this.computerDAO = new ComputerDAO();
     }
     
     public List<Computer> findAll() {	

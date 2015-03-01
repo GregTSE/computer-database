@@ -4,6 +4,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Connection;
 
+import com.excilys.formation.cdb.exception.ConnectionException;
+
 //public enum Example{
 //    INSTANCE;
 //
@@ -12,35 +14,34 @@ import java.sql.Connection;
 //    }
 public class ConnectionDAO {
 
-	private static Connection conn = null;
+	private static Connection connection = null;
 
-	private ConnectionDAO() {
+	private ConnectionDAO() throws ConnectionException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
 			String user = "admincdb";
 			String passwd = "qwerty1234";
-			conn = DriverManager.getConnection(url, user, passwd);
+			connection = DriverManager.getConnection(url, user, passwd);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new ConnectionException("Database cannot be opened");
 		}
 	}
 
-	public static Connection getInstance() {
-		if (conn == null) {
-			new ConnectionDAO();
+	public static Connection getInstance() throws ConnectionException, SQLException {
+		if (connection == null || connection.isClosed()) {
+			new ConnectionDAO(); 
 		}
-		return conn;
+		return connection;
 	}
 	
-	public static void close(){
+	public static void close() throws ConnectionException{
 	    try {
-		if (conn != null && !conn.isClosed()) {
-		    
-			conn.close();
-		   
-			
-		    }  } catch (SQLException e) {//throw new IllegalStateException("Database cannot be closed");
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+		    }  
+	    } catch (SQLException e) {
+	    	throw new ConnectionException("Database cannot be closed");
 	    }	
 	}
 

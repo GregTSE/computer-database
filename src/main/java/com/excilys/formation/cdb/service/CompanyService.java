@@ -12,7 +12,7 @@ public class CompanyService {
    
    public CompanyService(){
        super();
-       this.companyDAO = new CompanyDAO(ConnectionDAO.getInstance());
+       this.companyDAO = new CompanyDAO();
    }
    
    public List<Company> findAll(){

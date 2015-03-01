@@ -7,14 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
-import java.sql.Connection;
 
 public class CompanyDAO {
-	
-	private Connection connection;
 
-	public CompanyDAO(Connection connection) {
-		this.connection = connection;
+	public CompanyDAO() {
+		super();
 	}
 
 	public List<Company> findAll() {
@@ -24,7 +21,7 @@ public class CompanyDAO {
 		ResultSet results;
 
 		try {
-			Statement stmt = connection.createStatement();
+			Statement stmt = ConnectionDAO.getInstance().createStatement();
 
 			results = stmt.executeQuery(query);
 
@@ -37,6 +34,9 @@ public class CompanyDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+			ConnectionDAO.close();
+		}
 		
 		return companies;
 	}
@@ -45,16 +45,16 @@ public class CompanyDAO {
 	    Company c = null;
 	    String query = "SELECT name FROM company WHERE id="+id;
 	    try {
-		Statement stmt = connection.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
+			Statement stmt = ConnectionDAO.getInstance().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
 	       
 		} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	    } finally {
+	    	ConnectionDAO.close();
 	    }
-	    finally {
-		return c;
-	    }
+	    return c;
 	    
 	    
 	}
