@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
@@ -31,16 +31,15 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">
-				${page.countComputers} Computers found 
-			</h1>
+			<h1 id="homeTitle">${page.countComputers} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm"  action="./Filter" method="GET" class="form-inline">
+					<form id="searchForm" action="./Filter" method="GET"
+						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" />
-						<input type="submit" id="searchsubmit" value="Filter by name"
+							class="form-control" placeholder="Search name" /> <input
+							type="submit" id="searchsubmit" value="Filter by name"
 							class="btn btn-primary" />
 					</form>
 				</div>
@@ -86,8 +85,7 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
 
-							<td>
-								<a href="./views/editComputer.jsp" onclick="">${computer.name}</a>
+							<td><a href="./views/editComputer.jsp" onclick="">${computer.name}</a>
 							</td>
 							<td>${computer.dateIntroduced}</td>
 							<td>${computer.dateDiscontinued}</td>
@@ -102,33 +100,38 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<form action="./DashBoard" Method="GET">
-                <input type="submit" name="offset" value="10" />
-                <input type="submit" name="offset" value="50" />
-                <input type="submit" name="offset" value="100" />
-            </form>
+				<input type="submit" name="offset" value="10" /> <input
+					type="submit" name="offset" value="50" /> <input type="submit"
+					name="offset" value="100" />
+			</form>
 		</div>
-		
+
 		<div class="container text-center">
 			<ul class="pagination">
-				<li><a href="./DashBoard?index=${page.num+1}&offset=${page.offset}" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
+				<li><a
+					href="./DashBoard?index=${page.num+1}&offset=${page.offset}"
+					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
 					<li><a href="./DashBoard?index=${index}&offset=${page.offset}">
-							<c:if test= "${ index == page.num }"> <b> </c:if>
-								 ${index}
-							 <c:if test= "${ index == page.num }"> </b> </c:if>
-						</a></li>
+							<c:if test="${ index == page.num }">
+								<b>
+							</c:if> ${index} <c:if test="${ index == page.num }">
+								</b>
+							</c:if>
+					</a></li>
 				</c:forEach>
-				<li><a href="./DashBoard?index=${page.num+1}&offset=${page.offset}" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				<li><a
+					href="./DashBoard?index=${page.num+1}&offset=${page.offset}"
+					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
 			</ul>
 		</div>
-		
-		
-		
+
+
+
 	</footer>
-	
+
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>

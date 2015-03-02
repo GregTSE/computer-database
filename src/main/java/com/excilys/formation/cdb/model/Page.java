@@ -8,7 +8,7 @@ import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.service.ComputerService;
 
 public class Page {
-    
+
     private int num;
     private int numGroup;
     private int begin;
@@ -16,62 +16,53 @@ public class Page {
     private int offset;
     private List<ComputerDTO> computersDTO;
     private int countComputers;
-    
+
     private static final int NB_OF_DISPLAYED_PAGES = 5;
-    
+
     public Page() {
-    	super();
+	super();
     }
 
-    
     public Page(int num, int offset) {
-		ComputerService cs = new ComputerService();	
-		this.num = num;
-		this.numGroup = (num-1)/NB_OF_DISPLAYED_PAGES;
-		this.begin = (numGroup * NB_OF_DISPLAYED_PAGES + 1);
-		this.end = (begin + NB_OF_DISPLAYED_PAGES-1);
-		this.offset = offset;
-		this.computersDTO = new ArrayList<ComputerDTO>();
-		
-	
-		List<Computer> computers = cs.findAll((num-1)*offset,offset);
-		for(Computer c : computers) {
-		    computersDTO.add(MapperDTO.ComputerToDTO(c));
-		}
-		countComputers = cs.count();
-	
-    }
+	ComputerService cs = new ComputerService();
+	this.num = num;
+	this.numGroup = (num - 1) / NB_OF_DISPLAYED_PAGES;
+	this.begin = (numGroup * NB_OF_DISPLAYED_PAGES + 1);
+	this.end = (begin + NB_OF_DISPLAYED_PAGES - 1);
+	this.offset = offset;
+	this.computersDTO = new ArrayList<ComputerDTO>();
 
+	List<Computer> computers = cs.findAll((num - 1) * offset, offset);
+	for (Computer c : computers) {
+	    computersDTO.add(MapperDTO.ComputerToDTO(c));
+	}
+	countComputers = cs.count();
+
+    }
 
     public int getNum() {
-        return num;
+	return num;
     }
-
 
     public void setNum(int num) {
-        this.num = num;
+	this.num = num;
     }
-
 
     public int getOffset() {
-        return offset;
+	return offset;
     }
-
 
     public void setOffset(int offset) {
-        this.offset = offset;
+	this.offset = offset;
     }
-
 
     public List<ComputerDTO> getComputersDTO() {
-        return computersDTO;
+	return computersDTO;
     }
-
 
     public void setComputers(List<ComputerDTO> computersDTO) {
-        this.computersDTO = computersDTO;
+	this.computersDTO = computersDTO;
     }
-
 
     @Override
     public int hashCode() {
@@ -83,7 +74,6 @@ public class Page {
 	result = prime * result + offset;
 	return result;
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -106,7 +96,6 @@ public class Page {
 	return true;
     }
 
-
     @Override
     public String toString() {
 	return "Page [num=" + num + ", offset=" + offset + ", computers="
@@ -114,31 +103,31 @@ public class Page {
     }
 
     public int getCountComputers() {
-        return countComputers;
+	return countComputers;
     }
 
     public void setCountComputers(int countComputers) {
-        this.countComputers = countComputers;
+	this.countComputers = countComputers;
     }
 
     public int getBegin() {
-        return begin;
+	return begin;
     }
 
     public void setBegin(int begin) {
-        this.begin = begin;
+	this.begin = begin;
     }
 
     public int getEnd() {
-        return end;
+	return end;
     }
 
     public void setEnd(int end) {
-        this.end = end;
+	this.end = end;
     }
 
     public void setComputersDTO(List<ComputerDTO> computersDTO) {
-        this.computersDTO = computersDTO;
+	this.computersDTO = computersDTO;
     }
 
 }

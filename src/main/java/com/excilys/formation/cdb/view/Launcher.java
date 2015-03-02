@@ -1,8 +1,8 @@
 package com.excilys.formation.cdb.view;
 
-
 /**
  * Launcher to execute the application with a console interface
+ * 
  * @author Gregori Tirsatine
  *
  */
