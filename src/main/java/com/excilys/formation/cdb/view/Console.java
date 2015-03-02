@@ -41,7 +41,7 @@ public class Console {
 	    displayMenu();
 	    String choice = sc.nextLine();
 
-	    if (Util.checkId(choice)) {
+	    if (Util.checkInt(choice)) {
 
 		switch (Integer.parseInt(choice)) {
 		case 1:
@@ -104,7 +104,7 @@ public class Console {
     private void displayComputerInfo(Scanner sc) {
 	System.out.println("Enter the computer's id : ");
 	String id = sc.nextLine();
-	if (Util.checkId(id)) {
+	if (Util.checkInt(id)) {
 	    Computer computer = computerService.find(Integer.parseInt(id));
 	    if (computer != null) {
 		System.out.println(computer);
@@ -141,8 +141,8 @@ public class Console {
 	System.out.println("ID of the Company :");
 	String idCompany = sc.nextLine();
 	Company company = null;
-	if (Util.checkId(idCompany)) {
-	    company = Util.getCompany(idCompany);
+	if (Util.checkInt(idCompany)) {
+	    //company = Util.getCompany(idCompany); VOIR POUR FAIRE AUTREMENT
 	}
 	computerService.create(name, introduced, discontinued, company);
 	System.out.println("Success : ");
@@ -156,7 +156,7 @@ public class Console {
     private void deleteComputer(Scanner sc) {
 	System.out.println("ID of computer :");
 	String id = sc.nextLine();
-	if (Util.checkId(id)) {
+	if (Util.checkInt(id)) {
 	    computerService.delete(Integer.parseInt(id));
 	} else {
 	    System.err.println("[Error : wrong Id format]");
@@ -171,7 +171,7 @@ public class Console {
     private void updateComputer(Scanner sc) {
 	System.out.println("ID of computer :");
 	String id = sc.nextLine();
-	if (Util.checkId(id)) {
+	if (Util.checkInt(id)) {
 	    Computer computer = computerService.find(Integer.parseInt(id));
 	    if (computer == null) {
 		System.out.println("This computer does not exist.");

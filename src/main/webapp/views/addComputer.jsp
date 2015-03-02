@@ -25,11 +25,11 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="./AddComputer" method="POST">
+                    <form action="./AddComputer" name="addform" method="POST">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" name = "computerName" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name = "computerName" placeholder="Computer name" >
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
@@ -49,14 +49,16 @@
                             </div>                  
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Add" class="btn btn-primary">
+                            <input type="submit" value="Add" class="btn btn-primary" id="add">
                             or
-                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
+                            <a href="dashboard.jsp" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+    <script src="js/jquery.min.js"></script>
+   <script src="js/addcomputer.js"></script>
 </body>
 </html>

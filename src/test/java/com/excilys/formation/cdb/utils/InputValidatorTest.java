@@ -10,10 +10,10 @@ public class InputValidatorTest {
 
     @Test
     public void testIsInt() {
-	assertFalse(Util.checkId("3.12"));
-	assertTrue(Util.checkId("0"));
-	assertFalse(Util.checkId("test"));
-	assertFalse(Util.checkId(null));
+	assertFalse(Util.checkInt("3.12"));
+	assertTrue(Util.checkInt("0"));
+	assertFalse(Util.checkInt("test"));
+	assertFalse(Util.checkInt(null));
     }
 
     @Test

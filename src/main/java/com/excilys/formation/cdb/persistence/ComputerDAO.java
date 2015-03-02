@@ -275,7 +275,6 @@ public class ComputerDAO {
 	} finally {
 	    ConnectionDAO.close();
 	}
-
 	return computers;
     }
 
