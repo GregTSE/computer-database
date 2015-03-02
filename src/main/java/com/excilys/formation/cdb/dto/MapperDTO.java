@@ -14,7 +14,7 @@ public class MapperDTO {
     public static ComputerDTO ComputerToDTO(Computer computer) {
 	String introduced = (computer.getDateIntroduced() != null) ? computer.getDateIntroduced().toString() : "";
 	String discontinued = (computer.getDateDiscontinued() != null) ? computer.getDateDiscontinued().toString() : "";
-	return new ComputerDTO(computer.getId(), computer.getName(), introduced, discontinued, computer.getCompany());
+	return new ComputerDTO(computer.getId(), computer.getName(), introduced, discontinued, computer.getCompany().getId(), computer.getCompany().getName());
     }
 
     // public dtoToComputer(ComputerDTO cDTO) {
