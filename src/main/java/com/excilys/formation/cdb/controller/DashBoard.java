@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.model.Page;
+import com.excilys.formation.cdb.service.ComputerService;
 import com.excilys.formation.cdb.utils.Util;
 
 /**
@@ -60,8 +61,17 @@ public class DashBoard extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	// TODO Auto-generated method stub
-
+	String[] res = request.getParameterValues("selection");
+	String[] res2 = res[0].split(",");
+	ComputerService cs = new ComputerService();
+	for (String checkedId :  res2) {
+	 cs.delete(Integer.parseInt(checkedId));
+	} 
+	System.out.println("Voila, voila...");
+	Page p = new Page(1, 10, "");
+	
+	request.setAttribute("page", p);
+	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
     }
 
 }

@@ -6,6 +6,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +22,7 @@
 <link href="${request.getContextPath()}css/main.css" rel="stylesheet"
 	media="screen">
 </head>
+
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -31,9 +33,10 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${page.countComputers} Computers found</h1>
+			<h1 id="homeTitle">${page.countComputers}Computersfound</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
+
 					<form id="searchForm" action="./DashBoard" method="GET"
 						class="form-inline">
 
@@ -42,16 +45,20 @@
 							type="submit" id="searchsubmit" value="Filter by name"
 							class="btn btn-primary" />
 					</form>
+
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="./AddComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="./AddComputer">
+						Add Computer
+					</a>
+					<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
+						Edit
+					</a>
 				</div>
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="./DashBoard" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -83,9 +90,9 @@
 					<c:forEach var="computer" items="${page.computersDTO}">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="0"></td>
+								class="cb" value="${computer.id}"></td>
 
-							<td><a href="./views/editComputer.jsp" onclick="">${computer.name}</a>
+							<td><a href="./EditComputer" onclick="">${computer.name}</a>
 							</td>
 							<td>${computer.dateIntroduced}</td>
 							<td>${computer.dateDiscontinued}</td>
@@ -100,13 +107,13 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<form action="./DashBoard" Method="GET">
-				<input type="submit" name="offset" value="10" /> <input
-					type="submit" name="offset" value="50" /> <input type="submit"
+				<input type="submit" name="offset" value="10" />
+				<input type="submit" name="offset" value="50" /> <input type="submit"
 					name="offset" value="100" />
 			</form>
 		</div>
 
-		<div class="container text-center"> 
+		<div class="container text-center">
 			<ul class="pagination">
 				<li><a
 					href="./DashBoard?index=${page.num-1}&offset=${page.offset}&search=${page.word}"
@@ -114,7 +121,8 @@
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
 					<c:if test="${ page.computersByPage > 0 }">
-						<li><a href="./DashBoard?index=${index}&offset=${page.offset}&search=${page.word}">
+						<li><a
+							href="./DashBoard?index=${index}&offset=${page.offset}&search=${page.word}">
 								<c:if test="${ index == page.num }">
 									<b>
 								</c:if> ${index} <c:if test="${ index == page.num }">
