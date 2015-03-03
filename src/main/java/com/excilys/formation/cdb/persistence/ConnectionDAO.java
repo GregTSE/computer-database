@@ -6,43 +6,35 @@ import java.sql.Connection;
 
 import com.excilys.formation.cdb.exception.ConnectionException;
 
-//public enum Example{
-//    INSTANCE;
-//
-//    public static Example getInstance(){
-//         return Example.INSTANCE;
-//    }
-public class ConnectionDAO {
+public enum ConnectionDAO {
 
-	private static Connection connection = null;
+    INSTANCE;
 
-	private ConnectionDAO() throws ConnectionException {
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
-			String user = "admincdb";
-			String passwd = "qwerty1234";
-			connection = DriverManager.getConnection(url, user, passwd);
-		} catch (Exception e) {
-			throw new ConnectionException("Database cannot be opened");
-		}
-	}
+    private String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
+    private String user = "admincdb";
+    private String passwd = "qwerty1234";
+    public Connection connection;
 
-	public static Connection getInstance() throws ConnectionException, SQLException {
-		if (connection == null || connection.isClosed()) {
-			new ConnectionDAO(); 
-		}
-		return connection;
+    private ConnectionDAO() {
+	try {
+	    Class.forName("com.mysql.jdbc.Driver");
+	} catch (Exception e) {
+	    throw new ConnectionException("Database cannot be opened");
 	}
-	
-	public static void close() throws ConnectionException{
-	    try {
-			if (connection != null && !connection.isClosed()) {
-				connection.close();
-		    }  
-	    } catch (SQLException e) {
-	    	throw new ConnectionException("Database cannot be closed");
-	    }	
+    }
+
+    public void init() throws ConnectionException, SQLException {
+	if (connection == null || connection.isClosed()) {
+	    connection = DriverManager.getConnection(url, user, passwd);
 	}
+    }
+
+    public void close() throws ConnectionException {
+	try {
+	    connection.close();
+	} catch (SQLException e) {
+	    throw new ConnectionException("Database cannot be closed");
+	}
+    }
 
 }
