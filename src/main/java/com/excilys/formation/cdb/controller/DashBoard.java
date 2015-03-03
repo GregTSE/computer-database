@@ -27,11 +27,9 @@ public class DashBoard extends HttpServlet {
     }
 
     /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request,
-	    HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	int offset = 10;
 	int index = 1;
 
@@ -54,17 +52,14 @@ public class DashBoard extends HttpServlet {
 	Page p = new Page(index, offset, word);
 	
 	request.setAttribute("page", p);
-	getServletContext().getRequestDispatcher("/views/dashboard.jsp")
-		.forward(request, response);
+	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 
     }
 
     /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request,
-	    HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	// TODO Auto-generated method stub
 
     }

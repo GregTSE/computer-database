@@ -114,7 +114,7 @@
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
 					<c:if test="${ page.computersByPage > 0 }">
-						<li><a href="./DashBoard?index=${index}&offset=${page.offset}">
+						<li><a href="./DashBoard?index=${index}&offset=${page.offset}&search=${page.word}">
 								<c:if test="${ index == page.num }">
 									<b>
 								</c:if> ${index} <c:if test="${ index == page.num }">
