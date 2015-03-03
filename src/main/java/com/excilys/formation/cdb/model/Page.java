@@ -17,6 +17,7 @@ public class Page {
     private List<ComputerDTO> computersDTO;
     private int countComputers;
     private int computersByPage;
+    private String word;
 
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 
@@ -38,6 +39,7 @@ public class Page {
 	} else {
 	    computers = cs.search(word , (num - 1) * offset, offset);
 	}
+	this.word = word;
 	for (Computer c : computers) {
 	    computersDTO.add(MapperDTO.ComputerToDTO(c));
 	}
@@ -146,6 +148,14 @@ public class Page {
 
     public void setComputersByPage(int computerByPage) {
 	this.computersByPage = computerByPage;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
 }

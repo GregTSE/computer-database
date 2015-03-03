@@ -109,7 +109,7 @@
 		<div class="container text-center"> 
 			<ul class="pagination">
 				<li><a
-					href="./DashBoard?index=${page.num-1}&offset=${page.offset}"
+					href="./DashBoard?index=${page.num-1}&offset=${page.offset}&search=${page.word}"
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">

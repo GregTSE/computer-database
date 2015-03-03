@@ -19,17 +19,27 @@ public enum ConnectionDAO {
 	try {
 	    Class.forName("com.mysql.jdbc.Driver");
 	} catch (Exception e) {
-	    throw new ConnectionException("Database cannot be opened");
+	    throw new ConnectionException("Driver JDBC cannot be loaded");
 	}
     }
 
-    public void init() throws ConnectionException, SQLException {
-	if (connection == null || connection.isClosed()) {
-	    connection = DriverManager.getConnection(url, user, passwd);
+    /**
+     * Initialize the connection
+     */
+    public void init() {
+	try {
+        	if (connection == null || connection.isClosed()) {
+        	    connection = DriverManager.getConnection(url, user, passwd);
+        	}
+	} catch (SQLException sqle){
+	    throw new ConnectionException("Connection cannot be initialized");
 	}
     }
 
-    public void close() throws ConnectionException {
+    /**
+     * Close the connection
+     */
+    public void close() {
 	try {
 	    connection.close();
 	} catch (SQLException e) {

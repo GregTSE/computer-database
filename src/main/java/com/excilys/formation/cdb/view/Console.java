@@ -209,7 +209,7 @@ public class Console {
      * Close the application
      */
     private void closeConnection() {
-	ConnectionDAO.close();
+	ConnectionDAO.INSTANCE.close();
 	System.out.println("Application closed.");
     }
 

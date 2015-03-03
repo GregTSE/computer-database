@@ -18,7 +18,4 @@ public class CompanyService {
 	return companyDAO.findAll();
     }
 
-    public Company find(Long id) {
-	return companyDAO.find(id);
-    }
 }
