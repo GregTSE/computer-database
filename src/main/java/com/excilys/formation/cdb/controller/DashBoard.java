@@ -61,13 +61,17 @@ public class DashBoard extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	String[] res = request.getParameterValues("selection");
-	String[] res2 = res[0].split(",");
+	String[] checkedComputersId = null;
+	if (request.getParameter("selection") != null) {
+	    if (request.getParameter("selection").length() > 0) {
+		checkedComputersId =  request.getParameter("selection").split(",");
+	    }
+	}
+	
 	ComputerService cs = new ComputerService();
-	for (String checkedId :  res2) {
+	for (String checkedId :  checkedComputersId) {
 	 cs.delete(Integer.parseInt(checkedId));
 	} 
-	System.out.println("Voila, voila...");
 	Page p = new Page(1, 10, "");
 	
 	request.setAttribute("page", p);

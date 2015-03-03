@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.model.Page;
-import com.excilys.formation.cdb.service.ComputerService;
-import com.excilys.formation.cdb.utils.Util;
 
 /**
- * @author excilys
+ * @author GregTSE
  *
  */
 @WebServlet("/EditComputer")
@@ -43,7 +41,6 @@ public class EditComputer extends HttpServlet {
 	request.setAttribute("page", p);
 	getServletContext().getRequestDispatcher("/views/editComputer.jsp")
 		.forward(request, response);
-
     }
 
     /**
@@ -52,7 +49,10 @@ public class EditComputer extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-
+	String name = request.getParameter("computerName");
+	String introduced = request.getParameter("introduced");
+	String discontinued = request.getParameter("discontinued");
+	String companyId = request.getParameter("companyId");
 	Page p = new Page(1, 10, "");
 
 	request.setAttribute("page", p);
