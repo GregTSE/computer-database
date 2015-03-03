@@ -238,15 +238,17 @@ public class ComputerDAO {
 	}
     }
 
-    public List<Computer> search(String str) {
+    public List<Computer> search(String str, int num, int offset) {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ?";
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
 	try {
 	    pstmt = ConnectionDAO.getInstance().prepareStatement(query);
 	    pstmt.setString(1, str + '%');
+	    pstmt.setInt(2, num);
+	    pstmt.setInt(3, offset);
 	    results = pstmt.executeQuery();
 
 	    while (results.next()) {

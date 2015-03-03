@@ -34,7 +34,7 @@
 			<h1 id="homeTitle">${page.countComputers} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="./Filter" method="GET"
+					<form id="searchForm" action="./DashBoard" method="GET"
 						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
@@ -44,7 +44,7 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="./ToAddComputer">Add
+					<a class="btn btn-success" id="addComputer" href="./AddComputer">Add
 						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -89,7 +89,7 @@
 							</td>
 							<td>${computer.dateIntroduced}</td>
 							<td>${computer.dateDiscontinued}</td>
-							<td>${computer.company.name}</td>
+							<td>${computer.companyName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -106,20 +106,22 @@
 			</form>
 		</div>
 
-		<div class="container text-center">
+		<div class="container text-center"> 
 			<ul class="pagination">
 				<li><a
-					href="./DashBoard?index=${page.num+1}&offset=${page.offset}"
+					href="./DashBoard?index=${page.num-1}&offset=${page.offset}"
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
 				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
-					<li><a href="./DashBoard?index=${index}&offset=${page.offset}">
-							<c:if test="${ index == page.num }">
-								<b>
-							</c:if> ${index} <c:if test="${ index == page.num }">
-								</b>
-							</c:if>
-					</a></li>
+					<c:if test="${ page.computersByPage > 0 }">
+						<li><a href="./DashBoard?index=${index}&offset=${page.offset}">
+								<c:if test="${ index == page.num }">
+									<b>
+								</c:if> ${index} <c:if test="${ index == page.num }">
+									</b>
+								</c:if>
+						</a></li>
+					</c:if>
 				</c:forEach>
 				<li><a
 					href="./DashBoard?index=${page.num+1}&offset=${page.offset}"
@@ -127,8 +129,6 @@
 				</a></li>
 			</ul>
 		</div>
-
-
 
 	</footer>
 

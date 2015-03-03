@@ -16,14 +16,15 @@ public class Page {
     private int offset;
     private List<ComputerDTO> computersDTO;
     private int countComputers;
+    private int computersByPage;
 
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 
     public Page() {
 	super();
     }
-
-    public Page(int num, int offset) {
+    
+    public Page(int num, int offset, String word) {
 	ComputerService cs = new ComputerService();
 	this.num = num;
 	this.numGroup = (num - 1) / NB_OF_DISPLAYED_PAGES;
@@ -31,13 +32,22 @@ public class Page {
 	this.end = (begin + NB_OF_DISPLAYED_PAGES - 1);
 	this.offset = offset;
 	this.computersDTO = new ArrayList<ComputerDTO>();
-
-	List<Computer> computers = cs.findAll((num - 1) * offset, offset);
+	List<Computer> computers;
+	if (word.equals("")) {
+	    computers = cs.findAll((num - 1) * offset, offset);
+	} else {
+	    computers = cs.search(word , (num - 1) * offset, offset);
+	}
 	for (Computer c : computers) {
 	    computersDTO.add(MapperDTO.ComputerToDTO(c));
 	}
+	this.computersByPage = computersDTO.size();
 	countComputers = cs.count();
 
+    }
+
+    public Page(int num, int offset) {
+	this(num, offset, "");
     }
 
     public int getNum() {
@@ -128,6 +138,14 @@ public class Page {
 
     public void setComputersDTO(List<ComputerDTO> computersDTO) {
 	this.computersDTO = computersDTO;
+    }
+
+    public int getComputersByPage() {
+	return computersByPage;
+    }
+
+    public void setComputersByPage(int computerByPage) {
+	this.computersByPage = computerByPage;
     }
 
 }

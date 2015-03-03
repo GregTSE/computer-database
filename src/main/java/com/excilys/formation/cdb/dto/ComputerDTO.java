@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.dto;
 
-import com.excilys.formation.cdb.model.Company;
 
 public class ComputerDTO {
 
@@ -22,6 +21,7 @@ public class ComputerDTO {
 	this.dateIntroduced = dateIntroduced;
 	this.dateDiscontinued = dateDiscontinued;
 	this.companyId = companyId;
+	this.companyName = companyName;
     }
 
     public long getId() {

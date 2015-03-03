@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.CompanyService;
 import com.excilys.formation.cdb.service.ComputerService;
 import com.excilys.formation.cdb.utils.Util;
@@ -25,6 +26,7 @@ public class AddComputer extends HttpServlet {
     private static final String INTRODUCED = "introduced";
     private static final String DISCONTINUED = "discontinued";
     private static final String COMPANY_ID = "companyId";
+    private static final String COMPANY_NAME = "companyName";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,8 +39,7 @@ public class AddComputer extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
-    protected void doGet(HttpServletRequest request,
-	    HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	CompanyService companyService = new CompanyService();
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
@@ -66,9 +67,9 @@ public class AddComputer extends HttpServlet {
 	    introduced = null;
 	}
 
-	request.setAttribute("computerName", name);
-	request.setAttribute("introduced", introduced);
-	request.setAttribute("discontinued", discontinued);
+	request.setAttribute(COMPUT_NAME, name);
+	request.setAttribute(INTRODUCED, introduced);
+	request.setAttribute(DISCONTINUED, discontinued);
 
 	Company company = new Company(Long.parseLong(companyId), name);
 	request.setAttribute("company", company);
@@ -78,8 +79,12 @@ public class AddComputer extends HttpServlet {
 	ComputerService computerService = new ComputerService();
 	computerService.create(name, introduced, discontinued, company);
 
+	Page p = new Page(1, 10);
+
+	request.setAttribute("page", p);
+	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 	// redirection
-	response.sendRedirect("./DashBoard");
+	//response.sendRedirect("./DashBoard");
     }
 
 }

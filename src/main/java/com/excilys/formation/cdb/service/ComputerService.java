@@ -39,8 +39,8 @@ public class ComputerService {
 	computerDAO.update(computer);
     }
 
-    public List<Computer> search(String str) {
-	return computerDAO.search(str);
+    public List<Computer> search(String str, int num, int offset) {
+	return computerDAO.search(str, num, offset);
     }
 
     public int count() {

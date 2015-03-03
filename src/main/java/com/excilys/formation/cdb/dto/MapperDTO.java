@@ -1,8 +1,8 @@
 package com.excilys.formation.cdb.dto;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
+import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 
 public class MapperDTO {
@@ -11,18 +11,38 @@ public class MapperDTO {
 	super();
     }
 
+    /**
+     * Build the  DTO equivalent to the object
+     * @param computer
+     * @return ComputerDTO
+     */
     public static ComputerDTO ComputerToDTO(Computer computer) {
 	String introduced = (computer.getDateIntroduced() != null) ? computer.getDateIntroduced().toString() : "";
 	String discontinued = (computer.getDateDiscontinued() != null) ? computer.getDateDiscontinued().toString() : "";
-	return new ComputerDTO(computer.getId(), computer.getName(), introduced, discontinued, computer.getCompany().getId(), computer.getCompany().getName());
+	String companyName = "";
+	int companyId = 0;
+	
+	if (computer.getCompany() != null) {
+	    companyName = computer.getCompany().getName();
+	    companyId = computer.getCompany().getId().intValue();
+	}
+
+	return new ComputerDTO(computer.getId(), computer.getName(), introduced, discontinued, companyId, companyName);
     }
 
-    // public dtoToComputer(ComputerDTO cDTO) {
-    //
-    // LocalDate introduced = LocalDate.parse(cDTO.getDateIntroduced());
-    // LocalDate discontinued = LocalDate.parse(cDTO.getDateDiscontinued());
-    // return new Computer(cDTO.getId(), cDTO.getName(), new
-    // cDTO.getDateIntroduced())
-    // }
+    /**
+     * Build the object equivalent to the DTO
+     * @param computerDTO
+     * @return computer
+     */
+    public Computer dtoToComputer(ComputerDTO computerDTO) {
 
+	String introduced = computerDTO.getDateIntroduced();
+	String discontinued = computerDTO.getDateDiscontinued();
+
+	LocalDate introducedDate = (introduced.equals("")) ? null : LocalDate.parse(introduced);
+	LocalDate discontinuedDate = (introduced.equals("")) ? null : LocalDate.parse(discontinued);
+	Company company = (computerDTO.getCompanyId() == 0) ? null : new Company(computerDTO.getCompanyId(), computerDTO.getCompanyName());
+	return new Computer(computerDTO.getId(), computerDTO.getName(), introducedDate,discontinuedDate, company);
+    }
 }

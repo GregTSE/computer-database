@@ -45,22 +45,18 @@ public class DashBoard extends HttpServlet {
 	if (Util.checkInt(strOffset)) {
 	    offset = Integer.parseInt(strOffset);
 	}
+	
+	String word = request.getParameter("search");
+	if(word == null) {
+	    word = "";
+	}
 
-	Page p = new Page(index, offset);
-
+	Page p = new Page(index, offset, word);
+	
 	request.setAttribute("page", p);
-	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+	getServletContext().getRequestDispatcher("/views/dashboard.jsp")
+		.forward(request, response);
 
-	// } else {
-	//
-	// ComputerService computerService = new ComputerService();
-	// List<Computer> computers = new ArrayList<Computer>();
-	// computers = computerService.findAll();
-	//
-	// request.setAttribute("computers", computers);
-	// getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request,
-	// response);
-	// }
     }
 
     /**
