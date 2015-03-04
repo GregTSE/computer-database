@@ -1,10 +1,14 @@
 package com.excilys.formation.cdb.persistence;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 
 public class CompanyDAO {
@@ -22,10 +26,10 @@ public class CompanyDAO {
 	ArrayList<Company> companies = new ArrayList<Company>();
 	String query = "SELECT * FROM company";
 	ResultSet results;
-
+	Connection connection = null; 
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    Statement stmt = ConnectionDAO.INSTANCE.connection.createStatement();
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    Statement stmt = connection.createStatement();
 	    results = stmt.executeQuery(query);
 
 	    while (results.next()) {
@@ -38,7 +42,19 @@ public class CompanyDAO {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (!connection.isClosed()) {
+		    try {
+			connection.close();
+		    } catch (SQLException e) {
+			throw new ConnectionException(
+				"Connection cannot be closed");
+		    }
+		}
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
 
 	return companies;
@@ -62,4 +78,39 @@ public class CompanyDAO {
 //	return c;
 //
 //    }
+    
+    public void delete(Long id) {
+	ComputerDAO computerDAO = new ComputerDAO();
+	computerDAO.deleteByCompany(id);
+	String query = "DELETE FROM company WHERE id=?";
+	Connection connection = null;
+	try {
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    connection.setAutoCommit(false);
+	    computerDAO.deleteByCompany(id);
+	    PreparedStatement pstmt = connection.prepareStatement(query);
+	    pstmt.setLong(1, id);
+	    pstmt.executeUpdate();
+	    connection.commit();
+	    
+	} catch (SQLException e) {
+	    try {
+		connection.rollback();
+	    } catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	    }
+	    e.printStackTrace();
+	}
+	finally {
+	    try {
+		connection.setAutoCommit(true);
+		connection.close();
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
+	}
+	
+	
+    }
 }

@@ -36,9 +36,9 @@ public class EditComputer extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 
-	Page p = new Page(1, 10, "");
-
-	request.setAttribute("page", p);
+//	Page p = new Page(1, 10, "");
+//
+//	request.setAttribute("page", p);
 	getServletContext().getRequestDispatcher("/views/editComputer.jsp")
 		.forward(request, response);
     }
@@ -53,9 +53,9 @@ public class EditComputer extends HttpServlet {
 	String introduced = request.getParameter("introduced");
 	String discontinued = request.getParameter("discontinued");
 	String companyId = request.getParameter("companyId");
-	Page p = new Page(1, 10, "");
+	//Page p = new Page(1, 10, "");
 
-	request.setAttribute("page", p);
+	//request.setAttribute("page", p);
 	getServletContext().getRequestDispatcher("/views/editComputer.jsp")
 		.forward(request, response);
     }

@@ -63,7 +63,9 @@ public class Console {
 		    updateComputer(sc);
 		    break;
 		case 7:
-		    closeConnection();
+		    deleteCompany(sc);
+		    break;
+		case 8:
 		    sc.close();
 		    stopApp = true;
 		    break;
@@ -204,6 +206,16 @@ public class Console {
 	    System.out.println("[ID must be an integer]");
 	}
     }
+    
+    public void deleteCompany(Scanner sc){
+	
+	System.out.println("Enter the company ID : ");
+	String id = sc.nextLine();
+	
+	if (Util.checkInt(id)) {
+	    companyService.delete(Long.parseLong(id));
+	}
+    }
 
     /**
      * Close the application
@@ -224,6 +236,7 @@ public class Console {
 	System.out.println("4 - Insert a computer");
 	System.out.println("5 - Delete a computer");
 	System.out.println("6 - Update a computer");
-	System.out.println("7 - Quit");
+	System.out.println("7 - Delete a company");
+	System.out.println("8 - Quit");
     }
 }

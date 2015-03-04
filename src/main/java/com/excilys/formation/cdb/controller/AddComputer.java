@@ -79,12 +79,10 @@ public class AddComputer extends HttpServlet {
 	ComputerService computerService = new ComputerService();
 	computerService.create(name, introduced, discontinued, company);
 
-	Page p = new Page(1, 10);
 
-	request.setAttribute("page", p);
+//	request.setAttribute("page", page);
 	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
-	// redirection
-	//response.sendRedirect("./DashBoard");
+
     }
 
 }

@@ -42,8 +42,10 @@ public class ComputerService {
     public List<Computer> search(String str, int num, int offset) {
 	return computerDAO.search(str, num, offset);
     }
+    
 
-    public int count() {
-	return computerDAO.count();
+    public int count(String word) {
+	return computerDAO.count(word);
     }
+    
 }

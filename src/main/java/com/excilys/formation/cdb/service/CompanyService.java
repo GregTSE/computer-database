@@ -17,5 +17,9 @@ public class CompanyService {
     public List<Company> findAll() {
 	return companyDAO.findAll();
     }
+    
+    public void delete(Long id) {
+	companyDAO.delete(id);
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.excilys.formation.cdb.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -16,7 +18,7 @@ public class MapperDTO {
      * @param computer
      * @return ComputerDTO
      */
-    public static ComputerDTO ComputerToDTO(Computer computer) {
+    public static ComputerDTO computerToDTO(Computer computer) {
 	String introduced = (computer.getDateIntroduced() != null) ? computer.getDateIntroduced().toString() : "";
 	String discontinued = (computer.getDateDiscontinued() != null) ? computer.getDateDiscontinued().toString() : "";
 	String companyName = "";
@@ -28,6 +30,14 @@ public class MapperDTO {
 	}
 
 	return new ComputerDTO(computer.getId(), computer.getName(), introduced, discontinued, companyId, companyName);
+    }
+    
+    public static List<ComputerDTO> computersToDTO(List<Computer> computers){
+	List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
+	for (Computer computer : computers) {
+	    computersDTO.add(computerToDTO(computer));
+	}
+	return computersDTO;
     }
 
     /**

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="p" tagdir="/WEB-INF/tags/" %>
 
 
 <!DOCTYPE html>
@@ -33,7 +35,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${page.countComputers}Computersfound</h1>
+			<h1 id="homeTitle">${computersFound} <page:pagination firstNum="1" secondNum="2"></page:pagination> Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 
@@ -114,28 +116,7 @@
 		</div>
 
 		<div class="container text-center">
-			<ul class="pagination">
-				<li><a
-					href="./DashBoard?index=${page.num-1}&offset=${page.offset}&search=${page.word}"
-					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-				</a></li>
-				<c:forEach var="index" begin="${page.begin}" end="${page.end}">
-					<c:if test="${ page.computersByPage > 0 }">
-						<li><a
-							href="./DashBoard?index=${index}&offset=${page.offset}&search=${page.word}">
-								<c:if test="${ index == page.num }">
-									<b>
-								</c:if> ${index} <c:if test="${ index == page.num }">
-									</b>
-								</c:if>
-						</a></li>
-					</c:if>
-				</c:forEach>
-				<li><a
-					href="./DashBoard?index=${page.num+1}&offset=${page.offset}"
-					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
+			<p:pagination page="${page}"></p:pagination>
 		</div>
 
 	</footer>

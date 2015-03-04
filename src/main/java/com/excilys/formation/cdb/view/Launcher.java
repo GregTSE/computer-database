@@ -12,10 +12,8 @@ public class Launcher {
 
     public static void main(String[] args) {
 	Console console = new Console();
-	//console.start();
-	
-	DateValidator dateValidator = DateValidator.getInstance();
-	System.out.println(dateValidator.isValid("2000r-12-31", "yyyy-MM-dd"));
+	console.start();
+
     }
 
 }

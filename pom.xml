@@ -67,10 +67,9 @@
 		<dependency>
 			<groupId>com.jolbox</groupId>
 			<artifactId>bonecp</artifactId>
-			<version>0.8.0-rc3</version>
+			<version>0.8.0.RELEASE</version>
 		</dependency>
-
-
+	
 	</dependencies>
 
 	<reporting>

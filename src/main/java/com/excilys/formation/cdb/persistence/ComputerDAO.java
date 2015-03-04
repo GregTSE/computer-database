@@ -1,5 +1,6 @@
 package com.excilys.formation.cdb.persistence;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 
@@ -18,7 +20,7 @@ public class ComputerDAO {
 	super();
     }
 
-    /***  METHODS FOR CLI ***/
+    /*** METHODS FOR CLI ***/
 
     /**
      * Build an object Computer and fill the fields with the informations from
@@ -31,43 +33,61 @@ public class ComputerDAO {
     public Computer find(int id) {
 
 	Computer computer = null;
+	Connection connection = null;
+
 	String query = "SELECT comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id"
 		+ "WHERE comput.id=?";
+
 	ResultSet results;
+
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    PreparedStatement preparedStmt = ConnectionDAO.INSTANCE.connection.prepareStatement(query);
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setInt(1, id);
 	    results = preparedStmt.executeQuery();
 	    Company company = null;
-	    
+
 	    if (results.first()) {
 		Long idCompany = results.getLong(4);
-		
+
 		if (idCompany != null) {
 		    company = new Company(idCompany, results.getString(5));
 		}
-		
+
 		Timestamp introducedTS = results.getTimestamp(2);
 		LocalDate introduced = null, discontinued = null;
 		Timestamp discontinuedTS = results.getTimestamp(3);
-		
+
 		if (introducedTS != null) {
 		    introduced = introducedTS.toLocalDateTime().toLocalDate();
 		}
-		
+
 		if (discontinuedTS != null) {
-		    discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
+		    discontinued = discontinuedTS.toLocalDateTime()
+			    .toLocalDate();
 		}
 
-		computer = new Computer(new Long(id), results.getString(1), introduced, discontinued, company);
+		computer = new Computer(new Long(id), results.getString(1),
+			introduced, discontinued, company);
 	    }
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();  
+	    try {
+		if (!connection.isClosed()) {
+		    try {
+			connection.close();
+		    } catch (SQLException e) {
+			throw new ConnectionException(
+				"Connection cannot be closed");
+		    }
+		}
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
 	return computer;
     }
@@ -79,52 +99,59 @@ public class ComputerDAO {
      */
     public List<Computer> findAll() {
 
+	Connection connection = null;
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name " 
-	+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id";
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
+		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id";
 	ResultSet results;
 
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    Statement stmt = ConnectionDAO.INSTANCE.connection.createStatement();
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    Statement stmt = connection.createStatement();
 
 	    results = stmt.executeQuery(query);
 
 	    while (results.next()) {
 		Company company = null;
 		Long idCompany = results.getLong(5);
-		
+
 		if (idCompany > 0) {
 		    company = new Company(idCompany, results.getString(6));
 		}
-		
+
 		Timestamp introducedTS = results.getTimestamp(3);
 		LocalDate introduced = null, discontinued = null;
 		Timestamp discontinuedTS = results.getTimestamp(4);
-		
+
 		if (introducedTS != null)
 		    introduced = introducedTS.toLocalDateTime().toLocalDate();
-		
+
 		if (discontinuedTS != null) {
 		    discontinued = discontinuedTS.toLocalDateTime()
 			    .toLocalDate();
 		}
-		
-		computers.add(new Computer(results.getLong(1), results.getString(2), introduced, discontinued, company));
+
+		computers.add(new Computer(results.getLong(1), results
+			.getString(2), introduced, discontinued, company));
 	    }
 
 	} catch (Exception e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
 	}
 	return computers;
     }
 
-    
-    /***  METHODS FOR WEB-UI ***/
-    
+    /*** METHODS FOR WEB-UI ***/
+
     /**
      * Find computers whose ID is between num and num+offset
      * 
@@ -134,44 +161,53 @@ public class ComputerDAO {
      */
     public List<Computer> findAll(int num, int offset) {
 	ArrayList<Computer> computers = new ArrayList<Computer>();
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name " 
-			+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id LIMIT ?, ?";
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
+		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id LIMIT ?, ?";
 	ResultSet results = null;
+	Connection connection = null;
 
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    PreparedStatement pstmt = ConnectionDAO.INSTANCE.connection.prepareStatement(query);
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    PreparedStatement pstmt = connection.prepareStatement(query);
 	    pstmt.setInt(1, num);
 	    pstmt.setInt(2, offset);
 	    results = pstmt.executeQuery();
 
 	    while (results.next()) {
-		
+
 		Company company = null;
 		Long idCompany = results.getLong(5);
-		
+
 		if (idCompany > 0) {
 		    company = new Company(idCompany, results.getString(6));
 		}
-		
+
 		Timestamp introducedTS = results.getTimestamp(3);
 		LocalDate introduced = null, discontinued = null;
 		Timestamp discontinuedTS = results.getTimestamp(4);
-		
+
 		if (introducedTS != null)
 		    introduced = introducedTS.toLocalDateTime().toLocalDate();
-		
+
 		if (discontinuedTS != null) {
-		    discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
+		    discontinued = discontinuedTS.toLocalDateTime()
+			    .toLocalDate();
 		}
-		
-		computers.add(new Computer(results.getLong(1), results.getString(2), introduced, discontinued, company));
+
+		computers.add(new Computer(results.getLong(1), results
+			.getString(2), introduced, discontinued, company));
 	    }
 
 	} catch (Exception e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
 	}
 	return computers;
     }
@@ -182,17 +218,18 @@ public class ComputerDAO {
      * @param computer
      *            to insert in the database
      */
-    public void create(String name, String introduced, String discontinued, Company company) {
-	
+    public void create(String name, String introduced, String discontinued,
+	    Company company) {
+	Connection connection = null;
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
 
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    PreparedStatement preparedStmt = ConnectionDAO.INSTANCE.connection.prepareStatement(query);
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setString(2, introduced);
 	    preparedStmt.setString(3, discontinued);
-	    
+
 	    if (company != null) {
 		preparedStmt.setLong(4, company.getId());
 	    } else {
@@ -203,7 +240,13 @@ public class ComputerDAO {
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
 	}
     }
 
@@ -214,21 +257,23 @@ public class ComputerDAO {
      *            with new fields
      */
     public void update(Computer computer) {
-
+	Connection connection = null;
 	String name = computer.getName();
-	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced().toEpochDay());
-	Timestamp dateDiscontinued = new Timestamp(computer.getDateDiscontinued().toEpochDay());
+	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced()
+		.toEpochDay());
+	Timestamp dateDiscontinued = new Timestamp(computer
+		.getDateDiscontinued().toEpochDay());
 	String nameCompany = computer.getCompany().getName();
 	String query = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 	String queryCompanyId = "select * from computer where id=?";
 
 	try {
-	    ConnectionDAO.INSTANCE.init();
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    ResultSet rslt;
-	    PreparedStatement stmt0 = ConnectionDAO.INSTANCE.connection.prepareStatement(queryCompanyId);
+	    PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
 	    stmt0.setString(1, nameCompany);
 	    rslt = stmt0.executeQuery();
-	    PreparedStatement preparedStmt = ConnectionDAO.INSTANCE.connection.prepareStatement(query);
+	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setTimestamp(2, dateIntroduced);
 	    preparedStmt.setTimestamp(3, dateDiscontinued);
@@ -247,7 +292,13 @@ public class ComputerDAO {
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
 	}
     }
 
@@ -256,12 +307,12 @@ public class ComputerDAO {
      * 
      * @param id
      */
-    public void delete(int id) {
-	//@TODO use a preparedStatement
+    public void delete(long id) {
+	// @TODO use a preparedStatement
 	String query = "DELETE FROM computer WHERE id=" + id;
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    Statement stmt = ConnectionDAO.INSTANCE.connection.createStatement();
+	    Connection connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    Statement stmt = connection.createStatement();
 	    stmt.executeUpdate(query);
 	} catch (SQLException e) {
 	    e.printStackTrace();
@@ -270,6 +321,7 @@ public class ComputerDAO {
 
     /**
      * Search of computers which
+     * 
      * @param str
      * @param num
      * @param offset
@@ -281,9 +333,10 @@ public class ComputerDAO {
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
+	Connection connection = null;
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    pstmt = ConnectionDAO.INSTANCE.connection.prepareStatement(query);
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    pstmt = connection.prepareStatement(query);
 	    pstmt.setString(1, str + '%');
 	    pstmt.setInt(2, num);
 	    pstmt.setInt(3, offset);
@@ -313,32 +366,89 @@ public class ComputerDAO {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
 	}
 	return computers;
     }
 
-    public int count() {
-	String query = "SELECT COUNT(id) FROM computer";
+    public int count(String name) {
+	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
 	int result = 0;
-	Statement stmt;
+	PreparedStatement pstmt;
+	Connection connection = null;
 	try {
-	    ConnectionDAO.INSTANCE.init();
-	    stmt = ConnectionDAO.INSTANCE.connection.createStatement();
-	    ResultSet rslt = stmt.executeQuery(query);
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    pstmt = connection.prepareStatement(query);
+	    pstmt.setString(1, name + "%");
+	    ResultSet rslt = pstmt.executeQuery();
 	    if (rslt.first()) {
 		result = rslt.getInt(1);
 	    }
 	    rslt.close();
-	    stmt.close();
+	    pstmt.close();
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} finally {
-	    ConnectionDAO.INSTANCE.close();
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
 	}
 
 	return result;
+    }
+    
+    public List<Long> findByCompany(Long companyId) {
+	
+	List<Long> computersId = new ArrayList<Long>();
+	String query = "SELECT id FROM computer WHERE company_id = ?";
+	PreparedStatement pstmt;
+	Connection connection = null;
+	ResultSet results = null;
+	
+	try {
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    pstmt = connection.prepareStatement(query);
+	    pstmt.setLong(1, companyId);
+	    results = pstmt.executeQuery();
+
+	    while (results.next()) {
+		computersId.add(results.getLong(1));
+	    }
+	    pstmt.close();
+	    results.close();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    try {
+		if (connection != null && !connection.isClosed()) {
+			connection.close();
+		    }
+	    } catch (SQLException e) {
+		throw new ConnectionException("Connection cannot be closed");
+	    }
+	}
+	return computersId;
+    }
+    
+    public void deleteByCompany(Long id){
+	List<Long> computersId = findByCompany(id);
+	for (Long computerId : computersId) {
+	    delete(computerId);
+	    System.out.println("id : "+computerId + " supprimé!");
+	}
+	
     }
 
 }

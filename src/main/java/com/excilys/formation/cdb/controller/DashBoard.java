@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ComputerService;
 import com.excilys.formation.cdb.utils.Util;
@@ -19,12 +20,16 @@ import com.excilys.formation.cdb.utils.Util;
 public class DashBoard extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private ComputerService computerService;
+    private Page page;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
     public DashBoard() {
 	super();
+	page = new Page();
+	computerService = new ComputerService();
     }
 
     /**
@@ -50,31 +55,36 @@ public class DashBoard extends HttpServlet {
 	    word = "";
 	}
 
-	Page p = new Page(index, offset, word);
+	page.setPage(index, offset, word);
+	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search(word, index*offset, offset)));
 	
-	request.setAttribute("page", p);
+	request.setAttribute("page", page);
+	request.setAttribute("computersFound", computerService.count(word));
+	
 	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
-
     }
 
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 	String[] checkedComputersId = null;
+	
 	if (request.getParameter("selection") != null) {
 	    if (request.getParameter("selection").length() > 0) {
 		checkedComputersId =  request.getParameter("selection").split(",");
 	    }
 	}
 	
-	ComputerService cs = new ComputerService();
 	for (String checkedId :  checkedComputersId) {
-	 cs.delete(Integer.parseInt(checkedId));
-	} 
-	Page p = new Page(1, 10, "");
+	    computerService.delete(Integer.parseInt(checkedId));
+	}
 	
-	request.setAttribute("page", p);
+	page.init();
+	
+	request.setAttribute("page", page);
+	
 	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
     }
 
