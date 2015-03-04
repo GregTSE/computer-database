@@ -1,6 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-
-
 <%@ tag body-content="empty" %>
 <%@ attribute name="page" required="true" type="com.excilys.formation.cdb.model.Page" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
