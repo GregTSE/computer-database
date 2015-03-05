@@ -11,9 +11,6 @@ public class Page {
     private int offset;
     private String word;
     private List<ComputerDTO> computersDTO;
-
-    
-//    public int countComputers;
    
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 
