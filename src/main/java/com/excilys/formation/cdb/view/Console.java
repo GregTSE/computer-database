@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
-import com.excilys.formation.cdb.service.CompanyService;
-import com.excilys.formation.cdb.service.ComputerService;
+import com.excilys.formation.cdb.service.ICompanyService;
+import com.excilys.formation.cdb.service.IComputerService;
+import com.excilys.formation.cdb.service.implementation.CompanyService;
+import com.excilys.formation.cdb.service.implementation.ComputerService;
 import com.excilys.formation.cdb.utils.Util;
 
 /**
@@ -20,8 +21,8 @@ import com.excilys.formation.cdb.utils.Util;
 
 public class Console {
 
-    private ComputerService computerService;
-    private CompanyService companyService;
+    private IComputerService computerService;
+    private ICompanyService companyService;
 
     public Console() {
 	super();
@@ -217,13 +218,6 @@ public class Console {
 	}
     }
 
-    /**
-     * Close the application
-     */
-    private void closeConnection() {
-	ConnectionDAO.INSTANCE.close();
-	System.out.println("Application closed.");
-    }
 
     /**
      * Display the main menu

@@ -8,11 +8,8 @@ import com.excilys.formation.cdb.service.ICompanyService;
 
 public class CompanyService implements ICompanyService {
 
-    private CompanyDAO companyDAO;
-
     public CompanyService() {
 	super();
-	this.companyDAO = new CompanyDAO();
     }
 
     /* (non-Javadoc)
@@ -20,7 +17,7 @@ public class CompanyService implements ICompanyService {
      */
     @Override
     public List<Company> findAll() {
-	return companyDAO.findAll();
+	return CompanyDAO.INSTANCE.findAll();
     }
     
     /* (non-Javadoc)
@@ -28,7 +25,7 @@ public class CompanyService implements ICompanyService {
      */
     @Override
     public void delete(Long id) {
-	companyDAO.delete(id);
+	CompanyDAO.INSTANCE.delete(id);
     }
 
 }

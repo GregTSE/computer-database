@@ -1,8 +1,6 @@
 package com.excilys.formation.cdb.persistence;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Connection;
 
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.jolbox.bonecp.BoneCP;
@@ -33,28 +31,6 @@ public enum ConnectionDAO {
 	} 
     }
 
-    /**
-     * Initialize the connection
-     */
-    public void init() {
-//	try {
-//        	if (connection == null || connection.isClosed()) {
-//        	    connection = DriverManager.getConnection(url, user, passwd);
-//        	}
-//	} catch (SQLException sqle){
-//	    throw new ConnectionException("Connection cannot be initialized");
-//	}
-    }
 
-    /**
-     * Close the connection
-     */
-    public void close() {
-//	try {
-//	    connection.close();
-//	} catch (SQLException e) {
-//	    throw new ConnectionException("Database cannot be closed");
-//	}
-    }
 
 }

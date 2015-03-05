@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Page;
-import com.excilys.formation.cdb.service.CompanyService;
-import com.excilys.formation.cdb.service.ComputerService;
+import com.excilys.formation.cdb.service.ICompanyService;
+import com.excilys.formation.cdb.service.IComputerService;
+import com.excilys.formation.cdb.service.implementation.CompanyService;
+import com.excilys.formation.cdb.service.implementation.ComputerService;
 import com.excilys.formation.cdb.utils.Util;
 
 /**
@@ -40,7 +42,7 @@ public class AddComputer extends HttpServlet {
      *      response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	CompanyService companyService = new CompanyService();
+	ICompanyService companyService = new CompanyService();
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
 	request.setAttribute("companies", companies);
@@ -76,7 +78,7 @@ public class AddComputer extends HttpServlet {
 	// check fields !!!
 
 	// Add intto the db
-	ComputerService computerService = new ComputerService();
+	IComputerService computerService = new ComputerService();
 	computerService.create(name, introduced, discontinued, company);
 
 

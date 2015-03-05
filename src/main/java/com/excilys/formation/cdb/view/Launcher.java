@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.view;
 
-import org.apache.commons.validator.routines.DateValidator;
 
 /**
  * Launcher to execute the application with a console interface

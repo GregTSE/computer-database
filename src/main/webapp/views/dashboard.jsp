@@ -3,35 +3,10 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="p" tagdir="/WEB-INF/tags/" %>
-
-
-<!DOCTYPE html>
-<html>
-
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
 
 
 
-<!-- Bootstrap -->
-<link href="${request.getContextPath()}css/bootstrap.min.css"
-	rel="stylesheet" media="screen">
-<link href="${request.getContextPath()}css/font-awesome.css"
-	rel="stylesheet" media="screen">
-<link href="${request.getContextPath()}css/main.css" rel="stylesheet"
-	media="screen">
-</head>
-
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="./DashBoard"> Application -
-				Computer Database </a>
-		</div>
-	</header>
+<%@include file="header.jsp" %>
 
 	<section id="main">
 		<div class="container">
@@ -106,20 +81,7 @@
 		</div>
 	</section>
 
-	<footer class="navbar-fixed-bottom">
-		<div class="btn-group btn-group-sm pull-right" role="group">
-			<form action="./DashBoard" Method="GET">
-				<input type="submit" name="offset" value="10" />
-				<input type="submit" name="offset" value="50" /> <input type="submit"
-					name="offset" value="100" />
-			</form>
-		</div>
-
-		<div class="container text-center">
-			<p:pagination page="${page}"></p:pagination>
-		</div>
-
-	</footer>
+	<%@include file="footer.jsp" %>
 
 
 	<script src="js/jquery.min.js"></script>

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Page;
-import com.excilys.formation.cdb.service.ComputerService;
+import com.excilys.formation.cdb.service.IComputerService;
+import com.excilys.formation.cdb.service.implementation.ComputerService;
 import com.excilys.formation.cdb.utils.Util;
 
 /**
@@ -20,7 +21,7 @@ import com.excilys.formation.cdb.utils.Util;
 public class DashBoard extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private ComputerService computerService;
+    private IComputerService computerService;
     private Page page;
 
     /**

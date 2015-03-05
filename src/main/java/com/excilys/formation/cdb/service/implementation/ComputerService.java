@@ -9,11 +9,8 @@ import com.excilys.formation.cdb.service.IComputerService;
 
 public class ComputerService implements IComputerService {
 
-    private ComputerDAO computerDAO;
-
     public ComputerService() {
 	super();
-	this.computerDAO = new ComputerDAO();
     }
 
     /* (non-Javadoc)
@@ -21,7 +18,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public List<Computer> findAll() {
-	return computerDAO.findAll();
+	return ComputerDAO.INSTANCE.findAll();
     }
 
     /* (non-Javadoc)
@@ -29,7 +26,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public List<Computer> findAll(int num, int offset) {
-	return computerDAO.findAll(num, offset);
+	return ComputerDAO.INSTANCE.findAll(num, offset);
     }
 
     /* (non-Javadoc)
@@ -37,7 +34,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public Computer find(int id) {
-	return computerDAO.find(id);
+	return ComputerDAO.INSTANCE.find(id);
     }
 
     /* (non-Javadoc)
@@ -45,7 +42,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public void create(String name, String introduced, String discontinued, Company company) {
-	computerDAO.create(name, introduced, discontinued, company);
+	ComputerDAO.INSTANCE.create(name, introduced, discontinued, company);
     }
 
     /* (non-Javadoc)
@@ -53,7 +50,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public void delete(int id) {
-	computerDAO.delete(id);
+	ComputerDAO.INSTANCE.delete(id);
     }
 
     /* (non-Javadoc)
@@ -61,7 +58,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public void update(Computer computer) {
-	computerDAO.update(computer);
+	ComputerDAO.INSTANCE.update(computer);
     }
 
     /* (non-Javadoc)
@@ -69,7 +66,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public List<Computer> search(String str, int num, int offset) {
-	return computerDAO.search(str, num, offset);
+	return ComputerDAO.INSTANCE.search(str, num, offset);
     }
     
 
@@ -78,7 +75,7 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public int count(String word) {
-	return computerDAO.count(word);
+	return ComputerDAO.INSTANCE.count(word);
     }
     
 }

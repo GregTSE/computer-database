@@ -11,11 +11,9 @@ import java.util.List;
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 
-public class CompanyDAO {
+public enum CompanyDAO {
 
-    public CompanyDAO() {
-	super();
-    }
+    INSTANCE;
 
     /**
      * Find all companies
@@ -60,34 +58,14 @@ public class CompanyDAO {
 	return companies;
     }
 
-//    public Company find(Long id) {
-//	Company c = null;
-//	String query = "SELECT name FROM company WHERE id=" + id;
-//	try {
-//	    ConnectionDAO.INSTANCE.init();
-//	    Statement stmt = ConnectionDAO.INSTANCE.connection
-//		    .createStatement();
-//	    ResultSet rs = stmt.executeQuery(query);
-//
-//	} catch (SQLException e) {
-//	    // TODO Auto-generated catch block
-//	    e.printStackTrace();
-//	} finally {
-//	    ConnectionDAO.INSTANCE.close();
-//	}
-//	return c;
-//
-//    }
-    
     public void delete(Long id) {
-	ComputerDAO computerDAO = new ComputerDAO();
-	computerDAO.deleteByCompany(id);
+	ComputerDAO.INSTANCE.deleteByCompany(id);
 	String query = "DELETE FROM company WHERE id=?";
 	Connection connection = null;
 	try {
 	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    connection.setAutoCommit(false);
-	    computerDAO.deleteByCompany(id);
+	    ComputerDAO.INSTANCE.deleteByCompany(id);
 	    PreparedStatement pstmt = connection.prepareStatement(query);
 	    pstmt.setLong(1, id);
 	    pstmt.executeUpdate();
