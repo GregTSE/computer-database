@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.ComputerDAO;
+import com.excilys.formation.cdb.persistence.implementation.ComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 public class ComputerService implements IComputerService {
