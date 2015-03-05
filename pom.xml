@@ -21,6 +21,7 @@
 		<standard>1.1.2</standard>
 		<validator>1.4.0</validator>
 		<bonecp>0.8.0.RELEASE</bonecp>
+		<logback>1.1.2</logback>
 	</properties>
 		
 		
@@ -88,7 +89,14 @@
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>${jdbc}</version>
 			<scope>provided</scope>
-	</dependency>
+		</dependency>
+		
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback}</version>
+		</dependency>
+
 		
 	
 	</dependencies>
