@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.persistence;
+package com.excilys.formation.cdb.persistence.implementation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,15 +10,17 @@ import java.util.List;
 
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
+import com.excilys.formation.cdb.persistence.ICompanyDAO;
 
-public enum CompanyDAO {
+public enum CompanyDAO implements ICompanyDAO {
 
     INSTANCE;
 
-    /**
-     * Find all companies
-     * @return companies list
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.ICompanyDAO#findAll()
      */
+    @Override
     public List<Company> findAll() {
 	
 	ArrayList<Company> companies = new ArrayList<Company>();
@@ -58,6 +60,10 @@ public enum CompanyDAO {
 	return companies;
     }
 
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.ICompanyDAO#delete(java.lang.Long)
+     */
+    @Override
     public void delete(Long id) {
 	ComputerDAO.INSTANCE.deleteByCompany(id);
 	String query = "DELETE FROM company WHERE id=?";

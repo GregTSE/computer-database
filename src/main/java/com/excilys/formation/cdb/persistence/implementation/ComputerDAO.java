@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.persistence;
+package com.excilys.formation.cdb.persistence.implementation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,21 +13,19 @@ import java.util.List;
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
+import com.excilys.formation.cdb.persistence.IComputerDAO;
 
-public enum ComputerDAO {
+public enum ComputerDAO implements IComputerDAO {
 
     INSTANCE;
 
     /*** METHODS FOR CLI ***/
 
-    /**
-     * Build an object Computer and fill the fields with the informations from
-     * the database
-     * 
-     * @param id
-     *            of the computer
-     * @return an instance of the Computer class
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#find(int)
      */
+    @Override
     public Computer find(int id) {
 
 	Computer computer = null;
@@ -90,11 +88,10 @@ public enum ComputerDAO {
 	return computer;
     }
 
-    /**
-     * Build a list of computers with fields 'id' and 'name'
-     * 
-     * @return the list of computers
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll()
      */
+    @Override
     public List<Computer> findAll() {
 
 	Connection connection = null;
@@ -150,13 +147,10 @@ public enum ComputerDAO {
 
     /*** METHODS FOR WEB-UI ***/
 
-    /**
-     * Find computers whose ID is between num and num+offset
-     * 
-     * @param num
-     * @param offset
-     * @return list of computers
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll(int, int)
      */
+    @Override
     public List<Computer> findAll(int num, int offset) {
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
@@ -210,12 +204,10 @@ public enum ComputerDAO {
 	return computers;
     }
 
-    /**
-     * insert in the database the parameter 'computer'
-     * 
-     * @param computer
-     *            to insert in the database
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
      */
+    @Override
     public void create(String name, String introduced, String discontinued,
 	    Company company) {
 	Connection connection = null;
@@ -248,12 +240,10 @@ public enum ComputerDAO {
 	}
     }
 
-    /**
-     * Update a computer by id
-     * 
-     * @param computer
-     *            with new fields
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#update(com.excilys.formation.cdb.model.Computer)
      */
+    @Override
     public void update(Computer computer) {
 	Connection connection = null;
 	String name = computer.getName();
@@ -300,11 +290,10 @@ public enum ComputerDAO {
 	}
     }
 
-    /**
-     * Delete the computer whose ID is 'id'
-     * 
-     * @param id
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#delete(long)
      */
+    @Override
     public void delete(long id) {
 	// @TODO use a preparedStatement
 	String query = "DELETE FROM computer WHERE id=" + id;
@@ -317,14 +306,10 @@ public enum ComputerDAO {
 	}
     }
 
-    /**
-     * Search of computers which
-     * 
-     * @param str
-     * @param num
-     * @param offset
-     * @return a computers list
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String, int, int)
      */
+    @Override
     public List<Computer> search(String str, int num, int offset) {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
@@ -375,6 +360,10 @@ public enum ComputerDAO {
 	return computers;
     }
 
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#count(java.lang.String)
+     */
+    @Override
     public int count(String name) {
 	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
 	int result = 0;
@@ -406,6 +395,10 @@ public enum ComputerDAO {
 	return result;
     }
     
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#findByCompany(java.lang.Long)
+     */
+    @Override
     public List<Long> findByCompany(Long companyId) {
 	
 	List<Long> computersId = new ArrayList<Long>();
@@ -440,6 +433,10 @@ public enum ComputerDAO {
 	return computersId;
     }
     
+    /* (non-Javadoc)
+     * @see com.excilys.formation.cdb.persistence.IComputerDAO#deleteByCompany(java.lang.Long)
+     */
+    @Override
     public void deleteByCompany(Long id){
 	List<Long> computersId = findByCompany(id);
 	for (Long computerId : computersId) {
