@@ -13,6 +13,10 @@ public enum ConnectionDAO {
     private String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
     private String user = "admincdb";
     private String passwd = "qwerty1234";
+    private int minConnectionsPerPartition = 5;
+    private int maxConnectionsPerPartition = 10;
+    private int partitionCount = 1;
+    
     public BoneCP connectionPool;
 
     private ConnectionDAO() {
@@ -22,9 +26,9 @@ public enum ConnectionDAO {
 	    config.setJdbcUrl( url ); 
 	    config.setUsername( user ); 
 	    config.setPassword( passwd );
-	    config.setMinConnectionsPerPartition( 5 );  // définition du nombre min de connexions par partition
-	    config.setMaxConnectionsPerPartition( 10 ); // définition du nombre max de connexions par partition
-	    config.setPartitionCount( 1 );          // définition du nombre de partitions
+	    config.setMinConnectionsPerPartition( minConnectionsPerPartition  );
+	    config.setMaxConnectionsPerPartition( maxConnectionsPerPartition );
+	    config.setPartitionCount( partitionCount );
 	    connectionPool = new BoneCP( config ); 
 	} catch (ClassNotFoundException | SQLException e) {
 	    throw new ConnectionException("Connection failed");
