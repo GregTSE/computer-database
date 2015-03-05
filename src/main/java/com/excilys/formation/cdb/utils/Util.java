@@ -32,13 +32,4 @@ final public class Util {
 	return dateValidator.isValid(date, "yyyy-MM-dd");
     }
 
-//    public static Company getCompany(String id) {
-//	Company company = null;
-//	if (checkInt(id)) {
-//	    CompanyService cs = new CompanyService();
-//	    cs.find(Long.parseLong(id));
-//	}
-//	return company;
-//    }
-
 }
