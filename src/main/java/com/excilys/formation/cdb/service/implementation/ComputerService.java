@@ -1,14 +1,19 @@
 package com.excilys.formation.cdb.service.implementation;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.implementation.ComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 public class ComputerService implements IComputerService {
 
+    Connection connection;
+    
     public ComputerService() {
 	super();
     }
@@ -18,7 +23,11 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public List<Computer> findAll() {
-	return ComputerDAO.INSTANCE.findAll();
+	List<Computer> computers;
+	getConnection();
+	computers = ComputerDAO.INSTANCE.findAll(connection);
+	closeConnection();
+	return computers;
     }
 
     /* (non-Javadoc)
@@ -26,7 +35,11 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public List<Computer> findAll(int num, int offset) {
-	return ComputerDAO.INSTANCE.findAll(num, offset);
+	List<Computer> computers;
+	getConnection();
+	computers = ComputerDAO.INSTANCE.findAll(num, offset, connection);
+	closeConnection();
+	return computers;
     }
 
     /* (non-Javadoc)
@@ -34,7 +47,11 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public Computer find(int id) {
-	return ComputerDAO.INSTANCE.find(id);
+	Computer computer;
+	getConnection();
+	computer = ComputerDAO.INSTANCE.find(id, connection);
+	closeConnection();
+	return computer;
     }
 
     /* (non-Javadoc)
@@ -42,7 +59,9 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public void create(String name, String introduced, String discontinued, Company company) {
-	ComputerDAO.INSTANCE.create(name, introduced, discontinued, company);
+	getConnection();
+	ComputerDAO.INSTANCE.create(name, introduced, discontinued, company, connection);
+	closeConnection();
     }
 
     /* (non-Javadoc)
@@ -50,7 +69,9 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public void delete(int id) {
-	ComputerDAO.INSTANCE.delete(id);
+	getConnection();
+	ComputerDAO.INSTANCE.delete(id, connection);
+	closeConnection();
     }
 
     /* (non-Javadoc)
@@ -58,7 +79,9 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public void update(Computer computer) {
-	ComputerDAO.INSTANCE.update(computer);
+	getConnection();
+	ComputerDAO.INSTANCE.update(computer, connection);
+	closeConnection();
     }
 
     /* (non-Javadoc)
@@ -66,7 +89,10 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public List<Computer> search(String str, int num, int offset) {
-	return ComputerDAO.INSTANCE.search(str, num, offset);
+	List<Computer> computers;
+	getConnection();
+	computers = ComputerDAO.INSTANCE.search(str, num, offset, connection);
+	return computers;
     }
     
 
@@ -75,7 +101,29 @@ public class ComputerService implements IComputerService {
      */
     @Override
     public int count(String word) {
-	return ComputerDAO.INSTANCE.count(word);
+	getConnection();
+	int result = ComputerDAO.INSTANCE.count(word, connection);
+	closeConnection();
+	return result;
+    }
+    
+    private void getConnection(){
+	try {
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
+    }
+    
+    private void closeConnection(){
+	try {
+	    if (connection != null && !connection.isClosed()) {
+		connection.close();
+	    }
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
     
 }

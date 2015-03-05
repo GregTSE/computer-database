@@ -1,5 +1,6 @@
 package com.excilys.formation.cdb.persistence;
 
+import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
@@ -15,14 +16,14 @@ public interface IComputerDAO {
      *            of the computer
      * @return an instance of the Computer class
      */
-    public abstract Computer find(int id);
+    public abstract Computer find(int id, Connection connection);
 
     /**
      * Build a list of computers with fields 'id' and 'name'
      * 
      * @return the list of computers
      */
-    public abstract List<Computer> findAll();
+    public abstract List<Computer> findAll(Connection connection);
 
     /**
      * Find computers whose ID is between num and num+offset
@@ -31,7 +32,7 @@ public interface IComputerDAO {
      * @param offset
      * @return list of computers
      */
-    public abstract List<Computer> findAll(int num, int offset);
+    public abstract List<Computer> findAll(int num, int offset, Connection connection);
 
     /**
      * insert in the database the parameter 'computer'
@@ -40,7 +41,7 @@ public interface IComputerDAO {
      *            to insert in the database
      */
     public abstract void create(String name, String introduced,
-	    String discontinued, Company company);
+	    String discontinued, Company company, Connection connection);
 
     /**
      * Update a computer by id
@@ -48,14 +49,14 @@ public interface IComputerDAO {
      * @param computer
      *            with new fields
      */
-    public abstract void update(Computer computer);
+    public abstract void update(Computer computer, Connection connection);
 
     /**
      * Delete the computer whose ID is 'id'
      * 
      * @param id
      */
-    public abstract void delete(long id);
+    public abstract void delete(long id, Connection connection);
 
     /**
      * Search of computers which
@@ -65,12 +66,13 @@ public interface IComputerDAO {
      * @param offset
      * @return a computers list
      */
-    public abstract List<Computer> search(String str, int num, int offset);
+    public abstract List<Computer> search(String str, int num, int offset, Connection connection);
 
-    public abstract int count(String name);
+    public abstract int count(String name, Connection connection);
 
-    public abstract List<Long> findByCompany(Long companyId);
+    public abstract List<Long> findByCompany(Long companyId, Connection connection);
 
-    public abstract void deleteByCompany(Long id);
+    public abstract void deleteByCompany(Long id, Connection connection);
+
 
 }

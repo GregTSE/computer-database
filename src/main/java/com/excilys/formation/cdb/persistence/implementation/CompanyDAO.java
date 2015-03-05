@@ -21,14 +21,13 @@ public enum CompanyDAO implements ICompanyDAO {
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#findAll()
      */
     @Override
-    public List<Company> findAll() {
+    public List<Company> findAll(Connection connection) {
 	
 	ArrayList<Company> companies = new ArrayList<Company>();
 	String query = "SELECT * FROM company";
 	ResultSet results;
-	Connection connection = null; 
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	   
 	    Statement stmt = connection.createStatement();
 	    results = stmt.executeQuery(query);
 
@@ -41,22 +40,7 @@ public enum CompanyDAO implements ICompanyDAO {
 	    
 	} catch (Exception e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (!connection.isClosed()) {
-		    try {
-			connection.close();
-		    } catch (SQLException e) {
-			throw new ConnectionException(
-				"Connection cannot be closed");
-		    }
-		}
-	    } catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
 	}
-
 	return companies;
     }
 
@@ -64,14 +48,12 @@ public enum CompanyDAO implements ICompanyDAO {
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#delete(java.lang.Long)
      */
     @Override
-    public void delete(Long id) {
-	ComputerDAO.INSTANCE.deleteByCompany(id);
+    public void delete(Long id, Connection connection) {
+	ComputerDAO.INSTANCE.deleteByCompany(id, connection);
 	String query = "DELETE FROM company WHERE id=?";
-	Connection connection = null;
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    connection.setAutoCommit(false);
-	    ComputerDAO.INSTANCE.deleteByCompany(id);
+	    ComputerDAO.INSTANCE.deleteByCompany(id, connection);
 	    PreparedStatement pstmt = connection.prepareStatement(query);
 	    pstmt.setLong(1, id);
 	    pstmt.executeUpdate();

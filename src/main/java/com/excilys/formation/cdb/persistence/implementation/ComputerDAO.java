@@ -10,10 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 
 public enum ComputerDAO implements IComputerDAO {
@@ -26,10 +24,9 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#find(int)
      */
     @Override
-    public Computer find(int id) {
+    public Computer find(int id, Connection connection) {
 
 	Computer computer = null;
-	Connection connection = null;
 
 	String query = "SELECT comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id"
@@ -38,7 +35,6 @@ public enum ComputerDAO implements IComputerDAO {
 	ResultSet results;
 
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setInt(1, id);
 	    results = preparedStmt.executeQuery();
@@ -70,20 +66,6 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (!connection.isClosed()) {
-		    try {
-			connection.close();
-		    } catch (SQLException e) {
-			throw new ConnectionException(
-				"Connection cannot be closed");
-		    }
-		}
-	    } catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
 	}
 	return computer;
     }
@@ -92,9 +74,8 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll()
      */
     @Override
-    public List<Computer> findAll() {
+    public List<Computer> findAll(Connection connection) {
 
-	Connection connection = null;
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
@@ -102,7 +83,7 @@ public enum ComputerDAO implements IComputerDAO {
 	ResultSet results;
 
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	
 	    Statement stmt = connection.createStatement();
 
 	    results = stmt.executeQuery(query);
@@ -133,14 +114,6 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
 	}
 	return computers;
     }
@@ -151,15 +124,13 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll(int, int)
      */
     @Override
-    public List<Computer> findAll(int num, int offset) {
+    public List<Computer> findAll(int num, int offset, Connection connection) {
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id LIMIT ?, ?";
 	ResultSet results = null;
-	Connection connection = null;
 
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    PreparedStatement pstmt = connection.prepareStatement(query);
 	    pstmt.setInt(1, num);
 	    pstmt.setInt(2, offset);
@@ -192,15 +163,7 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
-	}
+	} 
 	return computers;
     }
 
@@ -209,12 +172,11 @@ public enum ComputerDAO implements IComputerDAO {
      */
     @Override
     public void create(String name, String introduced, String discontinued,
-	    Company company) {
-	Connection connection = null;
+	    Company company, Connection connection) {
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
 
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	   
 	    PreparedStatement preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setString(2, introduced);
@@ -229,23 +191,14 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
-	}
+	} 
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#update(com.excilys.formation.cdb.model.Computer)
      */
     @Override
-    public void update(Computer computer) {
-	Connection connection = null;
+    public void update(Computer computer, Connection connection) {
 	String name = computer.getName();
 	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced()
 		.toEpochDay());
@@ -256,7 +209,6 @@ public enum ComputerDAO implements IComputerDAO {
 	String queryCompanyId = "select * from computer where id=?";
 
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    ResultSet rslt;
 	    PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
 	    stmt0.setString(1, nameCompany);
@@ -279,26 +231,17 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
-	}
+	} 
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#delete(long)
      */
     @Override
-    public void delete(long id) {
+    public void delete(long id, Connection connection) {
 	// @TODO use a preparedStatement
 	String query = "DELETE FROM computer WHERE id=" + id;
 	try {
-	    Connection connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    Statement stmt = connection.createStatement();
 	    stmt.executeUpdate(query);
 	} catch (SQLException e) {
@@ -310,15 +253,13 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String, int, int)
      */
     @Override
-    public List<Computer> search(String str, int num, int offset) {
+    public List<Computer> search(String str, int num, int offset, Connection connection) {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
-	Connection connection = null;
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    pstmt = connection.prepareStatement(query);
 	    pstmt.setString(1, str + '%');
 	    pstmt.setInt(2, num);
@@ -348,14 +289,6 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
 	}
 	return computers;
     }
@@ -364,13 +297,11 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#count(java.lang.String)
      */
     @Override
-    public int count(String name) {
+    public int count(String name, Connection connection) {
 	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
 	int result = 0;
 	PreparedStatement pstmt;
-	Connection connection = null;
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    pstmt = connection.prepareStatement(query);
 	    pstmt.setString(1, name + "%");
 	    ResultSet rslt = pstmt.executeQuery();
@@ -382,14 +313,6 @@ public enum ComputerDAO implements IComputerDAO {
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
 	}
 
 	return result;
@@ -399,16 +322,14 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findByCompany(java.lang.Long)
      */
     @Override
-    public List<Long> findByCompany(Long companyId) {
+    public List<Long> findByCompany(Long companyId, Connection connection) {
 	
 	List<Long> computersId = new ArrayList<Long>();
 	String query = "SELECT id FROM computer WHERE company_id = ?";
 	PreparedStatement pstmt;
-	Connection connection = null;
 	ResultSet results = null;
 	
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
 	    pstmt = connection.prepareStatement(query);
 	    pstmt.setLong(1, companyId);
 	    results = pstmt.executeQuery();
@@ -421,14 +342,6 @@ public enum ComputerDAO implements IComputerDAO {
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	} finally {
-	    try {
-		if (connection != null && !connection.isClosed()) {
-			connection.close();
-		    }
-	    } catch (SQLException e) {
-		throw new ConnectionException("Connection cannot be closed");
-	    }
 	}
 	return computersId;
     }
@@ -437,10 +350,10 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#deleteByCompany(java.lang.Long)
      */
     @Override
-    public void deleteByCompany(Long id){
-	List<Long> computersId = findByCompany(id);
+    public void deleteByCompany(Long id, Connection connection){
+	List<Long> computersId = findByCompany(id, connection);
 	for (Long computerId : computersId) {
-	    delete(computerId);
+	    delete(computerId, connection);
 	    System.out.println("id : "+computerId + " supprimé!");
 	}
 	
