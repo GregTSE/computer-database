@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
 
 public enum CompanyDAO implements ICompanyDAO {

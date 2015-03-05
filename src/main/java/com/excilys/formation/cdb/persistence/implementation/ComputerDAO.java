@@ -26,16 +26,18 @@ public enum ComputerDAO implements IComputerDAO {
     @Override
     public Computer find(int id, Connection connection) {
 
-	Computer computer = null;
+	Computer computer = null;	
+	ResultSet results = null;
+	PreparedStatement preparedStmt = null;
 
 	String query = "SELECT comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id"
 		+ "WHERE comput.id=?";
 
-	ResultSet results;
+
 
 	try {
-	    PreparedStatement preparedStmt = connection.prepareStatement(query);
+	    preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setInt(1, id);
 	    results = preparedStmt.executeQuery();
 	    Company company = null;
@@ -66,6 +68,17 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
+	} finally {
+	    try {
+		if (results!=null) {
+		    results.close();
+		}
+		if (preparedStmt!=null) {
+		    preparedStmt.close();
+		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	}
 	return computer;
     }
@@ -80,11 +93,12 @@ public enum ComputerDAO implements IComputerDAO {
 
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id";
-	ResultSet results;
-
+	ResultSet results = null;
+	Statement stmt = null;
+	
 	try {
 	
-	    Statement stmt = connection.createStatement();
+	    stmt = connection.createStatement();
 
 	    results = stmt.executeQuery(query);
 
@@ -114,6 +128,17 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
+	} finally {
+	    try {
+		if (results!=null) {
+		    results.close();
+		}
+		if (stmt!=null) {
+		    stmt.close();
+		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	}
 	return computers;
     }
@@ -129,9 +154,9 @@ public enum ComputerDAO implements IComputerDAO {
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id LIMIT ?, ?";
 	ResultSet results = null;
-
+	PreparedStatement pstmt = null;
 	try {
-	    PreparedStatement pstmt = connection.prepareStatement(query);
+	    pstmt = connection.prepareStatement(query);
 	    pstmt.setInt(1, num);
 	    pstmt.setInt(2, offset);
 	    results = pstmt.executeQuery();
@@ -163,7 +188,18 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
-	} 
+	} finally {
+	    try {
+		if (results!=null) {
+		    results.close();
+		}
+		if (pstmt!=null) {
+		    pstmt.close();
+		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
+	}
 	return computers;
     }
 
@@ -174,10 +210,9 @@ public enum ComputerDAO implements IComputerDAO {
     public void create(String name, String introduced, String discontinued,
 	    Company company, Connection connection) {
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
-
+	PreparedStatement preparedStmt = null;
 	try {
-	   
-	    PreparedStatement preparedStmt = connection.prepareStatement(query);
+	    preparedStmt = connection.prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setString(2, introduced);
 	    preparedStmt.setString(3, discontinued);
@@ -191,6 +226,14 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
+	} finally {
+	    try {
+		if (preparedStmt!=null) {
+		    preparedStmt.close();
+		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	} 
     }
 
