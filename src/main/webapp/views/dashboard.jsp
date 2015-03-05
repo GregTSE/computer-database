@@ -35,7 +35,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${computersFound} <page:pagination firstNum="1" secondNum="2"></page:pagination> Computers found</h1>
+			<h1 id="homeTitle">${computersFound} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 

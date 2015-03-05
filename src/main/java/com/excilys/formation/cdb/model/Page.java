@@ -18,13 +18,13 @@ public class Page {
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 
     public Page(){
-	this.num = 1;
+	this.num = 0;
 	this.offset = 10;
 	this.word = "";
     }
     
     public void init() {
-	this.num = 1;
+	this.num = 0;
 	this.offset = 10;
 	this.word = "";
     }

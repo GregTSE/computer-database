@@ -37,7 +37,7 @@ public class DashBoard extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	int offset = 10;
-	int index = 1;
+	int index = 0;
 
 	String strIndex = request.getParameter("index");
 	String strOffset = request.getParameter("offset");
