@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
 
 public enum CompanyDAO implements ICompanyDAO {
@@ -24,15 +24,14 @@ public enum CompanyDAO implements ICompanyDAO {
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#findAll()
      */
     @Override
-    public List<Company> findAll(Connection connection) {
+    public List<Company> findAll() {
 	
 	List<Company> companies = new ArrayList<Company>();
 	String query = "SELECT * FROM company";
 	 Statement stmt = null;
 	ResultSet results = null;
-	try {
-	   
-	    stmt = connection.createStatement();
+	try {	   
+	    stmt = ConnectionDAO.INSTANCE.getConnection().createStatement();
 	    results = stmt.executeQuery(query);
 
 	    while (results.next()) {
@@ -56,11 +55,11 @@ public enum CompanyDAO implements ICompanyDAO {
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#delete(java.lang.Long)
      */
     @Override
-    public void delete(Long id, Connection connection) {
+    public void delete(Long id) {
 	String query = "DELETE FROM company WHERE id=?";
 	PreparedStatement pstmt = null;
 	try {
-	    pstmt = connection.prepareStatement(query);
+	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    pstmt.setLong(1, id);
 	    pstmt.executeUpdate();    
 	} catch (SQLException e) {

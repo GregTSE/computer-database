@@ -7,7 +7,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.service.ICompanyService;
@@ -21,8 +20,8 @@ public abstract class AbsCompanyService implements ICompanyService {
     public final List<Company> findAll() {
 	Connection connection = getConnection();
 	List<Company> companies = null;
-	companies = findAllAbs(connection);
-	closeConnection(connection);
+	companies = findAllAbs();
+	closeConnection();
 	return companies;
     }
 
@@ -31,9 +30,9 @@ public abstract class AbsCompanyService implements ICompanyService {
 	Logger logger = LoggerFactory.getLogger(AbsCompanyService.class);
 	Connection connection = null;
 	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    connection = getConnection();
 	    connection.setAutoCommit(false);
-	    deleteAbs(id, connection);
+	    deleteAbs(id);
 	    connection.commit();
 	} catch (SQLException e) {
 	    try {
@@ -46,34 +45,20 @@ public abstract class AbsCompanyService implements ICompanyService {
 	    }
 	    e.printStackTrace();
 	} finally {
-	    try {
-		connection.setAutoCommit(true);
-		connection.close();
-	    } catch (SQLException e) {
-		logger.error("SQL Exception (close)");
-		throw new ConnectionException("Connection cannot be closed");
-	    }
+	    closeConnection();
 	}
     }
 
-    public abstract List<Company> findAllAbs(Connection connection);
+    public abstract List<Company> findAllAbs();
 
-    public abstract void deleteAbs(Long id, Connection connection);
+    public abstract void deleteAbs(Long id);
 
     private Connection getConnection() {
 	return ConnectionDAO.INSTANCE.getConnection();
     }
 
-    private void closeConnection(Connection connection) {
-	try {
-	    
-	    if (connection != null && !connection.isClosed()) {
-		connection.close();
-	    }
-	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
+    private void closeConnection() {
+	ConnectionDAO.INSTANCE.closeConnection();
     }
     
 

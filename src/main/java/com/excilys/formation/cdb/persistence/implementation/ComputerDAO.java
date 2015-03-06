@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.persistence.MapperDAO;
 
@@ -29,7 +29,7 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#find(int)
      */
     @Override
-    public Computer find(long id, Connection connection) {
+    public Computer find(long id) {
 
 	Computer computer = null;	
 	ResultSet results = null;
@@ -42,7 +42,7 @@ public enum ComputerDAO implements IComputerDAO {
 
 
 	try {
-	    preparedStmt = connection.prepareStatement(query);
+	    preparedStmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    preparedStmt.setLong(1, id);
 	    results = preparedStmt.executeQuery();
 	    Company company = null;
@@ -85,7 +85,7 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll()
      */
     @Override
-    public List<Computer> findAll(Connection connection) {
+    public List<Computer> findAll() {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 
@@ -96,7 +96,7 @@ public enum ComputerDAO implements IComputerDAO {
 	
 	try {
 	
-	    stmt = connection.createStatement();
+	    stmt = ConnectionDAO.INSTANCE.getConnection().createStatement();
 
 	    results = stmt.executeQuery(query);
 	    
@@ -120,14 +120,14 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll(int, int)
      */
     @Override
-    public List<Computer> findAll(int num, int offset, Connection connection) {
+    public List<Computer> findAll(int num, int offset) {
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
 		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id LIMIT ?, ?";
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
 	try {
-	    pstmt = connection.prepareStatement(query);
+	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    pstmt.setInt(1, num);
 	    pstmt.setInt(2, offset);
 	    results = pstmt.executeQuery();
@@ -151,11 +151,11 @@ public enum ComputerDAO implements IComputerDAO {
      */
     @Override
     public void create(String name, String introduced, String discontinued,
-	    Company company, Connection connection) {
+	    Company company) {
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
 	PreparedStatement preparedStmt = null;
 	try {
-	    preparedStmt = connection.prepareStatement(query);
+	    preparedStmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setString(2, introduced);
 	    preparedStmt.setString(3, discontinued);
@@ -179,7 +179,7 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#update(com.excilys.formation.cdb.model.Computer)
      */
     @Override
-    public void update(Computer computer, Connection connection) {
+    public void update(Computer computer) {
 	String name = computer.getName();
 	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced()
 		.toEpochDay());
@@ -193,10 +193,10 @@ public enum ComputerDAO implements IComputerDAO {
 	PreparedStatement preparedStmt = null;
 	try {
 	    
-	    stmt = connection.prepareStatement(queryCompanyId);
+	    stmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(queryCompanyId);
 	    stmt.setString(1, nameCompany);
 	    rslt = stmt.executeQuery();
-	    preparedStmt = connection.prepareStatement(updateQuery);
+	    preparedStmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(updateQuery);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setTimestamp(2, dateIntroduced);
 	    preparedStmt.setTimestamp(3, dateDiscontinued);
@@ -225,11 +225,11 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#delete(long)
      */
     @Override
-    public void delete(long id, Connection connection) {
+    public void delete(long id) {
 	PreparedStatement pstmt = null;
 	String query = "DELETE FROM computer WHERE id=?";
 	try {
-	    pstmt = connection.prepareStatement(query);
+	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    pstmt.setLong(1, id);
 	    pstmt.executeUpdate(query);
 	} catch (SQLException e) {
@@ -243,14 +243,14 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String, int, int)
      */
     @Override
-    public List<Computer> search(String str, int num, int offset, Connection connection) {
+    public List<Computer> search(String str, int num, int offset) {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
 	try {
-	    pstmt = connection.prepareStatement(query);
+	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    pstmt.setString(1, str + '%');
 	    pstmt.setInt(2, num);
 	    pstmt.setInt(3, offset);
@@ -273,13 +273,13 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#count(java.lang.String)
      */
     @Override
-    public int count(String name, Connection connection) {
+    public int count(String name) {
 	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
 	int result = 0;
 	PreparedStatement pstmt = null;
 	ResultSet rslt = null;
 	try {
-	    pstmt = connection.prepareStatement(query);
+	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    pstmt.setString(1, name + "%");
 	    rslt = pstmt.executeQuery();
 	    if (rslt.first()) {
@@ -300,14 +300,14 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findByCompany(java.lang.Long)
      */
     @Override
-    public List<Long> findByCompany(Long companyId, Connection connection) {
+    public List<Long> findByCompany(Long companyId) {
 	
 	List<Long> computersId = new ArrayList<Long>();
 	String query = "SELECT id FROM computer WHERE company_id = ?";
 	PreparedStatement pstmt = null;
 	ResultSet results = null;
 	try {
-	    pstmt = connection.prepareStatement(query);
+	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
 	    pstmt.setLong(1, companyId);
 	    results = pstmt.executeQuery();
 
@@ -329,10 +329,10 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#deleteByCompany(java.lang.Long)
      */
     @Override
-    public void deleteByCompany(Long id, Connection connection){
-	List<Long> computersId = findByCompany(id, connection);
+    public void deleteByCompany(Long id){
+	List<Long> computersId = findByCompany(id);
 	for (Long computerId : computersId) {
-	    delete(computerId, connection);
+	    delete(computerId);
 	    logger.info("computer("+computerId + ") removed");
 	}
     }

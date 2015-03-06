@@ -56,5 +56,18 @@ public enum ConnectionDAO {
 
 	return connection;
     }
+    
+    public void closeConnection() {
+	try {
+	    Connection connection = connectionThreadLocal.get();
+	    if (connection != null && !connection.isClosed()) {
+		connection.close();
+		connectionThreadLocal.remove();
+	    }
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+    }
 
 }

@@ -17,7 +17,7 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final List<Computer> findAll(){
 	Connection connection = getConnection();
-	List<Computer> computers = findAllAbs(connection);
+	List<Computer> computers = findAllAbs();
 	closeConnection(connection);
 	return computers;
     }
@@ -28,7 +28,7 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final Computer find(long id){
 	Connection connection = getConnection();
-	Computer computer = findAbs(id, connection);
+	Computer computer = findAbs(id);
 	closeConnection(connection);
 	return computer;
     };
@@ -40,7 +40,7 @@ public abstract class AbsComputerService implements IComputerService {
     public final void create(String name, String introduced,
 	    String discontinued, Company company){
 	Connection connection = getConnection();
-	createAbs(name, introduced, discontinued, company, connection);
+	createAbs(name, introduced, discontinued, company);
 	closeConnection(connection);
     }
 
@@ -50,7 +50,7 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final void delete(long id){
 	Connection connection = getConnection();
-	deleteAbs(id, connection);
+	deleteAbs(id);
 	closeConnection(connection);
     }
 
@@ -60,7 +60,7 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final void update(Computer computer){
 	Connection connection = getConnection();
-	updateAbs(computer, connection);
+	updateAbs(computer);
 	closeConnection(connection);
     }
 
@@ -70,7 +70,7 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final List<Computer> search(String str, int num, int offset){
 	Connection connection = getConnection();
-	List<Computer> computers = searchAbs( str, num, offset, connection);
+	List<Computer> computers = searchAbs( str, num, offset);
 	closeConnection(connection);
 	return computers;
     }
@@ -81,25 +81,25 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final int count(String word){
 	Connection connection = getConnection();
-	int countComputers = countAbs( word, connection);
+	int countComputers = countAbs( word);
 	closeConnection(connection);
 	return countComputers;
     }
     
-    public abstract List<Computer> findAllAbs(Connection connection);
+    public abstract List<Computer> findAllAbs();
     
-    public abstract Computer findAbs(long id, Connection connection);
+    public abstract Computer findAbs(long id);
     
     public abstract void createAbs(String name, String introduced,
-	    String discontinued, Company company, Connection connection);
+	    String discontinued, Company company);
     
-    public abstract void deleteAbs(long id, Connection connection);
+    public abstract void deleteAbs(long id);
     
-    public abstract void updateAbs(Computer computer, Connection connection);
+    public abstract void updateAbs(Computer computer);
     
-    public abstract List<Computer> searchAbs(String str, int num, int offset, Connection connection);
+    public abstract List<Computer> searchAbs(String str, int num, int offset);
     
-    public abstract int countAbs(String word, Connection connection);
+    public abstract int countAbs(String word);
     
     
     private Connection getConnection(){

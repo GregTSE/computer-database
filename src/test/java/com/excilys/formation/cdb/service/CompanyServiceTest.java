@@ -6,9 +6,11 @@ import org.junit.Test;
 
 public class CompanyServiceTest {
 
+    
     @Test
     public void testCompanyService() {
-	fail("Not yet implemented");
+	
+
     }
 
     @Test
