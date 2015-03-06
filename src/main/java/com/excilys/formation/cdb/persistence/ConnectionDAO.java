@@ -2,6 +2,9 @@ package com.excilys.formation.cdb.persistence;
 
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
@@ -16,6 +19,8 @@ public enum ConnectionDAO {
     private int minConnectionsPerPartition = 5;
     private int maxConnectionsPerPartition = 10;
     private int partitionCount = 1;
+    
+    final Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);
     
     public BoneCP connectionPool;
 

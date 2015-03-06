@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
@@ -15,14 +18,16 @@ import com.excilys.formation.cdb.persistence.ICompanyDAO;
 public enum CompanyDAO implements ICompanyDAO {
 
     INSTANCE;
-
+    
+    private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+    
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#findAll()
      */
     @Override
     public List<Company> findAll(Connection connection) {
 	
-	ArrayList<Company> companies = new ArrayList<Company>();
+	List<Company> companies = new ArrayList<Company>();
 	String query = "SELECT * FROM company";
 	ResultSet results;
 	try {
@@ -38,6 +43,7 @@ public enum CompanyDAO implements ICompanyDAO {
 	    }
 	    
 	} catch (Exception e) {
+	    logger.error("SQL Exception");
 	    e.printStackTrace();
 	}
 	return companies;
@@ -60,9 +66,11 @@ public enum CompanyDAO implements ICompanyDAO {
 	    
 	} catch (SQLException e) {
 	    try {
+		logger.error("SQL Exception (delete request)");
 		connection.rollback();
 	    } catch (SQLException e1) {
 		// TODO Auto-generated catch block
+		logger.error("SQL Exception (rollback)");
 		e1.printStackTrace();
 	    }
 	    e.printStackTrace();
@@ -72,6 +80,7 @@ public enum CompanyDAO implements ICompanyDAO {
 		connection.setAutoCommit(true);
 		connection.close();
 	    } catch (SQLException e) {
+		logger.error("SQL Exception (close)");
 		throw new ConnectionException("Connection cannot be closed");
 	    }
 	}

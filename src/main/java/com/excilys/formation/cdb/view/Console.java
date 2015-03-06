@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.service.ICompanyService;
@@ -23,6 +26,7 @@ public class Console {
 
     private IComputerService computerService;
     private ICompanyService companyService;
+    final private Logger logger = LoggerFactory.getLogger(Console.class);
 
     public Console() {
 	super();
@@ -71,10 +75,10 @@ public class Console {
 		    stopApp = true;
 		    break;
 		default:
-		    System.out.println("[Please put a number (1-7)]");
+		    logger.error("user's choice is not between 1 and 8");
 		}
 	    } else {
-		System.out.println("[Please put a number (1-7)]");
+		logger.error("user's choice is not an integer");
 	    }
 	}
     }
@@ -105,6 +109,7 @@ public class Console {
      * @param Scanner
      */
     private void displayComputerInfo(Scanner sc) {
+	Logger logger = LoggerFactory.getLogger(Console.class);
 	System.out.println("Enter the computer's id : ");
 	String id = sc.nextLine();
 	if (Util.checkInt(id)) {
@@ -112,10 +117,10 @@ public class Console {
 	    if (computer != null) {
 		System.out.println(computer);
 	    } else {
-		System.out.println("[Error : ID not found]");
+		logger.error("ID not found");
 	    }
 	} else {
-	    System.out.println("[Error : wrong ID format]");
+	    logger.error("wrong ID format");
 	}
     }
 
@@ -162,7 +167,7 @@ public class Console {
 	if (Util.checkInt(id)) {
 	    computerService.delete(Integer.parseInt(id));
 	} else {
-	    System.err.println("[Error : wrong Id format]");
+	    logger.error("wrong Id format");
 	}
     }
 
@@ -177,7 +182,7 @@ public class Console {
 	if (Util.checkInt(id)) {
 	    Computer computer = computerService.find(Integer.parseInt(id));
 	    if (computer == null) {
-		System.out.println("This computer does not exist.");
+	    	logger.error("This computer does not exist.");
 	    } else {
 		System.out.println(computer.toString() + "\n");
 		System.out.println("Name of the computer:");
@@ -204,7 +209,7 @@ public class Console {
 	    System.out.println("Update OK.");
 
 	} else {
-	    System.out.println("[ID must be an integer]");
+	    logger.error("ID must be an integer");
 	}
     }
     

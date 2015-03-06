@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
@@ -18,6 +21,7 @@ public enum ComputerDAO implements IComputerDAO {
 
     INSTANCE;
 
+    final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
     /*** METHODS FOR CLI ***/
 
     /* (non-Javadoc)
@@ -41,7 +45,7 @@ public enum ComputerDAO implements IComputerDAO {
 	    preparedStmt.setInt(1, id);
 	    results = preparedStmt.executeQuery();
 	    Company company = null;
-
+	    //MAPPER COMPUTER !!!
 	    if (results.first()) {
 		Long idCompany = results.getLong(4);
 
@@ -67,6 +71,7 @@ public enum ComputerDAO implements IComputerDAO {
 	    }
 
 	} catch (SQLException e) {
+	    logger.error("SQL Exception (request find(id)");
 	    e.printStackTrace();
 	} finally {
 	    try {
@@ -77,6 +82,7 @@ public enum ComputerDAO implements IComputerDAO {
 		    preparedStmt.close();
 		}
 	    } catch (SQLException e) {
+		logger.error("SQL Exception (close statement)");
 		e.printStackTrace();
 	    }
 	}
@@ -101,32 +107,13 @@ public enum ComputerDAO implements IComputerDAO {
 	    stmt = connection.createStatement();
 
 	    results = stmt.executeQuery(query);
-
-	    while (results.next()) {
-		Company company = null;
-		Long idCompany = results.getLong(5);
-
-		if (idCompany > 0) {
-		    company = new Company(idCompany, results.getString(6));
-		}
-
-		Timestamp introducedTS = results.getTimestamp(3);
-		LocalDate introduced = null, discontinued = null;
-		Timestamp discontinuedTS = results.getTimestamp(4);
-
-		if (introducedTS != null)
-		    introduced = introducedTS.toLocalDateTime().toLocalDate();
-
-		if (discontinuedTS != null) {
-		    discontinued = discontinuedTS.toLocalDateTime()
-			    .toLocalDate();
-		}
-
-		computers.add(new Computer(results.getLong(1), results
-			.getString(2), introduced, discontinued, company));
+	    
+	    while (results.next()) {		
+		computers.add(MapperDAO.rowToComputer(results));
 	    }
 
 	} catch (Exception e) {
+	    logger.error("SQL Exception (request findAll())");
 	    e.printStackTrace();
 	} finally {
 	    try {
@@ -137,6 +124,7 @@ public enum ComputerDAO implements IComputerDAO {
 		    stmt.close();
 		}
 	    } catch (SQLException e) {
+		logger.error("SQL Exception (closure statement/resultSet)");
 		e.printStackTrace();
 	    }
 	}
@@ -162,31 +150,11 @@ public enum ComputerDAO implements IComputerDAO {
 	    results = pstmt.executeQuery();
 
 	    while (results.next()) {
-
-		Company company = null;
-		Long idCompany = results.getLong(5);
-
-		if (idCompany > 0) {
-		    company = new Company(idCompany, results.getString(6));
-		}
-
-		Timestamp introducedTS = results.getTimestamp(3);
-		LocalDate introduced = null, discontinued = null;
-		Timestamp discontinuedTS = results.getTimestamp(4);
-
-		if (introducedTS != null)
-		    introduced = introducedTS.toLocalDateTime().toLocalDate();
-
-		if (discontinuedTS != null) {
-		    discontinued = discontinuedTS.toLocalDateTime()
-			    .toLocalDate();
-		}
-
-		computers.add(new Computer(results.getLong(1), results
-			.getString(2), introduced, discontinued, company));
+		computers.add(MapperDAO.rowToComputer(results));
 	    }
 
 	} catch (Exception e) {
+	    logger.error("SQL Exception (findAll())");
 	    e.printStackTrace();
 	} finally {
 	    try {
@@ -197,6 +165,7 @@ public enum ComputerDAO implements IComputerDAO {
 		    pstmt.close();
 		}
 	    } catch (SQLException e) {
+		logger.error("SQL Exception : closure statement/resultSet");
 		e.printStackTrace();
 	    }
 	}
@@ -225,6 +194,7 @@ public enum ComputerDAO implements IComputerDAO {
 	    preparedStmt.executeUpdate();
 
 	} catch (SQLException e) {
+	    logger.error("SQL Exception : create()");
 	    e.printStackTrace();
 	} finally {
 	    try {
@@ -232,6 +202,7 @@ public enum ComputerDAO implements IComputerDAO {
 		    preparedStmt.close();
 		}
 	    } catch (SQLException e) {
+		logger.error("SQL Exception : closure statement/closure");
 		e.printStackTrace();
 	    }
 	} 
@@ -309,24 +280,10 @@ public enum ComputerDAO implements IComputerDAO {
 	    pstmt.setInt(3, offset);
 	    results = pstmt.executeQuery();
 
-	    while (results.next()) {
-		Company company = null;
-		Long idCompany = results.getLong(5);
-		if (idCompany > 0) {
-		    company = new Company(idCompany, results.getString(6));
-		}
-		Timestamp introducedTS = results.getTimestamp(3);
-		LocalDate introduced = null, discontinued = null;
-		Timestamp discontinuedTS = results.getTimestamp(4);
-		if (introducedTS != null)
-		    introduced = introducedTS.toLocalDateTime().toLocalDate();
-		if (discontinuedTS != null) {
-		    discontinued = discontinuedTS.toLocalDateTime()
-			    .toLocalDate();
-		}
-		computers.add(new Computer(results.getLong(1), results
-			.getString(2), introduced, discontinued, company));
+	    while (results.next()) {		
+		computers.add(MapperDAO.rowToComputer(results));
 	    }
+	    
 	    pstmt.close();
 	    results.close();
 
