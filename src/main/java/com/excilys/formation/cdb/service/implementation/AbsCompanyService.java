@@ -45,8 +45,7 @@ public abstract class AbsCompanyService implements ICompanyService {
 		e1.printStackTrace();
 	    }
 	    e.printStackTrace();
-	}
-	finally {
+	} finally {
 	    try {
 		connection.setAutoCommit(true);
 		connection.close();
@@ -56,23 +55,18 @@ public abstract class AbsCompanyService implements ICompanyService {
 	    }
 	}
     }
-    
+
     public abstract List<Company> findAllAbs(Connection connection);
 
     public abstract void deleteAbs(Long id, Connection connection);
-    
-    private Connection getConnection(){
-	Connection connection = null;
-	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	}
-	return connection;
+
+    private Connection getConnection() {
+	return ConnectionDAO.INSTANCE.getConnection();
     }
-    
-    private void closeConnection(Connection connection){
+
+    private void closeConnection(Connection connection) {
 	try {
+	    
 	    if (connection != null && !connection.isClosed()) {
 		connection.close();
 	    }
@@ -82,4 +76,5 @@ public abstract class AbsCompanyService implements ICompanyService {
 	}
     }
     
+
 }

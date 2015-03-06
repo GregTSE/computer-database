@@ -1,5 +1,6 @@
 package com.excilys.formation.cdb.persistence;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -19,27 +20,41 @@ public enum ConnectionDAO {
     private int minConnectionsPerPartition = 5;
     private int maxConnectionsPerPartition = 10;
     private int partitionCount = 1;
-    
+
     final Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);
-    
+    private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
     public BoneCP connectionPool;
 
     private ConnectionDAO() {
 	try {
-	    Class.forName( "com.mysql.jdbc.Driver" );
-	    BoneCPConfig config = new BoneCPConfig(); 
-	    config.setJdbcUrl( url ); 
-	    config.setUsername( user ); 
-	    config.setPassword( passwd );
-	    config.setMinConnectionsPerPartition( minConnectionsPerPartition  );
-	    config.setMaxConnectionsPerPartition( maxConnectionsPerPartition );
-	    config.setPartitionCount( partitionCount );
-	    connectionPool = new BoneCP( config ); 
+	    Class.forName("com.mysql.jdbc.Driver");
+	    BoneCPConfig config = new BoneCPConfig();
+	    config.setJdbcUrl(url);
+	    config.setUsername(user);
+	    config.setPassword(passwd);
+	    config.setMinConnectionsPerPartition(minConnectionsPerPartition);
+	    config.setMaxConnectionsPerPartition(maxConnectionsPerPartition);
+	    config.setPartitionCount(partitionCount);
+	    connectionPool = new BoneCP(config);
 	} catch (ClassNotFoundException | SQLException e) {
 	    throw new ConnectionException("Connection failed");
-	} 
+	}
     }
 
+    public Connection getConnection() {
+	Connection connection = null;
+	if (connectionThreadLocal.get() != null) {
+	    return connectionThreadLocal.get();
+	}
+	try {
+	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
+	    connectionThreadLocal.set(connection);
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : getConnection from pool");
+	    e.printStackTrace();
+	}
 
+	return connection;
+    }
 
 }
