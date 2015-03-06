@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ICompanyService;
 import com.excilys.formation.cdb.service.IComputerService;
 import com.excilys.formation.cdb.service.implementation.CompanyService;
@@ -81,8 +80,8 @@ public class AddComputer extends HttpServlet {
 	IComputerService computerService = new ComputerService();
 	computerService.create(name, introduced, discontinued, company);
 
-
-//	request.setAttribute("page", page);
+	//Page page = new Page();
+	//request.setAttribute("page", page);
 	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 
     }

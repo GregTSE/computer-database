@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
+import com.excilys.formation.cdb.persistence.MapperDAO;
 
 public enum ComputerDAO implements IComputerDAO {
 
@@ -28,7 +29,7 @@ public enum ComputerDAO implements IComputerDAO {
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#find(int)
      */
     @Override
-    public Computer find(int id, Connection connection) {
+    public Computer find(long id, Connection connection) {
 
 	Computer computer = null;	
 	ResultSet results = null;
@@ -42,7 +43,7 @@ public enum ComputerDAO implements IComputerDAO {
 
 	try {
 	    preparedStmt = connection.prepareStatement(query);
-	    preparedStmt.setInt(1, id);
+	    preparedStmt.setLong(1, id);
 	    results = preparedStmt.executeQuery();
 	    Company company = null;
 	    //MAPPER COMPUTER !!!
@@ -74,17 +75,8 @@ public enum ComputerDAO implements IComputerDAO {
 	    logger.error("SQL Exception (request find(id)");
 	    e.printStackTrace();
 	} finally {
-	    try {
-		if (results!=null) {
-		    results.close();
-		}
-		if (preparedStmt!=null) {
-		    preparedStmt.close();
-		}
-	    } catch (SQLException e) {
-		logger.error("SQL Exception (close statement)");
-		e.printStackTrace();
-	    }
+	    closeResultSet(results);
+	    closeStatement(preparedStmt);
 	}
 	return computer;
     }
@@ -116,17 +108,8 @@ public enum ComputerDAO implements IComputerDAO {
 	    logger.error("SQL Exception (request findAll())");
 	    e.printStackTrace();
 	} finally {
-	    try {
-		if (results!=null) {
-		    results.close();
-		}
-		if (stmt!=null) {
-		    stmt.close();
-		}
-	    } catch (SQLException e) {
-		logger.error("SQL Exception (closure statement/resultSet)");
-		e.printStackTrace();
-	    }
+	    closeResultSet(results);
+	    closeStatement(stmt);
 	}
 	return computers;
     }
@@ -157,17 +140,8 @@ public enum ComputerDAO implements IComputerDAO {
 	    logger.error("SQL Exception (findAll())");
 	    e.printStackTrace();
 	} finally {
-	    try {
-		if (results!=null) {
-		    results.close();
-		}
-		if (pstmt!=null) {
-		    pstmt.close();
-		}
-	    } catch (SQLException e) {
-		logger.error("SQL Exception : closure statement/resultSet");
-		e.printStackTrace();
-	    }
+	   closeResultSet(results);
+	   closeStatement(pstmt);
 	}
 	return computers;
     }
@@ -197,14 +171,7 @@ public enum ComputerDAO implements IComputerDAO {
 	    logger.error("SQL Exception : create()");
 	    e.printStackTrace();
 	} finally {
-	    try {
-		if (preparedStmt!=null) {
-		    preparedStmt.close();
-		}
-	    } catch (SQLException e) {
-		logger.error("SQL Exception : closure statement/closure");
-		e.printStackTrace();
-	    }
+	    closeStatement(preparedStmt);
 	} 
     }
 
@@ -219,15 +186,17 @@ public enum ComputerDAO implements IComputerDAO {
 	Timestamp dateDiscontinued = new Timestamp(computer
 		.getDateDiscontinued().toEpochDay());
 	String nameCompany = computer.getCompany().getName();
-	String query = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
+	String updateQuery = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 	String queryCompanyId = "select * from computer where id=?";
-
+	ResultSet rslt = null;
+	PreparedStatement stmt = null;
+	PreparedStatement preparedStmt = null;
 	try {
-	    ResultSet rslt;
-	    PreparedStatement stmt0 = connection.prepareStatement(queryCompanyId);
-	    stmt0.setString(1, nameCompany);
-	    rslt = stmt0.executeQuery();
-	    PreparedStatement preparedStmt = connection.prepareStatement(query);
+	    
+	    stmt = connection.prepareStatement(queryCompanyId);
+	    stmt.setString(1, nameCompany);
+	    rslt = stmt.executeQuery();
+	    preparedStmt = connection.prepareStatement(updateQuery);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setTimestamp(2, dateIntroduced);
 	    preparedStmt.setTimestamp(3, dateDiscontinued);
@@ -245,7 +214,11 @@ public enum ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	} 
+	}  finally {
+	    closeStatement(preparedStmt);
+	    closeStatement(stmt);
+	    closeResultSet(rslt);
+	}
     }
 
     /* (non-Javadoc)
@@ -253,13 +226,16 @@ public enum ComputerDAO implements IComputerDAO {
      */
     @Override
     public void delete(long id, Connection connection) {
-	// @TODO use a preparedStatement
-	String query = "DELETE FROM computer WHERE id=" + id;
+	PreparedStatement pstmt = null;
+	String query = "DELETE FROM computer WHERE id=?";
 	try {
-	    Statement stmt = connection.createStatement();
-	    stmt.executeUpdate(query);
+	    pstmt = connection.prepareStatement(query);
+	    pstmt.setLong(1, id);
+	    pstmt.executeUpdate(query);
 	} catch (SQLException e) {
 	    e.printStackTrace();
+	}  finally {
+	    closeStatement(pstmt);
 	}
     }
 
@@ -284,11 +260,11 @@ public enum ComputerDAO implements IComputerDAO {
 		computers.add(MapperDAO.rowToComputer(results));
 	    }
 	    
-	    pstmt.close();
-	    results.close();
-
 	} catch (Exception e) {
 	    e.printStackTrace();
+	} finally {
+	    closeResultSet(results);
+	    closeStatement(pstmt);
 	}
 	return computers;
     }
@@ -300,19 +276,21 @@ public enum ComputerDAO implements IComputerDAO {
     public int count(String name, Connection connection) {
 	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
 	int result = 0;
-	PreparedStatement pstmt;
+	PreparedStatement pstmt = null;
+	ResultSet rslt = null;
 	try {
 	    pstmt = connection.prepareStatement(query);
 	    pstmt.setString(1, name + "%");
-	    ResultSet rslt = pstmt.executeQuery();
+	    rslt = pstmt.executeQuery();
 	    if (rslt.first()) {
 		result = rslt.getInt(1);
 	    }
-	    rslt.close();
-	    pstmt.close();
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
+	}  finally {
+	    closeResultSet(rslt);
+	    closeStatement(pstmt);
 	}
 
 	return result;
@@ -326,9 +304,8 @@ public enum ComputerDAO implements IComputerDAO {
 	
 	List<Long> computersId = new ArrayList<Long>();
 	String query = "SELECT id FROM computer WHERE company_id = ?";
-	PreparedStatement pstmt;
+	PreparedStatement pstmt = null;
 	ResultSet results = null;
-	
 	try {
 	    pstmt = connection.prepareStatement(query);
 	    pstmt.setLong(1, companyId);
@@ -337,11 +314,13 @@ public enum ComputerDAO implements IComputerDAO {
 	    while (results.next()) {
 		computersId.add(results.getLong(1));
 	    }
-	    pstmt.close();
-	    results.close();
+	    
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
+	} finally {
+	    closeResultSet(results);
+	    closeStatement(pstmt);
 	}
 	return computersId;
     }
@@ -354,9 +333,41 @@ public enum ComputerDAO implements IComputerDAO {
 	List<Long> computersId = findByCompany(id, connection);
 	for (Long computerId : computersId) {
 	    delete(computerId, connection);
-	    System.out.println("id : "+computerId + " supprimé!");
+	    logger.info("computer("+computerId + ") removed");
 	}
-	
+    }
+    
+    private void closeStatement(PreparedStatement pstmt) {
+	try {
+	    if(pstmt != null) {
+		pstmt.close();
+	    }
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : closure PreparedStatement");
+	    e.printStackTrace();
+	}
+    }
+    
+    private void closeStatement(Statement stmt) {
+	try {
+	    if(stmt != null) {
+		stmt.close();
+	    }
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : closure Statement");
+	    e.printStackTrace();
+	}
+    }
+    
+    private void closeResultSet(ResultSet rslt) {
+	try {
+	    if(rslt != null) {
+		rslt.close();
+	    }
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : closure ResultSet");
+	    e.printStackTrace();
+	}
     }
 
 }

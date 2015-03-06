@@ -1,18 +1,13 @@
 package com.excilys.formation.cdb.service.implementation;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.implementation.ComputerDAO;
-import com.excilys.formation.cdb.service.IComputerService;
 
-public class ComputerService implements IComputerService {
-
-    Connection connection;
+public class ComputerService extends AbsComputerService {
     
     public ComputerService() {
 	super();
@@ -22,77 +17,49 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#findAll()
      */
     @Override
-    public List<Computer> findAll() {
-	List<Computer> computers;
-	getConnection();
-	computers = ComputerDAO.INSTANCE.findAll(connection);
-	closeConnection();
-	return computers;
-    }
-
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.service.IComputerService#findAll(int, int)
-     */
-    @Override
-    public List<Computer> findAll(int num, int offset) {
-	List<Computer> computers;
-	getConnection();
-	computers = ComputerDAO.INSTANCE.findAll(num, offset, connection);
-	closeConnection();
-	return computers;
+    public List<Computer> findAllAbs(Connection connection) {
+	return ComputerDAO.INSTANCE.findAll(connection);
+	
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#find(int)
      */
     @Override
-    public Computer find(int id) {
-	Computer computer;
-	getConnection();
-	computer = ComputerDAO.INSTANCE.find(id, connection);
-	closeConnection();
-	return computer;
+    public Computer findAbs(long id, Connection connection) {
+	return ComputerDAO.INSTANCE.find(id, connection);
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
      */
     @Override
-    public void create(String name, String introduced, String discontinued, Company company) {
-	getConnection();
+    public void createAbs(String name, String introduced, String discontinued, Company company, Connection connection) {
 	ComputerDAO.INSTANCE.create(name, introduced, discontinued, company, connection);
-	closeConnection();
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#delete(int)
      */
     @Override
-    public void delete(int id) {
-	getConnection();
+    public void deleteAbs(long id, Connection connection) {
 	ComputerDAO.INSTANCE.delete(id, connection);
-	closeConnection();
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#update(com.excilys.formation.cdb.model.Computer)
      */
     @Override
-    public void update(Computer computer) {
-	getConnection();
+    public void updateAbs(Computer computer, Connection connection) {
 	ComputerDAO.INSTANCE.update(computer, connection);
-	closeConnection();
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#search(java.lang.String, int, int)
      */
     @Override
-    public List<Computer> search(String str, int num, int offset) {
-	List<Computer> computers;
-	getConnection();
-	computers = ComputerDAO.INSTANCE.search(str, num, offset, connection);
-	return computers;
+    public List<Computer> searchAbs(String str, int num, int offset, Connection connection) {
+	return ComputerDAO.INSTANCE.search(str, num, offset, connection);
     }
     
 
@@ -100,30 +67,9 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#count(java.lang.String)
      */
     @Override
-    public int count(String word) {
-	getConnection();
-	int result = ComputerDAO.INSTANCE.count(word, connection);
-	closeConnection();
-	return result;
+    public int countAbs(String word, Connection connection) {
+	return ComputerDAO.INSTANCE.count(word, connection);
     }
     
-    private void getConnection(){
-	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	}
-    }
-    
-    private void closeConnection(){
-	try {
-	    if (connection != null && !connection.isClosed()) {
-		connection.close();
-	    }
-	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-    }
     
 }

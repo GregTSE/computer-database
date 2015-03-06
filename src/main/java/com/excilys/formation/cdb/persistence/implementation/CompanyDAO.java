@@ -11,7 +11,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.formation.cdb.exception.ConnectionException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
 
@@ -29,10 +28,11 @@ public enum CompanyDAO implements ICompanyDAO {
 	
 	List<Company> companies = new ArrayList<Company>();
 	String query = "SELECT * FROM company";
-	ResultSet results;
+	 Statement stmt = null;
+	ResultSet results = null;
 	try {
 	   
-	    Statement stmt = connection.createStatement();
+	    stmt = connection.createStatement();
 	    results = stmt.executeQuery(query);
 
 	    while (results.next()) {
@@ -42,9 +42,12 @@ public enum CompanyDAO implements ICompanyDAO {
 		companies.add(company);
 	    }
 	    
-	} catch (Exception e) {
-	    logger.error("SQL Exception");
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : findAll(companies)");
 	    e.printStackTrace();
+	} finally {
+	    closeStatement(stmt);
+	    closeResultSet(results);
 	}
 	return companies;
     }
@@ -54,37 +57,55 @@ public enum CompanyDAO implements ICompanyDAO {
      */
     @Override
     public void delete(Long id, Connection connection) {
-	ComputerDAO.INSTANCE.deleteByCompany(id, connection);
 	String query = "DELETE FROM company WHERE id=?";
+	PreparedStatement pstmt = null;
 	try {
-	    connection.setAutoCommit(false);
-	    ComputerDAO.INSTANCE.deleteByCompany(id, connection);
-	    PreparedStatement pstmt = connection.prepareStatement(query);
+	    pstmt = connection.prepareStatement(query);
 	    pstmt.setLong(1, id);
-	    pstmt.executeUpdate();
-	    connection.commit();
-	    
+	    pstmt.executeUpdate();    
 	} catch (SQLException e) {
-	    try {
-		logger.error("SQL Exception (delete request)");
-		connection.rollback();
-	    } catch (SQLException e1) {
-		// TODO Auto-generated catch block
-		logger.error("SQL Exception (rollback)");
-		e1.printStackTrace();
-	    }
+	    logger.error("SQL Exception : delete company request");
 	    e.printStackTrace();
 	}
 	finally {
-	    try {
-		connection.setAutoCommit(true);
-		connection.close();
-	    } catch (SQLException e) {
-		logger.error("SQL Exception (close)");
-		throw new ConnectionException("Connection cannot be closed");
-	    }
+	   closeStatement(pstmt);
 	}
 	
 	
     }
+    
+    
+    private void closeStatement(PreparedStatement pstmt) {
+	try {
+	    if(pstmt != null) {
+		pstmt.close();
+	    }
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : closure PreparedStatement");
+	    e.printStackTrace();
+	}
+    }
+    
+    private void closeStatement(Statement stmt) {
+	try {
+	    if(stmt != null) {
+		stmt.close();
+	    }
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : closure Statement");
+	    e.printStackTrace();
+	}
+    }
+    
+    private void closeResultSet(ResultSet rslt) {
+	try {
+	    if(rslt != null) {
+		rslt.close();
+	    }
+	} catch (SQLException e) {
+	    logger.error("SQL Exception : closure ResultSet");
+	    e.printStackTrace();
+	}
+    }
+
 }

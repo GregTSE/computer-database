@@ -9,14 +9,12 @@ public interface IComputerService {
 
     public abstract List<Computer> findAll();
 
-    public abstract List<Computer> findAll(int num, int offset);
-
-    public abstract Computer find(int id);
+    public abstract Computer find(long id);
 
     public abstract void create(String name, String introduced,
 	    String discontinued, Company company);
 
-    public abstract void delete(int id);
+    public abstract void delete(long id);
 
     public abstract void update(Computer computer);
 

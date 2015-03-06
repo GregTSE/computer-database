@@ -16,7 +16,7 @@ public interface IComputerDAO {
      *            of the computer
      * @return an instance of the Computer class
      */
-    public abstract Computer find(int id, Connection connection);
+    public abstract Computer find(long id, Connection connection);
 
     /**
      * Build a list of computers with fields 'id' and 'name'

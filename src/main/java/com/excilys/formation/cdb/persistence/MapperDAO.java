@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.persistence.implementation;
+package com.excilys.formation.cdb.persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
