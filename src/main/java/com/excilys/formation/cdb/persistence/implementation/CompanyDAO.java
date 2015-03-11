@@ -1,24 +1,28 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
 
-public enum CompanyDAO implements ICompanyDAO {
 
-    INSTANCE;
+@Repository
+public class CompanyDAO implements ICompanyDAO {
     
-    private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+    private DataSource dataSource;
+
+    @Autowired
+    public void setDataSource(DataSource ds) {
+      dataSource = ds;
+    }
+  
     
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#findAll()
@@ -28,83 +32,29 @@ public enum CompanyDAO implements ICompanyDAO {
 	
 	List<Company> companies = new ArrayList<Company>();
 	String query = "SELECT * FROM company";
-	 Statement stmt = null;
-	ResultSet results = null;
-	try {	   
-	    stmt = ConnectionDAO.INSTANCE.getConnection().createStatement();
-	    results = stmt.executeQuery(query);
-
-	    while (results.next()) {
+	
+	JdbcTemplate selectAll = new JdbcTemplate(dataSource);
+	
+	List<Map<String, Object>> rows = selectAll.queryForList(query);
+	for (Map<String, Object> row : rows) {
 		Company company = new Company();
-		company.setId(results.getInt(1));
-		company.setName(results.getString(2));
+		company.setId((Integer.parseInt(row.get("ID").toString())));
+		company.setName((String)row.get("NAME"));
+		
 		companies.add(company);
-	    }
-	    
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : findAll(companies)");
-	    e.printStackTrace();
-	} finally {
-	    closeStatement(stmt);
-	    closeResultSet(results);
 	}
 	return companies;
     }
 
+    
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.persistence.ICompanyDAO#delete(java.lang.Long)
      */
     @Override
     public void delete(Long id) {
 	String query = "DELETE FROM company WHERE id=?";
-	PreparedStatement pstmt = null;
-	try {
-	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
-	    pstmt.setLong(1, id);
-	    pstmt.executeUpdate();    
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : delete company request");
-	    e.printStackTrace();
-	}
-	finally {
-	   closeStatement(pstmt);
-	}
-	
-	
+	JdbcTemplate delete = new JdbcTemplate(dataSource);
+	delete.update(query, new Object[] { id });
     }
     
-    
-    private void closeStatement(PreparedStatement pstmt) {
-	try {
-	    if(pstmt != null) {
-		pstmt.close();
-	    }
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : closure PreparedStatement");
-	    e.printStackTrace();
-	}
-    }
-    
-    private void closeStatement(Statement stmt) {
-	try {
-	    if(stmt != null) {
-		stmt.close();
-	    }
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : closure Statement");
-	    e.printStackTrace();
-	}
-    }
-    
-    private void closeResultSet(ResultSet rslt) {
-	try {
-	    if(rslt != null) {
-		rslt.close();
-	    }
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : closure ResultSet");
-	    e.printStackTrace();
-	}
-    }
-
 }

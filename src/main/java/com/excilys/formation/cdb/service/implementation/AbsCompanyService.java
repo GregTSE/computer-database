@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
@@ -13,6 +14,9 @@ import com.excilys.formation.cdb.service.ICompanyService;
 
 public abstract class AbsCompanyService implements ICompanyService {
 
+    @Autowired
+    private ConnectionDAO connectionDAO;
+    
     public AbsCompanyService() {
     }
 
@@ -54,11 +58,11 @@ public abstract class AbsCompanyService implements ICompanyService {
     public abstract void deleteAbs(Long id);
 
     private Connection getConnection() {
-	return ConnectionDAO.INSTANCE.getConnection();
+	return connectionDAO.getConnection();
     }
 
     private void closeConnection() {
-	ConnectionDAO.INSTANCE.closeConnection();
+	connectionDAO.closeConnection();
     }
     
 

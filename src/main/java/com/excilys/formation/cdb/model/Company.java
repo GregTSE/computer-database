@@ -1,5 +1,8 @@
 package com.excilys.formation.cdb.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Company {
 
     private Long id;

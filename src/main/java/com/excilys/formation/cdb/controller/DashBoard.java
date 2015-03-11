@@ -2,11 +2,16 @@ package com.excilys.formation.cdb.controller;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Page;
@@ -18,9 +23,12 @@ import com.excilys.formation.cdb.utils.Util;
  * Servlet implementation class DashBoard
  */
 @WebServlet("/DashBoard")
+@Configurable
 public class DashBoard extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    
+    @Autowired
     private IComputerService computerService;
     private Page page;
 
@@ -30,7 +38,11 @@ public class DashBoard extends HttpServlet {
     public DashBoard() {
 	super();
 	page = new Page();
-	computerService = new ComputerService();
+    }
+    
+    public void init(ServletConfig config) throws ServletException  {
+	super.init(config);
+	SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     /**

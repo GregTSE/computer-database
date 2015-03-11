@@ -2,6 +2,9 @@ package com.excilys.formation.cdb.model;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Computer {
 
     private Long id;

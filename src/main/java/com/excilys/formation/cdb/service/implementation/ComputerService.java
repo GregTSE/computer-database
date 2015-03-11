@@ -2,11 +2,20 @@ package com.excilys.formation.cdb.service.implementation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.IComputerDAO;
+import com.excilys.formation.cdb.persistence.implementation.CompanyDAO;
 import com.excilys.formation.cdb.persistence.implementation.ComputerDAO;
 
+@Service
 public class ComputerService extends AbsComputerService {
+    
+    @Autowired
+    private IComputerDAO computerDAO;
     
     public ComputerService() {
 	super();
@@ -17,7 +26,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public List<Computer> findAllAbs() {
-	return ComputerDAO.INSTANCE.findAll();
+	return computerDAO.findAll();
 	
     }
 
@@ -26,7 +35,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public Computer findAbs(long id) {
-	return ComputerDAO.INSTANCE.find(id);
+	return computerDAO.find(id);
     }
 
     /* (non-Javadoc)
@@ -34,7 +43,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public void createAbs(String name, String introduced, String discontinued, Company company) {
-	ComputerDAO.INSTANCE.create(name, introduced, discontinued, company);
+	computerDAO.create(name, introduced, discontinued, company);
     }
 
     /* (non-Javadoc)
@@ -42,7 +51,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public void deleteAbs(long id) {
-	ComputerDAO.INSTANCE.delete(id);
+	computerDAO.delete(id);
     }
 
     /* (non-Javadoc)
@@ -50,7 +59,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public void updateAbs(Computer computer) {
-	ComputerDAO.INSTANCE.update(computer);
+	computerDAO.update(computer);
     }
 
     /* (non-Javadoc)
@@ -58,7 +67,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public List<Computer> searchAbs(String str, int num, int offset) {
-	return ComputerDAO.INSTANCE.search(str, num, offset);
+	return computerDAO.search(str, num, offset);
     }
     
 
@@ -67,7 +76,7 @@ public class ComputerService extends AbsComputerService {
      */
     @Override
     public int countAbs(String word) {
-	return ComputerDAO.INSTANCE.count(word);
+	return computerDAO.count(word);
     }
     
     

@@ -9,18 +9,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.persistence.MapperDAO;
 
-public enum ComputerDAO implements IComputerDAO {
-
-    INSTANCE;
+@Repository
+public class ComputerDAO implements IComputerDAO {
+    
+    @Autowired
+    private DataSource dataSource;
 
     final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
     /*** METHODS FOR CLI ***/
@@ -42,11 +47,11 @@ public enum ComputerDAO implements IComputerDAO {
 
 
 	try {
-	    preparedStmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    preparedStmt = dataSource.getConnection().prepareStatement(query);
 	    preparedStmt.setLong(1, id);
 	    results = preparedStmt.executeQuery();
 	    Company company = null;
-	    //MAPPER COMPUTER !!!
+	  
 	    if (results.first()) {
 		Long idCompany = results.getLong(4);
 
@@ -96,7 +101,7 @@ public enum ComputerDAO implements IComputerDAO {
 	
 	try {
 	
-	    stmt = ConnectionDAO.INSTANCE.getConnection().createStatement();
+	    stmt = dataSource.getConnection().createStatement();
 
 	    results = stmt.executeQuery(query);
 	    
@@ -127,7 +132,7 @@ public enum ComputerDAO implements IComputerDAO {
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
 	try {
-	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    pstmt = dataSource.getConnection().prepareStatement(query);
 	    pstmt.setInt(1, num);
 	    pstmt.setInt(2, offset);
 	    results = pstmt.executeQuery();
@@ -155,7 +160,7 @@ public enum ComputerDAO implements IComputerDAO {
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
 	PreparedStatement preparedStmt = null;
 	try {
-	    preparedStmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    preparedStmt = dataSource.getConnection().prepareStatement(query);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setString(2, introduced);
 	    preparedStmt.setString(3, discontinued);
@@ -193,10 +198,10 @@ public enum ComputerDAO implements IComputerDAO {
 	PreparedStatement preparedStmt = null;
 	try {
 	    
-	    stmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(queryCompanyId);
+	    stmt = dataSource.getConnection().prepareStatement(queryCompanyId);
 	    stmt.setString(1, nameCompany);
 	    rslt = stmt.executeQuery();
-	    preparedStmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(updateQuery);
+	    preparedStmt = dataSource.getConnection().prepareStatement(updateQuery);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setTimestamp(2, dateIntroduced);
 	    preparedStmt.setTimestamp(3, dateDiscontinued);
@@ -229,7 +234,7 @@ public enum ComputerDAO implements IComputerDAO {
 	PreparedStatement pstmt = null;
 	String query = "DELETE FROM computer WHERE id=?";
 	try {
-	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    pstmt = dataSource.getConnection().prepareStatement(query);
 	    pstmt.setLong(1, id);
 	    pstmt.executeUpdate(query);
 	} catch (SQLException e) {
@@ -250,7 +255,7 @@ public enum ComputerDAO implements IComputerDAO {
 	ResultSet results = null;
 	PreparedStatement pstmt = null;
 	try {
-	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    pstmt = dataSource.getConnection().prepareStatement(query);
 	    pstmt.setString(1, str + '%');
 	    pstmt.setInt(2, num);
 	    pstmt.setInt(3, offset);
@@ -279,7 +284,7 @@ public enum ComputerDAO implements IComputerDAO {
 	PreparedStatement pstmt = null;
 	ResultSet rslt = null;
 	try {
-	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    pstmt = dataSource.getConnection().prepareStatement(query);
 	    pstmt.setString(1, name + "%");
 	    rslt = pstmt.executeQuery();
 	    if (rslt.first()) {
@@ -307,7 +312,7 @@ public enum ComputerDAO implements IComputerDAO {
 	PreparedStatement pstmt = null;
 	ResultSet results = null;
 	try {
-	    pstmt = ConnectionDAO.INSTANCE.getConnection().prepareStatement(query);
+	    pstmt = dataSource.getConnection().prepareStatement(query);
 	    pstmt.setLong(1, companyId);
 	    results = pstmt.executeQuery();
 

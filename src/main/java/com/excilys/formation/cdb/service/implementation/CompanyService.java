@@ -2,14 +2,25 @@ package com.excilys.formation.cdb.service.implementation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.persistence.ICompanyDAO;
+import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.persistence.implementation.CompanyDAO;
 import com.excilys.formation.cdb.persistence.implementation.ComputerDAO;
 
+@Service
 public class CompanyService extends AbsCompanyService {
     
+   @Autowired
+    private ICompanyDAO companyDAO;
+   @Autowired
+   private IComputerDAO computerDAO;
+    
     public CompanyService() {
-	super();
+	
     }
 
     /* (non-Javadoc)
@@ -17,7 +28,7 @@ public class CompanyService extends AbsCompanyService {
      */
     @Override
     public List<Company> findAllAbs() {
-	return CompanyDAO.INSTANCE.findAll();
+	return companyDAO.findAll();
     }
     
     /* (non-Javadoc)
@@ -25,8 +36,8 @@ public class CompanyService extends AbsCompanyService {
      */
     @Override
     public void deleteAbs(Long id) {
-	ComputerDAO.INSTANCE.deleteByCompany(id);
-	CompanyDAO.INSTANCE.delete(id);
+	computerDAO.deleteByCompany(id);
+	companyDAO.delete(id);
     }
     
 

@@ -29,9 +29,9 @@ public class TestCompanyDAO {
 	connection.close();
     }
 
-    @Test
-    public void testFindAll() {
-	assertEquals(CompanyDAO.INSTANCE.findAll(connection).size(), 3);
-    }
+ //   @Test
+//    public void testFindAll() {
+//	assertEquals(CompanyDAO.INSTANCE.findAll(connection).size(), 3);
+//    }
 
 }

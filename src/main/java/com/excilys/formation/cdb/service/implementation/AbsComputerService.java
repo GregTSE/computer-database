@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.ConnectionDAO;
@@ -11,6 +13,8 @@ import com.excilys.formation.cdb.service.IComputerService;
 
 public abstract class AbsComputerService implements IComputerService {
 
+    @Autowired
+    private ConnectionDAO connectionDAO;
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#findAll()
      */
@@ -104,11 +108,7 @@ public abstract class AbsComputerService implements IComputerService {
     
     private Connection getConnection(){
 	Connection connection = null;
-	try {
-	    connection = ConnectionDAO.INSTANCE.connectionPool.getConnection();
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	}
+	connection = connectionDAO.getConnection();
 	return connection;
     }
     
