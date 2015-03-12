@@ -8,13 +8,16 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -23,70 +26,65 @@ import com.excilys.formation.cdb.persistence.MapperDAO;
 
 @Repository
 public class ComputerDAO implements IComputerDAO {
-    
+
     @Autowired
     private DataSource dataSource;
 
     final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+
     /*** METHODS FOR CLI ***/
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#find(int)
      */
     @Override
     public Computer find(long id) {
 
-	Computer computer = null;	
-	ResultSet results = null;
-	PreparedStatement preparedStmt = null;
+	Computer computer = null;
+	 String query =
+	 "SELECT comput.name, introduced, discontinued, company_id , c.name AS cname"
+	 +
+	 "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id"
+	 + "WHERE comput.id=?";
+	
+	 JdbcTemplate find = new JdbcTemplate(dataSource);
+	 Object[] row = find.queryForObject(query, new Object[] { "name",
+	 "introduced", "discontinued", "company_id", "cname" },
+	 Object[].class);
+	 Company company = null;
+	
+	 if (row[3] != null) {
+	 Long idCompany = Long.parseLong(row[3].toString());
+	 company = new Company(idCompany, row[4].toString());
+	
+	
+	
+	 LocalDate introduced = null, discontinued = null;
+	
+	 Timestamp discontinuedTS = Timestamp.valueOf(row[2].toString());
+	 Timestamp introducedTS = Timestamp.valueOf(row[1].toString());
+	
+	 if (introducedTS != null) {
+	 introduced = introducedTS.toLocalDateTime().toLocalDate();
+	 }
+	
+	 if (discontinuedTS != null) {
+	 discontinued = discontinuedTS.toLocalDateTime()
+	 .toLocalDate();
+	 }
+	
+	 computer = new Computer(new Long(id), row[0].toString(),
+	 introduced, discontinued, company);
+	 }
 
-	String query = "SELECT comput.name, introduced, discontinued, company_id , c.name "
-		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id"
-		+ "WHERE comput.id=?";
-
-
-
-	try {
-	    preparedStmt = dataSource.getConnection().prepareStatement(query);
-	    preparedStmt.setLong(1, id);
-	    results = preparedStmt.executeQuery();
-	    Company company = null;
-	  
-	    if (results.first()) {
-		Long idCompany = results.getLong(4);
-
-		if (idCompany != null) {
-		    company = new Company(idCompany, results.getString(5));
-		}
-
-		Timestamp introducedTS = results.getTimestamp(2);
-		LocalDate introduced = null, discontinued = null;
-		Timestamp discontinuedTS = results.getTimestamp(3);
-
-		if (introducedTS != null) {
-		    introduced = introducedTS.toLocalDateTime().toLocalDate();
-		}
-
-		if (discontinuedTS != null) {
-		    discontinued = discontinuedTS.toLocalDateTime()
-			    .toLocalDate();
-		}
-
-		computer = new Computer(new Long(id), results.getString(1),
-			introduced, discontinued, company);
-	    }
-
-	} catch (SQLException e) {
-	    logger.error("SQL Exception (request find(id)");
-	    e.printStackTrace();
-	} finally {
-	    closeResultSet(results);
-	    closeStatement(preparedStmt);
-	}
 	return computer;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll()
      */
     @Override
@@ -94,65 +92,103 @@ public class ComputerDAO implements IComputerDAO {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
 
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
-		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id";
-	ResultSet results = null;
-	Statement stmt = null;
-	
-	try {
-	
-	    stmt = dataSource.getConnection().createStatement();
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id";
 
-	    results = stmt.executeQuery(query);
-	    
-	    while (results.next()) {		
-		computers.add(MapperDAO.rowToComputer(results));
+	JdbcTemplate search = new JdbcTemplate(dataSource);
+
+	List<Map<String, Object>> rows = search.queryForList(query);
+
+	for (Map<String, Object> row : rows) {
+	    Computer computer = null;
+	    Company company = null;
+	    if (row.get("cname") != null) {
+		Long idCompany = Long.parseLong(row.get("company_id")
+			.toString());
+		company = new Company(idCompany, row.get("cname").toString());
+	    }
+	    LocalDate dateIntroduced = null, dateDiscontinued = null;
+
+	    if (row.get("introduced") != null) {
+		Timestamp introducedTS = Timestamp.valueOf(row
+			.get("introduced").toString());
+		dateIntroduced = introducedTS.toLocalDateTime().toLocalDate();
 	    }
 
-	} catch (Exception e) {
-	    logger.error("SQL Exception (request findAll())");
-	    e.printStackTrace();
-	} finally {
-	    closeResultSet(results);
-	    closeStatement(stmt);
+	    if (row.get("discontinued") != null) {
+		Timestamp discontinuedTS = Timestamp.valueOf(row.get(
+			"discontinued").toString());
+		dateDiscontinued = discontinuedTS.toLocalDateTime()
+			.toLocalDate();
+
+	    }
+
+	    computer = new Computer(Long.parseLong(row.get("id").toString()),
+		    row.get("name").toString(), dateIntroduced,
+		    dateDiscontinued, company);
+
+	    computers.add(computer);
 	}
 	return computers;
     }
 
     /*** METHODS FOR WEB-UI ***/
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll(int, int)
      */
     @Override
     public List<Computer> findAll(int num, int offset) {
 	ArrayList<Computer> computers = new ArrayList<Computer>();
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name "
-		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id LIMIT ?, ?";
-	ResultSet results = null;
-	PreparedStatement pstmt = null;
-	try {
-	    pstmt = dataSource.getConnection().prepareStatement(query);
-	    pstmt.setInt(1, num);
-	    pstmt.setInt(2, offset);
-	    results = pstmt.executeQuery();
 
-	    while (results.next()) {
-		computers.add(MapperDAO.rowToComputer(results));
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id LIMIT ?, ?";
+
+	JdbcTemplate search = new JdbcTemplate(dataSource);
+
+	List<Map<String, Object>> rows = search.queryForList(query,
+		new Object[] { num, offset });
+
+	for (Map<String, Object> row : rows) {
+	    Computer computer = null;
+	    Company company = null;
+	    if (row.get("cname") != null) {
+		Long idCompany = Long.parseLong(row.get("company_id")
+			.toString());
+		company = new Company(idCompany, row.get("cname").toString());
+	    }
+	    LocalDate dateIntroduced = null, dateDiscontinued = null;
+
+	    if (row.get("introduced") != null) {
+		Timestamp introducedTS = Timestamp.valueOf(row
+			.get("introduced").toString());
+		dateIntroduced = introducedTS.toLocalDateTime().toLocalDate();
 	    }
 
-	} catch (Exception e) {
-	    logger.error("SQL Exception (findAll())");
-	    e.printStackTrace();
-	} finally {
-	   closeResultSet(results);
-	   closeStatement(pstmt);
+	    if (row.get("discontinued") != null) {
+		Timestamp discontinuedTS = Timestamp.valueOf(row.get(
+			"discontinued").toString());
+		dateDiscontinued = discontinuedTS.toLocalDateTime()
+			.toLocalDate();
+
+	    }
+
+	    computer = new Computer(Long.parseLong(row.get("id").toString()),
+		    row.get("name").toString(), dateIntroduced,
+		    dateDiscontinued, company);
+
+	    computers.add(computer);
 	}
 	return computers;
     }
 
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.persistence.IComputerDAO#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.excilys.formation.cdb.persistence.IComputerDAO#create(java.lang.String
+     * , java.lang.String, java.lang.String,
+     * com.excilys.formation.cdb.model.Company)
      */
     @Override
     public void create(String name, String introduced, String discontinued,
@@ -175,13 +211,15 @@ public class ComputerDAO implements IComputerDAO {
 	} catch (SQLException e) {
 	    logger.error("SQL Exception : create()");
 	    e.printStackTrace();
-	} finally {
-	    closeStatement(preparedStmt);
-	} 
+	}
     }
 
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.persistence.IComputerDAO#update(com.excilys.formation.cdb.model.Computer)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.excilys.formation.cdb.persistence.IComputerDAO#update(com.excilys
+     * .formation.cdb.model.Computer)
      */
     @Override
     public void update(Computer computer) {
@@ -197,11 +235,12 @@ public class ComputerDAO implements IComputerDAO {
 	PreparedStatement stmt = null;
 	PreparedStatement preparedStmt = null;
 	try {
-	    
+
 	    stmt = dataSource.getConnection().prepareStatement(queryCompanyId);
 	    stmt.setString(1, nameCompany);
 	    rslt = stmt.executeQuery();
-	    preparedStmt = dataSource.getConnection().prepareStatement(updateQuery);
+	    preparedStmt = dataSource.getConnection().prepareStatement(
+		    updateQuery);
 	    preparedStmt.setString(1, name);
 	    preparedStmt.setTimestamp(2, dateIntroduced);
 	    preparedStmt.setTimestamp(3, dateDiscontinued);
@@ -219,94 +258,98 @@ public class ComputerDAO implements IComputerDAO {
 
 	} catch (SQLException e) {
 	    e.printStackTrace();
-	}  finally {
-	    closeStatement(preparedStmt);
-	    closeStatement(stmt);
-	    closeResultSet(rslt);
-	}
+	} 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#delete(long)
      */
     @Override
     public void delete(long id) {
-	PreparedStatement pstmt = null;
 	String query = "DELETE FROM computer WHERE id=?";
-	try {
-	    pstmt = dataSource.getConnection().prepareStatement(query);
-	    pstmt.setLong(1, id);
-	    pstmt.executeUpdate(query);
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	}  finally {
-	    closeStatement(pstmt);
-	}
+	JdbcTemplate delete = new JdbcTemplate(dataSource);
+	delete.update(query, new Object[] { id });
     }
 
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String, int, int)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String
+     * , int, int)
      */
     @Override
     public List<Computer> search(String str, int num, int offset) {
 
 	ArrayList<Computer> computers = new ArrayList<Computer>();
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
-	ResultSet results = null;
-	PreparedStatement pstmt = null;
-	try {
-	    pstmt = dataSource.getConnection().prepareStatement(query);
-	    pstmt.setString(1, str + '%');
-	    pstmt.setInt(2, num);
-	    pstmt.setInt(3, offset);
-	    results = pstmt.executeQuery();
 
-	    while (results.next()) {		
-		computers.add(MapperDAO.rowToComputer(results));
+	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
+
+	JdbcTemplate search = new JdbcTemplate(dataSource);
+
+	List<Map<String, Object>> rows = search.queryForList(query,
+		new Object[] { str + "%", num, offset });
+
+	for (Map<String, Object> row : rows) {
+	    Computer computer = null;
+	    Company company = null;
+	    if (row.get("cname") != null) {
+		Long idCompany = Long.parseLong(row.get("company_id")
+			.toString());
+		company = new Company(idCompany, row.get("cname").toString());
 	    }
-	    
-	} catch (Exception e) {
-	    e.printStackTrace();
-	} finally {
-	    closeResultSet(results);
-	    closeStatement(pstmt);
+	    LocalDate dateIntroduced = null, dateDiscontinued = null;
+
+	    if (row.get("introduced") != null) {
+		Timestamp introducedTS = Timestamp.valueOf(row
+			.get("introduced").toString());
+		dateIntroduced = introducedTS.toLocalDateTime().toLocalDate();
+	    }
+
+	    if (row.get("discontinued") != null) {
+		Timestamp discontinuedTS = Timestamp.valueOf(row.get(
+			"discontinued").toString());
+		dateDiscontinued = discontinuedTS.toLocalDateTime()
+			.toLocalDate();
+
+	    }
+
+	    computer = new Computer(Long.parseLong(row.get("id").toString()),
+		    row.get("name").toString(), dateIntroduced,
+		    dateDiscontinued, company);
+
+	    computers.add(computer);
 	}
 	return computers;
     }
 
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.persistence.IComputerDAO#count(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.excilys.formation.cdb.persistence.IComputerDAO#count(java.lang.String
+     * )
      */
     @Override
     public int count(String name) {
 	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
-	int result = 0;
-	PreparedStatement pstmt = null;
-	ResultSet rslt = null;
-	try {
-	    pstmt = dataSource.getConnection().prepareStatement(query);
-	    pstmt.setString(1, name + "%");
-	    rslt = pstmt.executeQuery();
-	    if (rslt.first()) {
-		result = rslt.getInt(1);
-	    }
-	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}  finally {
-	    closeResultSet(rslt);
-	    closeStatement(pstmt);
-	}
-
-	return result;
+	JdbcTemplate count = new JdbcTemplate(dataSource);
+	return count.queryForObject(query, new Object[] { name + "%" },
+		Integer.class);
     }
-    
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.persistence.IComputerDAO#findByCompany(java.lang.Long)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.excilys.formation.cdb.persistence.IComputerDAO#findByCompany(java
+     * .lang.Long)
      */
     @Override
     public List<Long> findByCompany(Long companyId) {
-	
+
 	List<Long> computersId = new ArrayList<Long>();
 	String query = "SELECT id FROM computer WHERE company_id = ?";
 	PreparedStatement pstmt = null;
@@ -319,60 +362,28 @@ public class ComputerDAO implements IComputerDAO {
 	    while (results.next()) {
 		computersId.add(results.getLong(1));
 	    }
-	    
+
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
-	} finally {
-	    closeResultSet(results);
-	    closeStatement(pstmt);
-	}
+	} 
 	return computersId;
     }
-    
-    /* (non-Javadoc)
-     * @see com.excilys.formation.cdb.persistence.IComputerDAO#deleteByCompany(java.lang.Long)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.excilys.formation.cdb.persistence.IComputerDAO#deleteByCompany(java
+     * .lang.Long)
      */
     @Override
-    public void deleteByCompany(Long id){
+    @Transactional
+    public void deleteByCompany(Long id) {
 	List<Long> computersId = findByCompany(id);
 	for (Long computerId : computersId) {
 	    delete(computerId);
-	    logger.info("computer("+computerId + ") removed");
+	    logger.info("computer(" + computerId + ") removed");
 	}
     }
-    
-    private void closeStatement(PreparedStatement pstmt) {
-	try {
-	    if(pstmt != null) {
-		pstmt.close();
-	    }
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : closure PreparedStatement");
-	    e.printStackTrace();
-	}
-    }
-    
-    private void closeStatement(Statement stmt) {
-	try {
-	    if(stmt != null) {
-		stmt.close();
-	    }
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : closure Statement");
-	    e.printStackTrace();
-	}
-    }
-    
-    private void closeResultSet(ResultSet rslt) {
-	try {
-	    if(rslt != null) {
-		rslt.close();
-	    }
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : closure ResultSet");
-	    e.printStackTrace();
-	}
-    }
-
 }

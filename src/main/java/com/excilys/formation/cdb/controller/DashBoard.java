@@ -22,7 +22,7 @@ import com.excilys.formation.cdb.utils.Util;
 /**
  * Servlet implementation class DashBoard
  */
-@WebServlet("/DashBoard")
+@WebServlet("/DashBoards")
 @Configurable
 public class DashBoard extends HttpServlet {
 
@@ -49,32 +49,32 @@ public class DashBoard extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	int offset = 10;
-	int index = 0;
-
-	String strIndex = request.getParameter("index");
-	String strOffset = request.getParameter("offset");
-
-	if (Util.checkInt(strIndex)) {
-	    index = Integer.parseInt(strIndex);
-	}
-
-	if (Util.checkInt(strOffset)) {
-	    offset = Integer.parseInt(strOffset);
-	}
-	
-	String word = request.getParameter("search");
-	if(word == null) {
-	    word = "";
-	}
-
-	page.setPage(index, offset, word);
-	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search(word, index*offset, offset)));
-	
-	request.setAttribute("page", page);
-	request.setAttribute("computersFound", computerService.count(word));
-	
-	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
+//	int offset = 10;
+//	int index = 0;
+//
+//	String strIndex = request.getParameter("index");
+//	String strOffset = request.getParameter("offset");
+//
+//	if (Util.checkInt(strIndex)) {
+//	    index = Integer.parseInt(strIndex);
+//	}
+//
+//	if (Util.checkInt(strOffset)) {
+//	    offset = Integer.parseInt(strOffset);
+//	}
+//	
+//	String word = request.getParameter("search");
+//	if(word == null) {
+//	    word = "";
+//	}
+//
+//	page.setPage(index, offset, word);
+//	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search(word, index*offset, offset)));
+//	
+//	request.setAttribute("page", page);
+//	request.setAttribute("computersFound", computerService.count(word));
+//	
+//	getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
     }
 
     /**

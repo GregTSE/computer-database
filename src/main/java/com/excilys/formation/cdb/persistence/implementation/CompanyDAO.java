@@ -54,7 +54,8 @@ public class CompanyDAO implements ICompanyDAO {
     public void delete(Long id) {
 	String query = "DELETE FROM company WHERE id=?";
 	JdbcTemplate delete = new JdbcTemplate(dataSource);
-	delete.update(query, new Object[] { id });
+	Object[] params = { id };
+	delete.update(query, params);
     }
     
 }
