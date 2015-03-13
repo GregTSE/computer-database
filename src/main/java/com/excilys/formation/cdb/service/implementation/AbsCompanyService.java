@@ -22,10 +22,8 @@ public abstract class AbsCompanyService implements ICompanyService {
 
     @Override
     public final List<Company> findAll() {
-	Connection connection = getConnection();
 	List<Company> companies = null;
 	companies = findAllAbs();
-	closeConnection();
 	return companies;
     }
 
@@ -43,7 +41,6 @@ public abstract class AbsCompanyService implements ICompanyService {
 		logger.error("SQL Exception (transaction)");
 		connection.rollback();
 	    } catch (SQLException e1) {
-		// TODO Auto-generated catch block
 		logger.error("SQL Exception (rollback)");
 		e1.printStackTrace();
 	    }

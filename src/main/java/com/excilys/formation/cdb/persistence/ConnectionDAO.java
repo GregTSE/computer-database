@@ -38,7 +38,6 @@ public class ConnectionDAO {
 	        return connectionThreadLocal.get();
 	    }
 	} catch (SQLException e1) {
-	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
 	}
 	try {
@@ -60,7 +59,6 @@ public class ConnectionDAO {
 		connectionThreadLocal.remove();
 	    }
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }

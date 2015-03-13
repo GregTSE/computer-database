@@ -1,13 +1,10 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import static org.junit.Assert.*;
 
 import java.sql.Connection;
-import java.sql.Statement;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import com.excilys.formation.cdb.persistence.ConnectionDAO4Test;
 

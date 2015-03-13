@@ -1,10 +1,8 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class TestComputerDAO {
 

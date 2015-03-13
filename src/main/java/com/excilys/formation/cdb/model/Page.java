@@ -5,76 +5,77 @@ import java.util.List;
 import com.excilys.formation.cdb.dto.ComputerDTO;
 
 
+//TODO : Ne pas afficher les pages sans contenu
 public class Page {
-    
+
     private int num;
     private int offset;
     private String word;
     private List<ComputerDTO> computersDTO;
-   
+
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 
-    public Page(){
+    public Page() {
 	this.num = 0;
 	this.offset = 10;
 	this.word = "";
     }
-    
+
     public void init() {
 	this.num = 0;
 	this.offset = 10;
 	this.word = "";
     }
-    
+
     public void setPage(int num, int offset, String word) {
 	this.num = num;
 	this.offset = offset;
 	this.word = word;
     }
-    
-    public int getBeginPage(){
-	return ((num - 1) / NB_OF_DISPLAYED_PAGES* NB_OF_DISPLAYED_PAGES + 1);
+
+    public int getBeginPage() {
+	return ((num - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1);
     }
-    
-    public int getEndPage(){
-	return ((num - 1) / NB_OF_DISPLAYED_PAGES* NB_OF_DISPLAYED_PAGES + 1)+ (NB_OF_DISPLAYED_PAGES - 1);
+
+    public int getEndPage() {
+	return ((num - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1)
+		+ (NB_OF_DISPLAYED_PAGES - 1);
     }
-    
-    public int getNbComputersPerPage(){
+
+    public int getNbComputersPerPage() {
 	return computersDTO.size();
     }
 
     public int getNum() {
-        return num;
+	return num;
     }
 
     public void setNum(int num) {
-        this.num = num;
+	this.num = num;
     }
 
     public int getOffset() {
-        return offset;
+	return offset;
     }
 
     public void setOffset(int offset) {
-        this.offset = offset;
+	this.offset = offset;
     }
 
     public String getWord() {
-        return word;
+	return word;
     }
 
     public void setWord(String word) {
-        this.word = word;
+	this.word = word;
     }
 
     public List<ComputerDTO> getComputersDTO() {
-        return computersDTO;
+	return computersDTO;
     }
 
     public void setComputersDTO(List<ComputerDTO> computersDTO) {
-        this.computersDTO = computersDTO;
+	this.computersDTO = computersDTO;
     }
-
 
 }

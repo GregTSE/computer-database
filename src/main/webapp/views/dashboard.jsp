@@ -2,17 +2,18 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@include file="header.jsp"%>
 
-<%@include file="header.jsp" %>
-
-	<section id="main">
-		<div class="container">
-			<h1 id="homeTitle">${computersFound} <spring:message code="computer.found"/></h1>
-			<div id="actions" class="form-horizontal">
-				<div class="pull-left">
+<section id="main">
+	<div class="container">
+		<h1 id="homeTitle">${computersFound}
+			<spring:message code="computer.found" />
+		</h1>
+		<div id="actions" class="form-horizontal">
+			<div class="pull-left">
 
 				<form id="searchForm" action="./dashboard" method="GET"
 					class="form-inline">
@@ -24,69 +25,66 @@
 				</form>
 
 			</div>
-				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="./addComputer">
-						Add Computer
-					</a>
-					<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
-						Edit
-					</a>
-				</div>
+			<div class="pull-right">
+				<a class="btn btn-success" id="addComputer" href="./addComputer">
+					Add Computer </a> <a class="btn btn-default" id="editComputer" href="#"
+					onclick="$.fn.toggleEditMode();"> Edit </a>
 			</div>
 		</div>
+	</div>
 
-		<form id="deleteForm" action="./dashboard" method="POST">
-			<input type="hidden" name="selection" value="">
-		</form>
+	<form id="deleteForm" action="./dashboard" method="POST">
+		<input type="hidden" name="selection" value="">
+	</form>
 
-		<div class="container" style="margin-top: 10px;">
-			<table class="table table-striped table-bordered">
-				<thead>
+	<div class="container" style="margin-top: 10px;">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<!-- Variable declarations for passing labels as parameters -->
+					<!-- Table header for Computer Name -->
+
+					<th class="editMode" style="width: 60px; height: 22px;"><input
+						type="checkbox" id="selectall" /> <span
+						style="vertical-align: top;"> - <a href="#"
+							id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
+								class="fa fa-trash-o fa-lg"></i>
+						</a>
+					</span></th>
+					<th>Computer name</th>
+					<th>Introduced date</th>
+					<!-- Table header for Discontinued Date -->
+					<th>Discontinued date</th>
+					<!-- Table header for Company -->
+					<th>Company</th>
+
+				</tr>
+			</thead>
+			<!-- Browse attribute computers -->
+			<tbody id="results">
+				<c:forEach var="computer" items="${page.computersDTO}">
 					<tr>
-						<!-- Variable declarations for passing labels as parameters -->
-						<!-- Table header for Computer Name -->
+						<td class="editMode"><input type="checkbox" name="cb"
+							class="cb" value="${computer.id}"></td>
 
-						<th class="editMode" style="width: 60px; height: 22px;"><input
-							type="checkbox" id="selectall" /> <span
-							style="vertical-align: top;"> - <a href="#"
-								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
-									class="fa fa-trash-o fa-lg"></i>
-							</a>
-						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
-						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
-						<!-- Table header for Company -->
-						<th>Company</th>
-
+						<td><a href="./editcomputer" onclick="">${computer.name}</a>
+						</td>
+						<td>${computer.dateIntroduced}</td>
+						<td>${computer.dateDiscontinued}</td>
+						<td>${computer.companyName}</td>
 					</tr>
-				</thead>
-				<!-- Browse attribute computers -->
-				<tbody id="results">
-					<c:forEach var="computer" items="${page.computersDTO}">
-						<tr>
-							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="${computer.id}"></td>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+</section>
 
-							<td><a href="./editcomputer" onclick="">${computer.name}</a>
-							</td>
-							<td>${computer.dateIntroduced}</td>
-							<td>${computer.dateDiscontinued}</td>
-							<td>${computer.companyName}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-	</section>
-
-	<%@include file="footer.jsp" %>
+<%@include file="footer.jsp"%>
 
 
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>

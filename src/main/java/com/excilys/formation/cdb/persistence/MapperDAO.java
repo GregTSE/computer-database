@@ -44,7 +44,6 @@ public class MapperDAO {
 	    computer = new Computer(results.getLong(1), results.getString(2), introduced,
 		    discontinued, company);
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
