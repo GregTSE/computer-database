@@ -58,24 +58,23 @@ public class CtrlDashBoard {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    protected String doPost(ModelMap model,  @RequestParam(value="selection", required=true) String selection ) {
+    protected String doPost(ModelMap model,  @RequestParam(value="selection", required=false) String selection ) {
 	
   	String[] checkedComputersId = null;
   	if (selection != null) {
   	    if (selection.length() > 0) {
-  		System.out.println("BLAAAAA !");
   		checkedComputersId =  selection.split(",");
+  	    }
+  	
+  	    for (String checkedId :  checkedComputersId) {
+  		computerService.delete(Integer.parseInt(checkedId));
   	    }
   	}
   	
-  	for (String checkedId :  checkedComputersId) {
-  	    computerService.delete(Integer.parseInt(checkedId));
-  	}
-  	
   	page.init();
-  	
+  	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
   	model.addAttribute("page", page);
-  	
+  	model.addAttribute("computersFound", computerService.count(""));
   	return "dashboard";
       }
 
