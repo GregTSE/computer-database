@@ -3,14 +3,14 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
 <%@include file="header.jsp" %>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${computersFound} Computers found</h1>
+			<h1 id="homeTitle">${computersFound} <spring:message code="computer.found"/></h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 

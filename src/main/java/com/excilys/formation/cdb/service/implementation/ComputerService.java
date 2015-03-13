@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
-import com.excilys.formation.cdb.persistence.implementation.CompanyDAO;
-import com.excilys.formation.cdb.persistence.implementation.ComputerDAO;
 
 @Service
 public class ComputerService extends AbsComputerService {

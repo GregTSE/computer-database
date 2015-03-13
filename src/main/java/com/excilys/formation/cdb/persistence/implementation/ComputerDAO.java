@@ -1,9 +1,5 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
-import com.excilys.formation.cdb.persistence.MapperDAO;
 
 @Repository
 public class ComputerDAO implements IComputerDAO {
@@ -212,20 +207,21 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public void update(Computer computer) {
 	String name = computer.getName();
-	//DO CHECK
-	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced()
-		.toEpochDay());
-	Timestamp dateDiscontinued = new Timestamp(computer
-		.getDateDiscontinued().toEpochDay());
+
+	Timestamp dateIntroduced = (computer.getDateIntroduced() != null ) ? new Timestamp(computer.getDateIntroduced().toEpochDay()) : null;
+	Timestamp dateDiscontinued = (computer.getDateDiscontinued() != null ) ? new Timestamp(computer.getDateDiscontinued().toEpochDay()) : null;
+	
+	
 	String updateQuery = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 	
 	
 	String queryCompanyId = "SELECT * FROM computer WHERE id=?";
 	
 	JdbcTemplate update = new JdbcTemplate(dataSource);
-	//update.queryForObject(queryCompanyId, new Object[] {});
+	update.update(queryCompanyId, new Object[] {name, dateIntroduced, dateDiscontinued});
 	
-    }
+	    
+	}
 
     /*
      * (non-Javadoc)
