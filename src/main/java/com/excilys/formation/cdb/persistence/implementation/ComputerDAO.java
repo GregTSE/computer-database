@@ -194,24 +194,12 @@ public class ComputerDAO implements IComputerDAO {
     public void create(String name, String introduced, String discontinued,
 	    Company company) {
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
-	PreparedStatement preparedStmt = null;
-	try {
-	    preparedStmt = dataSource.getConnection().prepareStatement(query);
-	    preparedStmt.setString(1, name);
-	    preparedStmt.setString(2, introduced);
-	    preparedStmt.setString(3, discontinued);
-
-	    if (company != null) {
-		preparedStmt.setLong(4, company.getId());
-	    } else {
-		preparedStmt.setNull(4, 0);
+	Long company_id = null;
+	JdbcTemplate create = new JdbcTemplate(dataSource);
+	if (company != null) {
+		company_id = company.getId();
 	    }
-	    preparedStmt.executeUpdate();
-
-	} catch (SQLException e) {
-	    logger.error("SQL Exception : create()");
-	    e.printStackTrace();
-	}
+	create.update(query, new Object[] {name, introduced, discontinued, company_id});   
     }
 
     /*
@@ -224,41 +212,19 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public void update(Computer computer) {
 	String name = computer.getName();
+	//DO CHECK
 	Timestamp dateIntroduced = new Timestamp(computer.getDateIntroduced()
 		.toEpochDay());
 	Timestamp dateDiscontinued = new Timestamp(computer
 		.getDateDiscontinued().toEpochDay());
-	String nameCompany = computer.getCompany().getName();
 	String updateQuery = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
-	String queryCompanyId = "select * from computer where id=?";
-	ResultSet rslt = null;
-	PreparedStatement stmt = null;
-	PreparedStatement preparedStmt = null;
-	try {
-
-	    stmt = dataSource.getConnection().prepareStatement(queryCompanyId);
-	    stmt.setString(1, nameCompany);
-	    rslt = stmt.executeQuery();
-	    preparedStmt = dataSource.getConnection().prepareStatement(
-		    updateQuery);
-	    preparedStmt.setString(1, name);
-	    preparedStmt.setTimestamp(2, dateIntroduced);
-	    preparedStmt.setTimestamp(3, dateDiscontinued);
-
-	    if (rslt.first()) {
-		int idCompany = rslt.getInt(1);
-		preparedStmt.setInt(4, idCompany);
-	    } else {
-		preparedStmt.setNull(4, 0);
-	    }
-
-	    int id = computer.getId().intValue();
-	    preparedStmt.setInt(5, id);
-	    preparedStmt.executeUpdate();
-
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	} 
+	
+	
+	String queryCompanyId = "SELECT * FROM computer WHERE id=?";
+	
+	JdbcTemplate update = new JdbcTemplate(dataSource);
+	//update.queryForObject(queryCompanyId, new Object[] {});
+	
     }
 
     /*
@@ -352,21 +318,14 @@ public class ComputerDAO implements IComputerDAO {
 
 	List<Long> computersId = new ArrayList<Long>();
 	String query = "SELECT id FROM computer WHERE company_id = ?";
-	PreparedStatement pstmt = null;
-	ResultSet results = null;
-	try {
-	    pstmt = dataSource.getConnection().prepareStatement(query);
-	    pstmt.setLong(1, companyId);
-	    results = pstmt.executeQuery();
+	JdbcTemplate find = new JdbcTemplate(dataSource);
+	List<Map<String, Object>> rows = find.queryForList(query, new Object[] {companyId} );
+	
 
-	    while (results.next()) {
-		computersId.add(results.getLong(1));
+	for (Map<String, Object> row : rows) {
+		computersId.add(Long.parseLong(row.get(0).toString()));
 	    }
 
-	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} 
 	return computersId;
     }
 

@@ -1,13 +1,7 @@
 package com.excilys.formation.cdb.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,8 +23,7 @@ public class CtrlAddComputer {
     private static final String INTRODUCED = "introduced";
     private static final String DISCONTINUED = "discontinued";
     private static final String COMPANY_ID = "companyId";
-    private static final String COMPANY_NAME = "companyName";
-
+    
     @Autowired
     private ICompanyService companyService;
     @Autowired
@@ -50,16 +43,12 @@ public class CtrlAddComputer {
 	return "addComputer";
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     @RequestMapping(method = RequestMethod.POST)
     protected String doPost(ModelMap model,
-	    @RequestParam(value="COMPUT_NAME", required=true) String name, 
-	    @RequestParam(value="INTRODUCED", required=false) String introduced, 
-	    @RequestParam(value="DISCONTINUED", required=false) String discontinued,
-	    @RequestParam(value="COMPANY_ID", required=false) String companyId) {
+	    @RequestParam(value=COMPUT_NAME, required=true) String name, 
+	    @RequestParam(value=INTRODUCED, required=false) String introduced, 
+	    @RequestParam(value=DISCONTINUED, required=false) String discontinued,
+	    @RequestParam(value=COMPANY_ID, required=false) String companyId) {
 
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;

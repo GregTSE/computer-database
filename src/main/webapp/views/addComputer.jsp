@@ -35,7 +35,7 @@
                         <div class="actions pull-right">
                             <input type="submit" id="add" value="Add" class="btn btn-primary" >
                             or
-                            <a href="dashboard.jsp" class="btn btn-default">Cancel</a>
+                            <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>
