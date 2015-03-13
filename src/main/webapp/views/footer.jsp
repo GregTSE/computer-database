@@ -3,7 +3,7 @@
 <%@ taglib prefix="p" tagdir="/WEB-INF/tags/" %>
 	<footer class="navbar-fixed-bottom">
 		<div class="btn-group btn-group-sm pull-right" role="group">
-			<form action="./DashBoard" Method="GET">
+			<form action="./dashboard" Method="GET">
 				<input type="submit" name="offset" value="10" />
 				<input type="submit" name="offset" value="50" /> <input type="submit"
 					name="offset" value="100" />

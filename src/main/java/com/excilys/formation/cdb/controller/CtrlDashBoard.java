@@ -1,5 +1,6 @@
 package com.excilys.formation.cdb.controller;
 
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +23,9 @@ import com.excilys.formation.cdb.utils.Util;
 @RequestMapping("/dashboard")
 public class CtrlDashBoard {
     
+    private static final String OFFSET = "offset";
+    private static final String INDEX = "index";
+    private static final String SEARCH = "search";
     @Autowired
     private IComputerService computerService;
     private Page page;
@@ -31,12 +36,10 @@ public class CtrlDashBoard {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(HttpServletRequest request,  
-	    	@RequestParam(required=false) String search, 
-	        @RequestParam(value="0", required=false) String index, 
-	        @RequestParam(value="10", required=false) String offset){
-
-	
+    public String doGet(ModelMap model,  
+	    	@RequestParam(value=SEARCH, required=false) String search, 
+	        @RequestParam(value=INDEX, required=false) String index, 
+	        @RequestParam(value=OFFSET, required=false) String offset){
 
 	int  checkedIndex = 0;
 	int checkedOffset = 10;
@@ -48,7 +51,7 @@ public class CtrlDashBoard {
 	if (Util.checkInt(offset)) {
 	    checkedOffset = Integer.parseInt(offset);
 	}
-	;
+	
 	if(search == null) {
 	    search = "";
 	}
@@ -56,10 +59,31 @@ public class CtrlDashBoard {
 	page.setPage(checkedIndex, checkedOffset, search);
 	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search(search, checkedIndex*checkedOffset, checkedOffset)));
 	
-	request.setAttribute("page", page);
-	request.setAttribute("computersFound", computerService.count(search));
+	model.addAttribute("page", page);
+	model.addAttribute("computersFound", computerService.count(search));
 	return "dashboard";
-	//getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
     }
+    
+    @RequestMapping(method = RequestMethod.POST)
+    protected String doPost(ModelMap model,  @RequestParam(value="selection", required=true) String selection ) {
+	
+  	String[] checkedComputersId = null;
+  	
+  	if (selection != null) {
+  	    if (selection.length() > 0) {
+  		checkedComputersId =  selection.split(",");
+  	    }
+  	}
+  	
+  	for (String checkedId :  checkedComputersId) {
+  	    computerService.delete(Integer.parseInt(checkedId));
+  	}
+  	
+  	page.init();
+  	
+  	model.addAttribute("page", page);
+  	
+  	return "dashboard";
+      }
 
 }

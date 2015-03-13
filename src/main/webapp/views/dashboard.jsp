@@ -14,7 +14,7 @@
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 
-					<form id="searchForm" action="./DashBoard" method="GET"
+					<form id="searchForm" action="./dashboard" method="GET"
 						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
@@ -25,7 +25,7 @@
 
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="./AddComputer">
+					<a class="btn btn-success" id="addComputer" href="./addComputer">
 						Add Computer
 					</a>
 					<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="./DashBoard" method="POST">
+		<form id="deleteForm" action="./dashboard" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -69,7 +69,7 @@
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
 
-							<td><a href="./EditComputer" onclick="">${computer.name}</a>
+							<td><a href="./editcomputer" onclick="">${computer.name}</a>
 							</td>
 							<td>${computer.dateIntroduced}</td>
 							<td>${computer.dateDiscontinued}</td>
