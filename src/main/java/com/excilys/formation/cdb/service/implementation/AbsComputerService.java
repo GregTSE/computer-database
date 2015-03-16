@@ -8,21 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.ConnectionDAO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 public abstract class AbsComputerService implements IComputerService {
 
-    @Autowired
-    private ConnectionDAO connectionDAO;
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#findAll()
      */
     @Override
     public final List<Computer> findAll(){
-	Connection connection = getConnection();
 	List<Computer> computers = findAllAbs();
-	closeConnection(connection);
 	return computers;
     }
 
@@ -31,9 +26,7 @@ public abstract class AbsComputerService implements IComputerService {
      */
     @Override
     public final Computer find(long id){
-	Connection connection = getConnection();
 	Computer computer = findAbs(id);
-	closeConnection(connection);
 	return computer;
     };
 
@@ -43,9 +36,7 @@ public abstract class AbsComputerService implements IComputerService {
     @Override
     public final void create(String name, String introduced,
 	    String discontinued, Company company){
-	Connection connection = getConnection();
 	createAbs(name, introduced, discontinued, company);
-	closeConnection(connection);
     }
 
     /* (non-Javadoc)
@@ -53,9 +44,7 @@ public abstract class AbsComputerService implements IComputerService {
      */
     @Override
     public final void delete(long id){
-	Connection connection = getConnection();
 	deleteAbs(id);
-	closeConnection(connection);
     }
 
     /* (non-Javadoc)
@@ -63,9 +52,7 @@ public abstract class AbsComputerService implements IComputerService {
      */
     @Override
     public final void update(Computer computer){
-	Connection connection = getConnection();
 	updateAbs(computer);
-	closeConnection(connection);
     }
 
     /* (non-Javadoc)
@@ -73,9 +60,7 @@ public abstract class AbsComputerService implements IComputerService {
      */
     @Override
     public final List<Computer> search(String str, int num, int offset){
-	Connection connection = getConnection();
 	List<Computer> computers = searchAbs( str, num, offset);
-	closeConnection(connection);
 	return computers;
     }
 
@@ -84,10 +69,8 @@ public abstract class AbsComputerService implements IComputerService {
      */
     @Override
     public final int count(String word){
-	Connection connection = getConnection();
-	int countComputers = countAbs( word);
-	closeConnection(connection);
-	return countComputers;
+    	int countComputers = countAbs( word);
+    	return countComputers;
     }
     
     public abstract List<Computer> findAllAbs();
@@ -105,21 +88,4 @@ public abstract class AbsComputerService implements IComputerService {
     
     public abstract int countAbs(String word);
     
-    
-    private Connection getConnection(){
-	Connection connection = null;
-	connection = connectionDAO.getConnection();
-	return connection;
-    }
-    
-    private void closeConnection(Connection connection){
-	try {
-	    if (connection != null && !connection.isClosed()) {
-		connection.close();
-	    }
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	}
-    }
-
 }
