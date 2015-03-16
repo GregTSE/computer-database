@@ -7,7 +7,6 @@ $(document).ready(function() {
 			$("#computerName").css("border", "solid");
 			$("#computerName").css("border-color", "#ff0000");
 			alert("Name is required.");
-		} else if ($("#introduced").val() != '') {
 		}
 	});
 });
