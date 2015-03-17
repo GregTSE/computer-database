@@ -16,12 +16,14 @@ import com.excilys.formation.cdb.utils.Util;
 @RequestMapping("/dashboard")
 public class CtrlDashBoard {
 
-    private static final String OFFSET = "offset";
-    private static final String INDEX = "index";
-    private static final String SEARCH = "search";
     @Autowired
     private IComputerService computerService;
     private Page page;
+    
+    private static final String OFFSET = "offset";
+    private static final String INDEX = "index";
+    private static final String SEARCH = "search";
+    
 
     public CtrlDashBoard() {
 	super();
