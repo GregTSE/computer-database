@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.dto;
 
-
 public class ComputerDTO {
 
     private long id;
@@ -14,7 +13,8 @@ public class ComputerDTO {
 	super();
     }
 
-    public ComputerDTO(long id, String name, String dateIntroduced, String dateDiscontinued, long companyId, String companyName) {
+    public ComputerDTO(long id, String name, String dateIntroduced,
+	    String dateDiscontinued, long companyId, String companyName) {
 	super();
 	this.id = id;
 	this.name = name;
@@ -59,7 +59,7 @@ public class ComputerDTO {
     public long getCompanyId() {
 	return companyId;
     }
-    
+
     public String getCompanyName() {
 	return companyName;
     }
@@ -67,7 +67,7 @@ public class ComputerDTO {
     public void setCompanyId(long companyId) {
 	this.companyId = companyId;
     }
-    
+
     public void setCompanyName(String companyName) {
 	this.companyName = companyName;
     }
@@ -131,9 +131,5 @@ public class ComputerDTO {
 	    return false;
 	return true;
     }
-
-
-
-   
 
 }

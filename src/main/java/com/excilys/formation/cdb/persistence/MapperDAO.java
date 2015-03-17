@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 
-public class MapperDAO {
+public class MapperDAO implements RowMapper<Computer>{
 
     public MapperDAO() {
 	super();
@@ -17,8 +19,13 @@ public class MapperDAO {
     // public static ResultSet computerToRow(Computer computer){
     // }
 
-    public static Computer rowToComputer(ResultSet results) {
+//    public static Computer rowToComputer(ResultSet results) {
+//
+//
+//    }
 
+    @Override
+    public Computer mapRow(ResultSet results, int rowNum) throws SQLException {
 	Computer computer = null;
 	
 	try {

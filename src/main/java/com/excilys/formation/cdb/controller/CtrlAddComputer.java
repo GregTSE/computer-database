@@ -18,21 +18,21 @@ import com.excilys.formation.cdb.utils.Util;
 @Controller
 @RequestMapping("/addComputer")
 public class CtrlAddComputer {
-    
+
     private static final String COMPUT_NAME = "computerName";
     private static final String INTRODUCED = "introduced";
     private static final String DISCONTINUED = "discontinued";
     private static final String COMPANY_ID = "companyId";
-    
+
     @Autowired
     private ICompanyService companyService;
     @Autowired
     private IComputerService computerService;
-    
+
     public CtrlAddComputer() {
 	super();
     }
-    
+
     @RequestMapping(method = RequestMethod.GET)
     protected String doGet(ModelMap model) {
 
@@ -44,11 +44,12 @@ public class CtrlAddComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String doPost(ModelMap model,
-	    @RequestParam(value=COMPUT_NAME, required=true) String name, 
-	    @RequestParam(value=INTRODUCED, required=false) String introduced, 
-	    @RequestParam(value=DISCONTINUED, required=false) String discontinued,
-	    @RequestParam(value=COMPANY_ID, required=false) String companyId) {
+    protected String doPost(
+	    ModelMap model,
+	    @RequestParam(value = COMPUT_NAME, required = true) String name,
+	    @RequestParam(value = INTRODUCED, required = false) String introduced,
+	    @RequestParam(value = DISCONTINUED, required = false) String discontinued,
+	    @RequestParam(value = COMPANY_ID, required = false) String companyId) {
 
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;
@@ -63,14 +64,11 @@ public class CtrlAddComputer {
 
 	Company company = new Company(Long.parseLong(companyId), name);
 	model.addAttribute("company", company);
-	// check fields !!!
 
 	// Add intto the db
 
 	computerService.create(name, introduced, discontinued, company);
 
-	// Page page = new Page();
-	// request.setAttribute("page", page);
 	return "dashboard";
 
     }

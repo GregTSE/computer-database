@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
+import com.excilys.formation.cdb.persistence.MapperDAO;
 
 @Repository
 public class ComputerDAO implements IComputerDAO {
@@ -36,38 +37,14 @@ public class ComputerDAO implements IComputerDAO {
 	 */
 	@Override
 	public Computer find(long id) {
-
+    
 		Computer computer = null;
-		String query = "SELECT comput.name, introduced, discontinued, company_id , c.name AS cname"
-				+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id"
+		String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname "
+				+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id "
 				+ "WHERE comput.id=?";
 
 		JdbcTemplate find = new JdbcTemplate(dataSource);
-		Object[] row = find.queryForObject(query, new Object[] { "name",
-				"introduced", "discontinued", "company_id", "cname" },
-				Object[].class);
-		Company company = null;
-
-		if (row[3] != null) {
-			Long idCompany = Long.parseLong(row[3].toString());
-			company = new Company(idCompany, row[4].toString());
-
-			LocalDate introduced = null, discontinued = null;
-
-			Timestamp discontinuedTS = Timestamp.valueOf(row[2].toString());
-			Timestamp introducedTS = Timestamp.valueOf(row[1].toString());
-
-			if (introducedTS != null) {
-				introduced = introducedTS.toLocalDateTime().toLocalDate();
-			}
-
-			if (discontinuedTS != null) {
-				discontinued = discontinuedTS.toLocalDateTime().toLocalDate();
-			}
-
-			computer = new Computer(new Long(id), row[0].toString(),
-					introduced, discontinued, company);
-		}
+		computer = (Computer) find.queryForObject(query, new Object[] { id }, new MapperDAO());
 
 		return computer;
 	}
