@@ -20,15 +20,15 @@
 
 					<input type="search" id="searchbox" name="search"
 						class="form-control" placeholder="Search name" /> <input
-						type="submit" id="searchsubmit" value="Filter by name"
+						type="submit" id="searchsubmit" value="<spring:message code="computer.filter" />"
 						class="btn btn-primary" />
 				</form>
 
 			</div>
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer" href="./addComputer">
-					Add Computer </a> <a class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();"> Edit </a>
+					<spring:message code="computer.add" /> </a> <a class="btn btn-default" id="editComputer" href="#"
+					onclick="$.fn.toggleEditMode();"> <spring:message code="computer.edit" /> </a>
 			</div>
 		</div>
 	</div>
@@ -51,12 +51,12 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th>Computer name</th>
-					<th>Introduced date</th>
+					<th><spring:message code="computer.name" /></th>
+					<th><spring:message code="computer.introduced" /></th>
 					<!-- Table header for Discontinued Date -->
-					<th>Discontinued date</th>
+					<th><spring:message code="computer.discontinued" /></th>
 					<!-- Table header for Company -->
-					<th>Company</th>
+					<th><spring:message code="company.name" /></th>
 
 				</tr>
 			</thead>
