@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
+import com.excilys.formation.cdb.service.ICompanyService;
 
 @Service
-public class CompanyService extends AbsCompanyService {
+public class CompanyService implements ICompanyService {
     
    @Autowired
     private ICompanyDAO companyDAO;
@@ -26,7 +27,7 @@ public class CompanyService extends AbsCompanyService {
      * @see com.excilys.formation.cdb.service.ICompanyService#findAll()
      */
     @Override
-    public List<Company> findAllAbs() {
+    public List<Company> findAll() {
 	return companyDAO.findAll();
     }
     
@@ -35,7 +36,7 @@ public class CompanyService extends AbsCompanyService {
      */
     @Override
     @Transactional
-    public void deleteAbs(Long id) {
+    public void delete(Long id) {
 	computerDAO.deleteByCompany(id);
 	companyDAO.delete(id);
     }

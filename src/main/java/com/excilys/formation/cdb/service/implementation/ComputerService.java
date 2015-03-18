@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
+import com.excilys.formation.cdb.service.IComputerService;
 
 @Service
-public class ComputerService extends AbsComputerService {
+public class ComputerService implements IComputerService {
     
     @Autowired
     private IComputerDAO computerDAO;
@@ -23,7 +24,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#findAll()
      */
     @Override
-    public List<Computer> findAllAbs() {
+    public List<Computer> findAll() {
 	return computerDAO.findAll();
 	
     }
@@ -32,7 +33,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#find(int)
      */
     @Override
-    public Computer findAbs(long id) {
+    public Computer find(long id) {
 	return computerDAO.find(id);
     }
 
@@ -40,7 +41,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
      */
     @Override
-    public void createAbs(String name, String introduced, String discontinued, Company company) {
+    public void create(String name, String introduced, String discontinued, Company company) {
 	computerDAO.create(name, introduced, discontinued, company);
     }
 
@@ -48,7 +49,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#delete(int)
      */
     @Override
-    public void deleteAbs(long id) {
+    public void delete(long id) {
 	computerDAO.delete(id);
     }
 
@@ -56,7 +57,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#update(com.excilys.formation.cdb.model.Computer)
      */
     @Override
-    public void updateAbs(Computer computer) {
+    public void update(Computer computer) {
 	computerDAO.update(computer);
     }
 
@@ -64,7 +65,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#search(java.lang.String, int, int)
      */
     @Override
-    public List<Computer> searchAbs(String str, int num, int offset) {
+    public List<Computer> search(String str, int num, int offset) {
 	return computerDAO.search(str, num, offset);
     }
     
@@ -73,7 +74,7 @@ public class ComputerService extends AbsComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#count(java.lang.String)
      */
     @Override
-    public int countAbs(String word) {
+    public int count(String word) {
 	return computerDAO.count(word);
     }
     

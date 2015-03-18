@@ -34,8 +34,7 @@ public class CtrlAddComputer {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    protected String doGet(ModelMap model) {
-
+    protected String displayCompanies(ModelMap model) {
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
 	model.addAttribute("companies", companies);
@@ -54,6 +53,7 @@ public class CtrlAddComputer {
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;
 	}
+	
 	if (!Util.checkDateFormat(introduced)) {
 	    introduced = null;
 	}

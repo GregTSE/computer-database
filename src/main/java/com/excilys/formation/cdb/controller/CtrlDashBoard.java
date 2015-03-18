@@ -19,11 +19,10 @@ public class CtrlDashBoard {
     @Autowired
     private IComputerService computerService;
     private Page page;
-    
+
     private static final String OFFSET = "offset";
     private static final String INDEX = "index";
     private static final String SEARCH = "search";
-    
 
     public CtrlDashBoard() {
 	super();
@@ -31,7 +30,7 @@ public class CtrlDashBoard {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet(ModelMap model,
+    public String displayAllComputers(ModelMap model,
 	    @RequestParam(value = SEARCH, required = false) String search,
 	    @RequestParam(value = INDEX, required = false) String index,
 	    @RequestParam(value = OFFSET, required = false) String offset) {
@@ -61,7 +60,7 @@ public class CtrlDashBoard {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    protected String doPost(
+    protected String deleteComputers(
 	    ModelMap model,
 	    @RequestParam(value = "selection", required = false) String selection) {
 

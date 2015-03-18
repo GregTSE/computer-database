@@ -20,10 +20,8 @@ public class MapperDTO {
      * @return ComputerDTO
      */
     public static ComputerDTO computerToDTO(Computer computer) {
-	String introduced = (computer.getDateIntroduced() != null) ? computer
-		.getDateIntroduced().toString() : "";
-	String discontinued = (computer.getDateDiscontinued() != null) ? computer
-		.getDateDiscontinued().toString() : "";
+	String introduced = (computer.getDateIntroduced() != null) ? computer.getDateIntroduced().toString() : "";
+	String discontinued = (computer.getDateDiscontinued() != null) ? computer.getDateDiscontinued().toString() : "";
 	String companyName = "";
 	int companyId = 0;
 
@@ -32,8 +30,7 @@ public class MapperDTO {
 	    companyId = computer.getCompany().getId().intValue();
 	}
 
-	return new ComputerDTO(computer.getId(), computer.getName(),
-		introduced, discontinued, companyId, companyName);
+	return new ComputerDTO(computer.getId(), computer.getName(),introduced, discontinued, companyId, companyName);
     }
 
     public static List<ComputerDTO> computersToDTO(List<Computer> computers) {
@@ -54,15 +51,10 @@ public class MapperDTO {
 
 	String introduced = computerDTO.getDateIntroduced();
 	String discontinued = computerDTO.getDateDiscontinued();
-
-	LocalDate introducedDate = (introduced.equals("")) ? null : LocalDate
-		.parse(introduced);
-	LocalDate discontinuedDate = (introduced.equals("")) ? null : LocalDate
-		.parse(discontinued);
-	Company company = (computerDTO.getCompanyId() == 0) ? null
-		: new Company(computerDTO.getCompanyId(),
-			computerDTO.getCompanyName());
-	return new Computer(computerDTO.getId(), computerDTO.getName(),
-		introducedDate, discontinuedDate, company);
+	LocalDate introducedDate = (introduced.equals("")) ? null : LocalDate.parse(introduced);
+	LocalDate discontinuedDate = (introduced.equals("")) ? null : LocalDate.parse(discontinued);
+	Company company = (computerDTO.getCompanyId() == 0) ? null: new Company(computerDTO.getCompanyId(),computerDTO.getCompanyName());
+	
+	return new Computer(computerDTO.getId(), computerDTO.getName(),introducedDate, discontinuedDate, company);
     }
 }

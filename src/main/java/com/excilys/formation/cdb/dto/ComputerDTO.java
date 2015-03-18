@@ -13,8 +13,7 @@ public class ComputerDTO {
 	super();
     }
 
-    public ComputerDTO(long id, String name, String dateIntroduced,
-	    String dateDiscontinued, long companyId, String companyName) {
+    public ComputerDTO(long id, String name, String dateIntroduced, String dateDiscontinued, long companyId, String companyName) {
 	super();
 	this.id = id;
 	this.name = name;
