@@ -17,11 +17,12 @@ import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ICompanyService;
 import com.excilys.formation.cdb.service.IComputerService;
+import com.excilys.formation.cdb.utils.Util;
 
 @Controller
 @RequestMapping("/addComputer")
 public class CtrlAddComputer {
-    private Page page;
+
     private static final String COMPUT_NAME = "computerName";
     private static final String INTRODUCED = "introduced";
     private static final String DISCONTINUED = "discontinued";
@@ -34,17 +35,13 @@ public class CtrlAddComputer {
 
     public CtrlAddComputer() {
 	super();
-	page = new Page();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     protected String displayCompanies(ModelMap model) {
-
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
 	model.addAttribute("companies", companies);
-	// redirection
-	System.out.println("ADD_CTRL:GET");
 	return "addComputer";
     }
 
@@ -56,15 +53,21 @@ public class CtrlAddComputer {
 	    @RequestParam(value = DISCONTINUED, required = false) String discontinued,
 	    @RequestParam(value = COMPANY_ID, required = false) String companyId) {
 
-	System.out.println("ADD_CTRL:POST");
-
-	ComputerDTO computerDTO = ValidatorDTO
-		.checkedComputerDTO(name, introduced,
-			discontinued, companyId, "");
-
-	computerService.create(MapperDTO.dtoToComputer(computerDTO));
-	System.out.println(computerDTO.toString());
-	page.init();
+	//get company's name
+	String companyName = null;
+	if (companyId != null) {
+	    if (Util.checkDigit(companyId)) {
+		companyName = companyService.find(Long.parseLong(companyId)).getName();
+	    }
+	}
+	
+	//Build a valid computerDTO
+	ComputerDTO computerDTO = ValidatorDTO.checkedComputerDTO(name, introduced,discontinued, companyId, companyName);
+	//Insert in the database
+	computerService.insert(MapperDTO.dtoToComputer(computerDTO));
+	
+	//Redirection
+	Page page = new Page();
 	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));

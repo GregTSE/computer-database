@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -24,8 +25,11 @@ import com.excilys.formation.cdb.utils.Util;
 
 public class Console {
 
+    @Autowired
     private IComputerService computerService;
+    @Autowired
     private ICompanyService companyService;
+    
     final private Logger logger = LoggerFactory.getLogger(Console.class);
 
     public Console() {
@@ -46,7 +50,7 @@ public class Console {
 	    displayMenu();
 	    String choice = sc.nextLine();
 
-	    if (Util.checkInt(choice)) {
+	    if (Util.checkDigit(choice)) {
 
 		switch (Integer.parseInt(choice)) {
 		case 1:
@@ -112,7 +116,7 @@ public class Console {
 	Logger logger = LoggerFactory.getLogger(Console.class);
 	System.out.println("Enter the computer's id : ");
 	String id = sc.nextLine();
-	if (Util.checkInt(id)) {
+	if (Util.checkDigit(id)) {
 	    Computer computer = computerService.find(Integer.parseInt(id));
 	    if (computer != null) {
 		System.out.println(computer);
@@ -149,7 +153,7 @@ public class Console {
 	System.out.println("ID of the Company :");
 	String idCompany = sc.nextLine();
 	Company company = null;
-	if (Util.checkInt(idCompany)) {
+	if (Util.checkDigit(idCompany)) {
 	    //company = Util.getCompany(idCompany); VOIR POUR FAIRE AUTREMENT
 	}
 	//computerService.create(name, introduced, discontinued, company);
@@ -164,7 +168,7 @@ public class Console {
     private void deleteComputer(Scanner sc) {
 	System.out.println("ID of computer :");
 	String id = sc.nextLine();
-	if (Util.checkInt(id)) {
+	if (Util.checkDigit(id)) {
 	    computerService.delete(Integer.parseInt(id));
 	} else {
 	    logger.error("wrong Id format");
@@ -179,7 +183,7 @@ public class Console {
     private void updateComputer(Scanner sc) {
 	System.out.println("ID of computer :");
 	String id = sc.nextLine();
-	if (Util.checkInt(id)) {
+	if (Util.checkDigit(id)) {
 	    Computer computer = computerService.find(Integer.parseInt(id));
 	    if (computer == null) {
 	    	logger.error("This computer does not exist.");
@@ -218,7 +222,7 @@ public class Console {
 	System.out.println("Enter the company ID : ");
 	String id = sc.nextLine();
 	
-	if (Util.checkInt(id)) {
+	if (Util.checkDigit(id)) {
 	    companyService.delete(Long.parseLong(id));
 	}
     }

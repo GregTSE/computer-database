@@ -18,7 +18,6 @@ public class CtrlDashBoard {
 
     @Autowired
     private IComputerService computerService;
-    private Page page;
 
     private static final String OFFSET = "offset";
     private static final String INDEX = "index";
@@ -26,7 +25,6 @@ public class CtrlDashBoard {
 
     public CtrlDashBoard() {
 	super();
-	page = new Page();
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -35,16 +33,15 @@ public class CtrlDashBoard {
 	    @RequestParam(value = INDEX, required = false) String index,
 	    @RequestParam(value = OFFSET, required = false) String offset) {
 
-	System.out.println("DASH_CTRL:GET");
 	int checkedIndex = 0;
 	int checkedOffset = 10;
 
 	
-	if (Util.checkInt(index)) {
+	if (Util.checkDigit(index)) {
 	    checkedIndex = Integer.parseInt(index);
 	}
 
-	if (Util.checkInt(offset)) {
+	if (Util.checkDigit(offset)) {
 	    checkedOffset = Integer.parseInt(offset);
 	}
 
@@ -52,7 +49,7 @@ public class CtrlDashBoard {
 	    search = "";
 	}
 
-	page.setPage(checkedIndex, checkedOffset, search);
+	Page page = new Page(checkedIndex, checkedOffset, search);
 	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search(
 		search, checkedIndex * checkedOffset, checkedOffset)));
 
@@ -66,7 +63,6 @@ public class CtrlDashBoard {
 	    ModelMap model,
 	    @RequestParam(value = "selection", required = false) String selection) {
 
-	System.out.println("DASH_CTRL:POST");
 	String[] checkedComputersId = null;
 	if (selection != null) {
 	    if (selection.length() > 0) {
@@ -78,7 +74,7 @@ public class CtrlDashBoard {
 	    }
 	}
 
-	page.init();
+	Page page = new Page();
 	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));

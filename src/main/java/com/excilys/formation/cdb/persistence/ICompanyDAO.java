@@ -14,5 +14,8 @@ public interface ICompanyDAO {
     public abstract void delete(Long id);
 
     public abstract List<Company> findAll();
+    
+    public abstract Company find(long id);
+
 
 }

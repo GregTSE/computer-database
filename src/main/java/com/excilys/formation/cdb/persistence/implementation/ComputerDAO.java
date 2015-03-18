@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
-import com.excilys.formation.cdb.persistence.MapperDAO;
+import com.excilys.formation.cdb.persistence.MapperComputerDAO;
 
 @Repository
 public class ComputerDAO implements IComputerDAO {
@@ -45,7 +45,7 @@ public class ComputerDAO implements IComputerDAO {
 
 	JdbcTemplate find = new JdbcTemplate(dataSource);
 	computer = (Computer) find.queryForObject(query, new Object[] { id },
-		new MapperDAO());
+		new MapperComputerDAO());
 
 	return computer;
     }
@@ -161,21 +161,21 @@ public class ComputerDAO implements IComputerDAO {
     @Override
     public void create(Computer computer) {
 	String name = computer.getName();
-
-	Timestamp introduced = (computer.getDateIntroduced() != null) ? new Timestamp(
-		computer.getDateIntroduced().toEpochDay()) : null;
-	Timestamp discontinued = (computer.getDateDiscontinued() != null) ? new Timestamp(
-		computer.getDateDiscontinued().toEpochDay()) : null;
+	Timestamp introduced = (computer.getDateIntroduced() != null) ? Timestamp
+		.valueOf(computer.getDateIntroduced().atStartOfDay()) : null;
+	Timestamp discontinued = (computer.getDateDiscontinued() != null) ? Timestamp
+		.valueOf(computer.getDateDiscontinued().atStartOfDay()) : null;
 	Long companyId = null;
 
 	if (computer.getCompany() != null) {
 	    companyId = computer.getCompany().getId();
 	}
-	
+
 	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
 	JdbcTemplate create = new JdbcTemplate(dataSource);
 
-	create.update(query, new Object[] { name, introduced, discontinued,companyId });
+	create.update(query, new Object[] { name, introduced, discontinued,
+		companyId });
     }
 
     /*
@@ -189,10 +189,10 @@ public class ComputerDAO implements IComputerDAO {
     public void update(Computer computer) {
 	String name = computer.getName();
 
-	Timestamp dateIntroduced = (computer.getDateIntroduced() != null) ? new Timestamp(
-		computer.getDateIntroduced().toEpochDay()) : null;
-	Timestamp dateDiscontinued = (computer.getDateDiscontinued() != null) ? new Timestamp(
-		computer.getDateDiscontinued().toEpochDay()) : null;
+	Timestamp dateIntroduced = (computer.getDateIntroduced() != null) ? Timestamp
+		.valueOf(computer.getDateIntroduced().atStartOfDay()) : null;
+	Timestamp dateDiscontinued = (computer.getDateDiscontinued() != null) ? Timestamp
+		.valueOf(computer.getDateDiscontinued().atStartOfDay()) : null;
 
 	String updateQuery = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
 

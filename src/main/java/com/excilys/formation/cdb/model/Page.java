@@ -21,6 +21,13 @@ public class Page {
 	this.word = "";
     }
 
+    public Page(int num, int offset, String word) {
+	super();
+	this.num = num;
+	this.offset = offset;
+	this.word = word;
+    }
+
     public void init() {
 	this.num = 0;
 	this.offset = 10;

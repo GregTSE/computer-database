@@ -3,6 +3,7 @@ package com.excilys.formation.cdb.persistence.implementation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.ICompanyDAO;
+import com.excilys.formation.cdb.persistence.MapperCompanyDAO;
 
 @Repository
 public class CompanyDAO implements ICompanyDAO {
@@ -59,5 +61,18 @@ public class CompanyDAO implements ICompanyDAO {
 	Object[] params = { id };
 	delete.update(query, params);
     }
+    
+    @Override
+    public Company find(long id) {
 
+	Company company = null;
+	String query = "SELECT * FROM company WHERE id=?";
+
+	JdbcTemplate find = new JdbcTemplate(dataSource);
+	company = (Company) find.queryForObject(query, new Object[] { id },
+		new MapperCompanyDAO());
+
+	return company;
+    }
+    
 }

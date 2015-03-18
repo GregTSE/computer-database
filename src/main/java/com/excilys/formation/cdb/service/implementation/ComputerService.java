@@ -40,7 +40,7 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
      */
     @Override
-    public void create(Computer computer) {
+    public void insert(Computer computer) {
 	computerDAO.create(computer);
     }
 

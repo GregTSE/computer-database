@@ -10,26 +10,26 @@ public class InputValidatorTest {
 
     @Test
     public void testIsInt() {
-	assertFalse(Util.checkInt("3.12"));
-	assertTrue(Util.checkInt("0"));
-	assertFalse(Util.checkInt("test"));
-	assertFalse(Util.checkInt(null));
+	assertFalse(Util.checkDigit("3.12"));
+	assertTrue(Util.checkDigit("0"));
+	assertFalse(Util.checkDigit("test"));
+	assertFalse(Util.checkDigit(null));
     }
 
     @Test
     public void testCheckDateFormat() {
-	assertTrue(Util.checkDateFormat("2000-01-01"));
+	assertTrue(Util.checkEnglishDateFormat("2000-01-01"));
 	//month 13
-	assertFalse(Util.checkDateFormat("2000-13-01"));
+	assertFalse(Util.checkEnglishDateFormat("2000-13-01"));
 	//day 32
-	assertFalse(Util.checkDateFormat("2000-10-32"));
+	assertFalse(Util.checkEnglishDateFormat("2000-10-32"));
 	//years : 3 numbers
-	assertFalse(Util.checkDateFormat("199-01-01"));
+	assertFalse(Util.checkEnglishDateFormat("199-01-01"));
 	//date null
-	assertFalse(Util.checkDateFormat(null));
+	assertFalse(Util.checkEnglishDateFormat(null));
 	//empty String
-	assertFalse(Util.checkDateFormat(""));
-	assertFalse(Util.checkDateFormat("test"));
+	assertFalse(Util.checkEnglishDateFormat(""));
+	assertFalse(Util.checkEnglishDateFormat("test"));
     }
 
 }

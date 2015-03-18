@@ -1,8 +1,12 @@
 package com.excilys.formation.cdb.dto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -49,12 +53,33 @@ public class MapperDTO {
      */
     public static Computer dtoToComputer(ComputerDTO computerDTO) {
 
+	Locale locale = LocaleContextHolder.getLocale();
+	LocalDate introducedDate = null;
+	LocalDate discontinuedDate = null;
+	
 	String introduced = computerDTO.getDateIntroduced();
 	String discontinued = computerDTO.getDateDiscontinued();
-	LocalDate introducedDate = (introduced == null) ? null : LocalDate.parse(introduced);
-	LocalDate discontinuedDate = (discontinued == null) ? null : LocalDate.parse(discontinued);
-	Company company = (computerDTO.getCompanyId() == 0) ? null: new Company(computerDTO.getCompanyId(),computerDTO.getCompanyName());
 	
+	if (introduced != null) {
+	    if (locale.getLanguage().equals("fr")) {
+		introducedDate = LocalDate.parse(introduced,DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
+		System.out.println("dto:"+introduced+"->"+introducedDate.toString());
+	    } else {
+		introducedDate = LocalDate.parse(introduced);
+	    }
+	}
+	
+	if (discontinued != null) {
+	    if (locale.getLanguage().equals("fr")) {
+		discontinuedDate = LocalDate.parse(discontinued,DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
+	    } else {
+		discontinuedDate = LocalDate.parse(discontinued);
+	    }
+	}
+	    
+	
+	Company company = (computerDTO.getCompanyId() == 0) ? null: new Company(computerDTO.getCompanyId(),computerDTO.getCompanyName());
+	System.out.println("Computer built : "+introducedDate);
 	return new Computer(computerDTO.getId(), computerDTO.getName(),introducedDate, discontinuedDate, company);
     }
 }

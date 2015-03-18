@@ -41,14 +41,13 @@ public class CtrlEditComputer {
     protected String doGet(ModelMap model,
 	    @RequestParam(value = PARAM_ID, required = true) String pId) {
 
-	System.out.println("EDIT_CTRL:GET");
 	
 	List<Company> companies = new ArrayList<Company>();
 
 	companies = companyService.findAll();
 	Computer computer = null;
 	
-	if (Util.checkInt(pId)) {
+	if (Util.checkDigit(pId)) {
 	    computer = computerService.find(Long.parseLong(pId));
 	}
 
@@ -67,7 +66,6 @@ public class CtrlEditComputer {
 	    @RequestParam(value = COMPANY_ID, required = false) String companyId) {
 
 	
-	System.out.println("EDIT_CTRL:POST");
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;
 	}
@@ -83,7 +81,7 @@ public class CtrlEditComputer {
 	model.addAttribute("company", company);
 
 	Long id = null;
-	if (Util.checkInt(companyId)) {
+	if (Util.checkDigit(companyId)) {
 	    id = Long.parseLong(companyId);
 	}
 	 computerService.update(MapperDTO.dtoToComputer(new ComputerDTO(0,name,

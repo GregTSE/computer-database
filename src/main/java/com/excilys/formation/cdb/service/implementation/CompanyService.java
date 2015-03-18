@@ -41,6 +41,11 @@ public class CompanyService implements ICompanyService {
 	companyDAO.delete(id);
     }
     
+    @Override
+    public Company find(Long id) {
+	return companyDAO.find(id);
+    }
+    
 
 
 }

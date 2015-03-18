@@ -10,9 +10,9 @@ import org.springframework.jdbc.core.RowMapper;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 
-public class MapperDAO implements RowMapper<Computer> {
+public class MapperComputerDAO implements RowMapper<Computer> {
 
-    public MapperDAO() {
+    public MapperComputerDAO() {
 	super();
     }
 

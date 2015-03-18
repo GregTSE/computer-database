@@ -22,7 +22,8 @@ public class ValidatorDTO {
 	if (!Util.checkDateFormat(introduced)) {
 	    introduced = null;
 	}
-	if (Util.checkInt(pCompanyId)) {
+	
+	if (Util.checkDigit(pCompanyId)) {
 	    companyId = Long.parseLong(pCompanyId);
 	}
 
