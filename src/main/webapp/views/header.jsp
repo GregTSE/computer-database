@@ -25,5 +25,5 @@
 			<a class="navbar-brand" href="./dashboard"> Application -
 				Computer Database </a>
 		</div>
-		Language : <a href="?lang=en"><spring:message code="lang.english" /></a>|<a href="?lang=fr"><spring:message code="lang.french" /></a>
+		<a href="?lang=en"><spring:message code="lang.english" /></a> | <a href="?lang=fr"><spring:message code="lang.french" /></a>
 	</header>

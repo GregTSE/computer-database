@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
@@ -41,8 +40,8 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
      */
     @Override
-    public void create(String name, String introduced, String discontinued, Company company) {
-	computerDAO.create(name, introduced, discontinued, company);
+    public void create(Computer computer) {
+	computerDAO.create(computer);
     }
 
     /* (non-Javadoc)

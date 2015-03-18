@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1><spring:message code="computer.add" /></h1>
-				<form action="./dashboard" name="addform" method="POST">
+				<form action="./addComputer" name="addform" method="POST">
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName"><spring:message code="computer.name" /></label> <input

@@ -152,7 +152,7 @@ public class Console {
 	if (Util.checkInt(idCompany)) {
 	    //company = Util.getCompany(idCompany); VOIR POUR FAIRE AUTREMENT
 	}
-	computerService.create(name, introduced, discontinued, company);
+	//computerService.create(name, introduced, discontinued, company);
 	System.out.println("Success : ");
     }
 

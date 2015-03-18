@@ -16,8 +16,9 @@ public class MapperDAO implements RowMapper<Computer> {
 	super();
     }
 
-    // public static ResultSet computerToRow(Computer computer){
-    // }
+//     public static ResultSet computerToRow(Computer computer){
+//	 
+//     }
 
     // public static Computer rowToComputer(ResultSet results) {
     //

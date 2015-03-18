@@ -159,16 +159,23 @@ public class ComputerDAO implements IComputerDAO {
      * com.excilys.formation.cdb.model.Company)
      */
     @Override
-    public void create(String name, String introduced, String discontinued,
-	    Company company) {
-	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
-	Long company_id = null;
-	JdbcTemplate create = new JdbcTemplate(dataSource);
-	if (company != null) {
-	    company_id = company.getId();
+    public void create(Computer computer) {
+	String name = computer.getName();
+
+	Timestamp introduced = (computer.getDateIntroduced() != null) ? new Timestamp(
+		computer.getDateIntroduced().toEpochDay()) : null;
+	Timestamp discontinued = (computer.getDateDiscontinued() != null) ? new Timestamp(
+		computer.getDateDiscontinued().toEpochDay()) : null;
+	Long companyId = null;
+
+	if (computer.getCompany() != null) {
+	    companyId = computer.getCompany().getId();
 	}
-	create.update(query, new Object[] { name, introduced, discontinued,
-		company_id });
+	
+	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
+	JdbcTemplate create = new JdbcTemplate(dataSource);
+
+	create.update(query, new Object[] { name, introduced, discontinued,companyId });
     }
 
     /*

@@ -11,8 +11,7 @@ public interface IComputerService {
 
     public abstract Computer find(long id);
 
-    public abstract void create(String name, String introduced,
-	    String discontinued, Company company);
+    public abstract void create(Computer computer);
 
     public abstract void delete(long id);
 

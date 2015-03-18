@@ -41,6 +41,8 @@ public class CtrlEditComputer {
     protected String doGet(ModelMap model,
 	    @RequestParam(value = PARAM_ID, required = true) String pId) {
 
+	System.out.println("EDIT_CTRL:GET");
+	
 	List<Company> companies = new ArrayList<Company>();
 
 	companies = companyService.findAll();
@@ -64,6 +66,8 @@ public class CtrlEditComputer {
 	    @RequestParam(value = DISCONTINUED, required = false) String discontinued,
 	    @RequestParam(value = COMPANY_ID, required = false) String companyId) {
 
+	
+	System.out.println("EDIT_CTRL:POST");
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;
 	}

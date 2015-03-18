@@ -1,8 +1,6 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.util.List;
-
-import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 
 public interface IComputerDAO {
@@ -39,8 +37,7 @@ public interface IComputerDAO {
      * @param computer
      *            to insert in the database
      */
-    public abstract void create(String name, String introduced,
-	    String discontinued, Company company);
+    public abstract void create(Computer computer);
 
     /**
      * Update a computer by id
@@ -72,6 +69,5 @@ public interface IComputerDAO {
     public abstract List<Long> findByCompany(Long companyId);
 
     public abstract void deleteByCompany(Long id);
-
 
 }

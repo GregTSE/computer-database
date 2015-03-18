@@ -30,14 +30,16 @@ public class CtrlDashBoard {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String displayAllComputers(ModelMap model,
+    public String displayComputers(ModelMap model,
 	    @RequestParam(value = SEARCH, required = false) String search,
 	    @RequestParam(value = INDEX, required = false) String index,
 	    @RequestParam(value = OFFSET, required = false) String offset) {
 
+	System.out.println("DASH_CTRL:GET");
 	int checkedIndex = 0;
 	int checkedOffset = 10;
 
+	
 	if (Util.checkInt(index)) {
 	    checkedIndex = Integer.parseInt(index);
 	}
@@ -64,6 +66,7 @@ public class CtrlDashBoard {
 	    ModelMap model,
 	    @RequestParam(value = "selection", required = false) String selection) {
 
+	System.out.println("DASH_CTRL:POST");
 	String[] checkedComputersId = null;
 	if (selection != null) {
 	    if (selection.length() > 0) {
@@ -81,5 +84,5 @@ public class CtrlDashBoard {
 	model.addAttribute("computersFound", computerService.count(""));
 	return "dashboard";
     }
-
+    
 }

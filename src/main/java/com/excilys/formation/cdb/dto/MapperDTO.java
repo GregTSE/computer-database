@@ -51,8 +51,8 @@ public class MapperDTO {
 
 	String introduced = computerDTO.getDateIntroduced();
 	String discontinued = computerDTO.getDateDiscontinued();
-	LocalDate introducedDate = (introduced.equals("")) ? null : LocalDate.parse(introduced);
-	LocalDate discontinuedDate = (introduced.equals("")) ? null : LocalDate.parse(discontinued);
+	LocalDate introducedDate = (introduced == null) ? null : LocalDate.parse(introduced);
+	LocalDate discontinuedDate = (discontinued == null) ? null : LocalDate.parse(discontinued);
 	Company company = (computerDTO.getCompanyId() == 0) ? null: new Company(computerDTO.getCompanyId(),computerDTO.getCompanyName());
 	
 	return new Computer(computerDTO.getId(), computerDTO.getName(),introducedDate, discontinuedDate, company);

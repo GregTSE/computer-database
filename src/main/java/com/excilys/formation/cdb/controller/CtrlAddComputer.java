@@ -10,15 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.dto.MapperDTO;
+import com.excilys.formation.cdb.dto.ValidatorDTO;
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ICompanyService;
 import com.excilys.formation.cdb.service.IComputerService;
-import com.excilys.formation.cdb.utils.Util;
 
 @Controller
 @RequestMapping("/addComputer")
 public class CtrlAddComputer {
-
+    private Page page;
     private static final String COMPUT_NAME = "computerName";
     private static final String INTRODUCED = "introduced";
     private static final String DISCONTINUED = "discontinued";
@@ -31,14 +34,17 @@ public class CtrlAddComputer {
 
     public CtrlAddComputer() {
 	super();
+	page = new Page();
     }
 
     @RequestMapping(method = RequestMethod.GET)
     protected String displayCompanies(ModelMap model) {
+
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
 	model.addAttribute("companies", companies);
 	// redirection
+	System.out.println("ADD_CTRL:GET");
 	return "addComputer";
     }
 
@@ -50,24 +56,18 @@ public class CtrlAddComputer {
 	    @RequestParam(value = DISCONTINUED, required = false) String discontinued,
 	    @RequestParam(value = COMPANY_ID, required = false) String companyId) {
 
-	if (!Util.checkDateFormat(discontinued)) {
-	    discontinued = null;
-	}
-	
-	if (!Util.checkDateFormat(introduced)) {
-	    introduced = null;
-	}
+	System.out.println("ADD_CTRL:POST");
 
-	model.addAttribute(COMPUT_NAME, name);
-	model.addAttribute(INTRODUCED, introduced);
-	model.addAttribute(DISCONTINUED, discontinued);
+	ComputerDTO computerDTO = ValidatorDTO
+		.checkedComputerDTO(name, introduced,
+			discontinued, companyId, "");
 
-	Company company = new Company(Long.parseLong(companyId), name);
-	model.addAttribute("company", company);
-
-	// Add intto the db
-
-	computerService.create(name, introduced, discontinued, company);
+	computerService.create(MapperDTO.dtoToComputer(computerDTO));
+	System.out.println(computerDTO.toString());
+	page.init();
+	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
+	model.addAttribute("page", page);
+	model.addAttribute("computersFound", computerService.count(""));
 
 	return "dashboard";
 
