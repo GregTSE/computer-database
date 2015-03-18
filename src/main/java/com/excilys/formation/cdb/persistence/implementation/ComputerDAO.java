@@ -138,7 +138,6 @@ public class ComputerDAO implements IComputerDAO {
 			"discontinued").toString());
 		dateDiscontinued = discontinuedTS.toLocalDateTime()
 			.toLocalDate();
-
 	    }
 
 	    computer = new Computer(Long.parseLong(row.get("id").toString()),
