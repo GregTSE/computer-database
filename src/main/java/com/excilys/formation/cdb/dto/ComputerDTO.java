@@ -1,9 +1,16 @@
 package com.excilys.formation.cdb.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+
 public class ComputerDTO {
 
     private long id;
+
+    @Size(min=5, max=30)
     private String name;
+ 
     private String dateIntroduced;
     private String dateDiscontinued;
     private long companyId;

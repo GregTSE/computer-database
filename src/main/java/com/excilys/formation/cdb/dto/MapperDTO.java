@@ -10,6 +10,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.utils.Util;
 
 public class MapperDTO {
 
@@ -24,8 +25,10 @@ public class MapperDTO {
      * @return ComputerDTO
      */
     public static ComputerDTO computerToDTO(Computer computer) {
-	String introduced = (computer.getDateIntroduced() != null) ? computer.getDateIntroduced().toString() : "";
-	String discontinued = (computer.getDateDiscontinued() != null) ? computer.getDateDiscontinued().toString() : "";
+	String introduced = (computer.getDateIntroduced() != null) ? computer
+		.getDateIntroduced().toString() : "";
+	String discontinued = (computer.getDateDiscontinued() != null) ? computer
+		.getDateDiscontinued().toString() : "";
 	String companyName = "";
 	int companyId = 0;
 
@@ -34,7 +37,8 @@ public class MapperDTO {
 	    companyId = computer.getCompany().getId().intValue();
 	}
 
-	return new ComputerDTO(computer.getId(), computer.getName(),introduced, discontinued, companyId, companyName);
+	return new ComputerDTO(computer.getId(), computer.getName(),
+		introduced, discontinued, companyId, companyName);
     }
 
     public static List<ComputerDTO> computersToDTO(List<Computer> computers) {
@@ -56,30 +60,37 @@ public class MapperDTO {
 	Locale locale = LocaleContextHolder.getLocale();
 	LocalDate introducedDate = null;
 	LocalDate discontinuedDate = null;
-	
+
 	String introduced = computerDTO.getDateIntroduced();
 	String discontinued = computerDTO.getDateDiscontinued();
-	
+
 	if (introduced != null) {
-	    if (locale.getLanguage().equals("fr")) {
-		introducedDate = LocalDate.parse(introduced,DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
-		System.out.println("dto:"+introduced+"->"+introducedDate.toString());
-	    } else {
-		introducedDate = LocalDate.parse(introduced);
+	    if (Util.checkDateFormat(introduced)) {
+		if (locale.getLanguage().equals("fr")) {
+		    introducedDate = LocalDate.parse(introduced,
+			    DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
+		} else {
+		    introducedDate = LocalDate.parse(introduced);
+		}
 	    }
 	}
-	
+
 	if (discontinued != null) {
-	    if (locale.getLanguage().equals("fr")) {
-		discontinuedDate = LocalDate.parse(discontinued,DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
-	    } else {
-		discontinuedDate = LocalDate.parse(discontinued);
+	    if (Util.checkDateFormat(discontinued)) {
+		if (locale.getLanguage().equals("fr")) {
+		    discontinuedDate = LocalDate.parse(discontinued,
+			    DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
+		} else {
+		    discontinuedDate = LocalDate.parse(discontinued);
+		}
 	    }
 	}
-	    
-	
-	Company company = (computerDTO.getCompanyId() == 0) ? null: new Company(computerDTO.getCompanyId(),computerDTO.getCompanyName());
-	System.out.println("Computer built : "+introducedDate);
-	return new Computer(computerDTO.getId(), computerDTO.getName(),introducedDate, discontinuedDate, company);
+
+	Company company = (computerDTO.getCompanyId() == 0) ? null
+		: new Company(computerDTO.getCompanyId(),
+			computerDTO.getCompanyName());
+	System.out.println("Computer built : " + introducedDate);
+	return new Computer(computerDTO.getId(), computerDTO.getName(),
+		introducedDate, discontinuedDate, company);
     }
 }

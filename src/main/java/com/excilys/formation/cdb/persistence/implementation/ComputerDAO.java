@@ -69,6 +69,7 @@ public class ComputerDAO implements IComputerDAO {
 	for (Map<String, Object> row : rows) {
 	    Computer computer = null;
 	    Company company = null;
+	   
 	    if (row.get("cname") != null) {
 		Long idCompany = Long.parseLong(row.get("company_id")
 			.toString());
