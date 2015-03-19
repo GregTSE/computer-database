@@ -8,7 +8,7 @@ public class ComputerDTO {
 
     private long id;
 
-    @Size(min=5, max=30)
+    @Size(min=1, max=30)
     private String name;
  
     private String dateIntroduced;
