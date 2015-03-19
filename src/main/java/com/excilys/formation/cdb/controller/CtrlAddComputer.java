@@ -52,18 +52,18 @@ public class CtrlAddComputer {
 	} else {
 
 	    // Insert in the database
-	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
+//	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
 
 	    // Redirection
-	    Page page = new Page();
-	    page.setComputersDTO(MapperDTO.computersToDTO(computerService
-		    .search("", 1, 10)));// computerService.findAll()));
+//	    Page page = new Page();
+//	    page.setComputersDTO(MapperDTO.computersToDTO(computerService
+//		    .search("", 1, 10)));// computerService.findAll()));
+//
+//	    model.addAttribute("page", page);
+//	    model.addAttribute("computersFound", computerService.count(""));
+//	    System.out.println("END POST ADD");
 
-	    model.addAttribute("page", page);
-	    model.addAttribute("computersFound", computerService.count(""));
-	    System.out.println("END POST ADD");
-
-	    return "dashboard";
+	    return "forward:/dashboard";
 	}
     }
 
