@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 
-
-
 <!-- Bootstrap -->
 <link href="${request.getContextPath()}css/bootstrap.min.css"
 	rel="stylesheet" media="screen">
@@ -22,8 +20,12 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="./dashboard"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="./dashboard"> Application - Computer Database </a>
+			<span style=float:right>
+				<a href="?lang=en"> <img src="${request.getContextPath()}img/en-button.png" /></a> 
+				<a href="?lang=fr"> <img src="${request.getContextPath()}img/fr-button.png" /> </a>
+			</span>
 		</div>
-		<a href="?lang=en"><spring:message code="lang.english" /></a> | <a href="?lang=fr"><spring:message code="lang.french" /></a>
+
+		
 	</header>

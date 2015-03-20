@@ -8,44 +8,44 @@ import com.excilys.formation.cdb.dto.ComputerDTO;
 //TODO : Ne pas afficher les pages sans contenu
 public class Page {
 
-    private int num;
+    private int index;
     private int offset;
-    private String word;
+    private String search;
     private List<ComputerDTO> computersDTO;
 
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 
     public Page() {
-	this.num = 0;
+	this.index = 0;
 	this.offset = 10;
-	this.word = "";
+	this.search = "";
     }
 
-    public Page(int num, int offset, String word) {
+    public Page(int index, int offset, String search) {
 	super();
-	this.num = num;
+	this.index = index;
 	this.offset = offset;
-	this.word = word;
+	this.search = search;
     }
 
     public void init() {
-	this.num = 0;
+	this.index = 0;
 	this.offset = 10;
-	this.word = "";
+	this.search = "";
     }
 
-    public void setPage(int num, int offset, String word) {
-	this.num = num;
+    public void setPage(int index, int offset, String search) {
+	this.index = index;
 	this.offset = offset;
-	this.word = word;
+	this.search = search;
     }
 
     public int getBeginPage() {
-	return ((num - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1);
+	return ((index - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1);
     }
 
     public int getEndPage() {
-	return ((num - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1)
+	return ((index - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1)
 		+ (NB_OF_DISPLAYED_PAGES - 1);
     }
 
@@ -53,12 +53,12 @@ public class Page {
 	return computersDTO.size();
     }
 
-    public int getNum() {
-	return num;
+    public int getIndex() {
+	return index;
     }
 
-    public void setNum(int num) {
-	this.num = num;
+    public void setIndex(int index) {
+	this.index = index;
     }
 
     public int getOffset() {
@@ -69,12 +69,12 @@ public class Page {
 	this.offset = offset;
     }
 
-    public String getWord() {
-	return word;
+    public String getSearch() {
+	return search;
     }
 
-    public void setWord(String word) {
-	this.word = word;
+    public void setSearch(String search) {
+	this.search = search;
     }
 
     public List<ComputerDTO> getComputersDTO() {

@@ -57,7 +57,6 @@
 					<th><spring:message code="computer.discontinued" /></th>
 					<!-- Table header for Company -->
 					<th><spring:message code="company.name" /></th>
-
 				</tr>
 			</thead>
 			<!-- Browse attribute computers -->

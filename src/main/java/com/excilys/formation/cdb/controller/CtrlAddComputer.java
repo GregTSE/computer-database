@@ -34,12 +34,13 @@ public class CtrlAddComputer {
 
     @RequestMapping(method = RequestMethod.GET)
     protected String displayCompanies(ModelMap model) {
+
 	System.out.println("[GET] Ctrl-AddComputer");
+
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
 	model.addAttribute("companies", companies);
 	model.addAttribute("computerDTO", new ComputerDTO());
-	
 	return "addComputer";
     }
 
@@ -48,20 +49,20 @@ public class CtrlAddComputer {
 	    @Valid ComputerDTO computerDTO, BindingResult bindingResult) {
 
 	System.out.println("[POST] Ctrl-AddComputer");
+
 	if (bindingResult.hasErrors()) {
 	    model.addAttribute("computerDTO", computerDTO);
-	    
+	    List<Company> companies = new ArrayList<Company>();
+	    companies = companyService.findAll();
+	    model.addAttribute("companies", companies);
 	    return "addComputer";
 	} else {
-	    
 	    // Insert in the database
 	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
-
 	    // Redirection
 	    Page page = new Page();
 	    page.setComputersDTO(MapperDTO.computersToDTO(computerService
 		    .search("", 1, 10)));// computerService.findAll()));
-
 	    model.addAttribute("page", page);
 	    model.addAttribute("computersFound", computerService.count(""));
 	    return "forward:/dashboard";
