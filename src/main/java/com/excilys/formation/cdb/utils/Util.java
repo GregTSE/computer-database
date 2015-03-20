@@ -1,18 +1,12 @@
 package com.excilys.formation.cdb.utils;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Locale;
-import java.util.Map;
+
 
 import org.apache.commons.validator.routines.DateValidator;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.model.Computer;
 /**
  * Provide static methods to check properties
  * 
@@ -47,7 +41,6 @@ final public class Util {
 	DateValidator dateValidator = DateValidator.getInstance();
 	Locale locale = LocaleContextHolder.getLocale();
 	String pattern = (locale.getLanguage().equals("fr") ? "dd-MM-yyyy" : "yyyy-MM-dd");
-	System.out.println(date+ " :"+dateValidator.isValid(date, pattern));
 	return dateValidator.isValid(date, pattern);
     }
 

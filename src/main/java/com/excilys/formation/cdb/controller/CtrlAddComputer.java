@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,10 +34,12 @@ public class CtrlAddComputer {
 
     @RequestMapping(method = RequestMethod.GET)
     protected String displayCompanies(ModelMap model) {
+	System.out.println("[GET] Ctrl-AddComputer");
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
 	model.addAttribute("companies", companies);
 	model.addAttribute("computerDTO", new ComputerDTO());
+	
 	return "addComputer";
     }
 
@@ -46,23 +47,23 @@ public class CtrlAddComputer {
     protected String addComputer(ModelMap model,
 	    @Valid ComputerDTO computerDTO, BindingResult bindingResult) {
 
+	System.out.println("[POST] Ctrl-AddComputer");
 	if (bindingResult.hasErrors()) {
 	    model.addAttribute("computerDTO", computerDTO);
-	    return "form";
+	    
+	    return "addComputer";
 	} else {
-
+	    
 	    // Insert in the database
-//	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
+	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
 
 	    // Redirection
-//	    Page page = new Page();
-//	    page.setComputersDTO(MapperDTO.computersToDTO(computerService
-//		    .search("", 1, 10)));// computerService.findAll()));
-//
-//	    model.addAttribute("page", page);
-//	    model.addAttribute("computersFound", computerService.count(""));
-//	    System.out.println("END POST ADD");
+	    Page page = new Page();
+	    page.setComputersDTO(MapperDTO.computersToDTO(computerService
+		    .search("", 1, 10)));// computerService.findAll()));
 
+	    model.addAttribute("page", page);
+	    model.addAttribute("computersFound", computerService.count(""));
 	    return "forward:/dashboard";
 	}
     }

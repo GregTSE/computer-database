@@ -12,6 +12,8 @@ import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.IComputerService;
 import com.excilys.formation.cdb.utils.Util;
 
+//TODO PAR ORDRE ALPHABETIQUE !!!
+
 @Controller
 @RequestMapping("/dashboard")
 public class CtrlDashBoard {
@@ -32,7 +34,7 @@ public class CtrlDashBoard {
 	    @RequestParam(value = SEARCH, required = false) String search,
 	    @RequestParam(value = INDEX, required = false) String index,
 	    @RequestParam(value = OFFSET, required = false) String offset) {
-
+	System.out.println("[GET] Ctrl-Dashboard");
 	int checkedIndex = 0;
 	int checkedOffset = 10;
 
@@ -55,6 +57,7 @@ public class CtrlDashBoard {
 
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(search));
+	
 	return "dashboard";
     }
 
@@ -62,7 +65,7 @@ public class CtrlDashBoard {
     protected String deleteComputers(
 	    ModelMap model,
 	    @RequestParam(value = "selection", required = false) String selection) {
-
+	System.out.println("[POST] Ctrl-Dashboard");
 	String[] checkedComputersId = null;
 	if (selection != null) {
 	    if (selection.length() > 0) {
@@ -75,9 +78,13 @@ public class CtrlDashBoard {
 	}
 
 	Page page = new Page();
-	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
+	
+	//TODO A REMETTRE APRES HIB+CRITERIA
+	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search("", 10, 100)));
+	//page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));
+	
 	return "dashboard";
     }
     

@@ -9,32 +9,39 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1><spring:message code="computer.add" /></h1>
-				 <form:form id="addComputer" action="./addComputer" name="addform" method="POST" modelAttribute="computerDTO">
+<%-- 				<form action="./addComputer" name="addform" method="POST"> --%>
+				<form:form id="addComputer" action="./addComputer" name="addform" method="POST" modelAttribute="computerDTO">
 				
 					<fieldset>
 						<div class="form-group">
 							<label for="name"><spring:message code="computer.name" /></label>
-							<form:input type="text" path="name"  class="form-control" id="name" name="name" />
+							<input type="text"  class="form-control" id="name" name="name" placeholder="<spring:message code="computer.name" />">
+							<form:errors path="name" element="div" cssClass="alert alert-danger"/>
 						</div>
+						
 						<div class="form-group">
 							<label for="introduced"><spring:message code="computer.introduced" /></label> 
-							<form:input path="dateIntroduced"
+							<input
 								type="date" class="form-control" id="dateIntroduced"
-								name="dateIntroduced" />
+								name="dateIntroduced" placeholder="<spring:message code="computer.introduced" />">
+								<form:errors path="dateIntroduced" element="div" cssClass="alert alert-danger"/>
 						</div>
+						
 						<div class="form-group">
 							<label for="discontinued"><spring:message code="computer.discontinued" /></label> 
-							<form:input type="date" path="dateDiscontinued" class="form-control" id="dateDiscontinued" name="dateDiscontinued" />
+							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="computer.discontinued" />">
+							<form:errors path="dateDiscontinued" element="div" cssClass="alert alert-danger"/>
 						</div>
+						
 						<div class="form-group">
 							<label for="companyId"><spring:message code="company.name" /></label> 
-<%-- 							<form:select --%>
-<%-- 								class="form-control" id="companyId" name="companyId"> --%>
-<!-- 								<option value="0">--</option> -->
-<%-- 								<c:forEach var="comp" items="${companies}"> --%>
-<%-- 									<option value="${comp.id}">${comp.name}</option> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</select> -->
+							<select
+							class="form-control" id="companyId" name="companyId">
+								<option value="0">--</option>
+							<c:forEach var="comp" items="${companies}"> 
+									<option value="${comp.id}">${comp.name}</option> 
+							</c:forEach> 
+							</select>
 						</div>
 					</fieldset>
 					<div class="actions pull-right">

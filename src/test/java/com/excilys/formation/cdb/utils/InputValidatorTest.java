@@ -18,18 +18,18 @@ public class InputValidatorTest {
 
     @Test
     public void testCheckDateFormat() {
-	assertTrue(Util.checkEnglishDateFormat("2000-01-01"));
+	assertTrue(Util.checkDateFormat("2000-01-01"));
 	//month 13
-	assertFalse(Util.checkEnglishDateFormat("2000-13-01"));
+	assertFalse(Util.checkDateFormat("2000-13-01"));
 	//day 32
-	assertFalse(Util.checkEnglishDateFormat("2000-10-32"));
+	assertFalse(Util.checkDateFormat("2000-10-32"));
 	//years : 3 numbers
-	assertFalse(Util.checkEnglishDateFormat("199-01-01"));
+	assertFalse(Util.checkDateFormat("199-01-01"));
 	//date null
-	assertFalse(Util.checkEnglishDateFormat(null));
+	assertFalse(Util.checkDateFormat(null));
 	//empty String
-	assertFalse(Util.checkEnglishDateFormat(""));
-	assertFalse(Util.checkEnglishDateFormat("test"));
+	assertFalse(Util.checkDateFormat(""));
+	assertFalse(Util.checkDateFormat("test"));
     }
 
 }

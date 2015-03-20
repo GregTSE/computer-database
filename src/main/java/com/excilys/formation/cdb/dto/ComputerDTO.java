@@ -1,7 +1,8 @@
 package com.excilys.formation.cdb.dto;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.excilys.formation.cdb.utils.DateAnnotation;
 
 
 public class ComputerDTO {
@@ -10,8 +11,9 @@ public class ComputerDTO {
 
     @Size(min=1, max=30)
     private String name;
- 
+    @DateAnnotation
     private String dateIntroduced;
+    @DateAnnotation
     private String dateDiscontinued;
     private long companyId;
     private String companyName;
