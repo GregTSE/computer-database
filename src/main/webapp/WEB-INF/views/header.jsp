@@ -22,8 +22,8 @@
 		<div class="container">
 			<a class="navbar-brand" href="./dashboard"> Application - Computer Database </a>
 			<span style=float:right>
-				<a href="?lang=en"> <img src="${request.getContextPath()}img/en-button.png" /></a> 
-				<a href="?lang=fr"> <img src="${request.getContextPath()}img/fr-button.png" /> </a>
+				<a href="?lang=en"> <img src="${request.getContextPath()}img/uk.png" /></a> 
+				<a href="?lang=fr"> <img src="${request.getContextPath()}img/fr.png" /> </a>
 			</span>
 		</div>
 
