@@ -17,15 +17,15 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName"><spring:message code="computer.name" /></label>
-                                <input type="text" class="form-control" id="computerName" placeholder="${computer.name}">
+                                <input type="text" class="form-control" id="computerName" value="${computer.name}">
                             </div>
                             <div class="form-group">
                                 <label for="introduced"><spring:message code="computer.introduced" /></label>
-                                <input type="date" class="form-control" id="introduced" placeholder="<spring:message code="computer.introduced" />">
+                                <input type="date" class="form-control" id="introduced" value="${computer.dateIntroduced}">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued"><spring:message code="computer.discontinued" /></label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="<spring:message code="computer.discontinued" />">
+                                <input type="date" class="form-control" id="discontinued" value="${computer.dateDiscontinued}">
                             </div>
                             <div class="form-group">
                                 <label for="companyId"><spring:message code="company.name" /></label>

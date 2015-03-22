@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@include file="header.jsp"%>
+<%@include file="header.jsp"%>s
 
 <section id="main">
 	<div class="container">
@@ -19,7 +19,7 @@
 					class="form-inline">
 
 					<input type="search" id="searchbox" name="search"
-						class="form-control" placeholder="Search name" /> <input
+						class="form-control" placeholder="<spring:message code="computer.search" />" /> <input
 						type="submit" id="searchsubmit" value="<spring:message code="computer.filter" />"
 						class="btn btn-primary" />
 				</form>
@@ -51,7 +51,10 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><spring:message code="computer.name" /></th>
+					<th>
+						<spring:message code="computer.name" />
+						<a href='#' style=float:right> <i class="fa fa-sort"></i> </a>
+					</th>
 					<th><spring:message code="computer.introduced" /></th>
 					<!-- Table header for Discontinued Date -->
 					<th><spring:message code="computer.discontinued" /></th>

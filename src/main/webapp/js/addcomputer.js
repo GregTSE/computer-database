@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	$("#add").click(function(e) {
 		var name = $("#name").val();
+		var introducedError = !isValidDate($("#dateIntroduced").val());
+		var discontinuedError = !isValidDate($("#dateDiscontinued").val())
 		$("#name").css("border", "none");
 		if (name.length < 2) {
 			e.preventDefault();
@@ -8,43 +10,46 @@ $(document).ready(function() {
 			$("#name").css("border-color", "#ff0000");
 			alert("Name is required.");
 		} else {
-			if (!isValidDate($("#dateIntroduced").val())) {
+			if (introducedError || discontinuedError) {
+				if (introducedError) {
+					$("#dateIntroduced").css("border", "solid");
+					$("#dateIntroduced").css("border-color", "#ff0000");
+				}	
+				if (discontinuedError) {
+					$("#dateDiscontinued").css("border", "solid");
+					$("#dateDiscontinued").css("border-color", "#ff0000");
+				}
 				e.preventDefault();
-				$("#dateIntroduced").css("border", "solid");
-				$("#dateIntroduced").css("border-color", "#ff0000");
-				alert("Bad format.");
-			}	
-			if (!isValidDate($("#dateDiscontinued").val())) {
-				e.preventDefault();
-				$("#dateDiscontinued").css("border", "solid");
-				$("#dateDiscontinued").css("border-color", "#ff0000");
 				alert("Bad format.");
 			}	
 		}
 	});
 });
-//
-//(function($) {
-//	$.fn.checkvalue0 = function() {
-//			$("#name").css("border", "none");
-//	};
-//}(jQuery));
-//
-//(function($) {
-//	$.fn.checkvalue1 = function() {
-//			$("#dateIntroduced").css("border", "none");
-//	};
-//}(jQuery));
-//
-//(function($) {
-//	$.fn.checkvalue2 = function() {
-//			$("#dateDiscontinued").css("border", "none");
-//	};
-//}(jQuery));
+
+(function($) {
+	$.fn.initName = function() {
+			$("#name").css("border", "none");
+	};
+}(jQuery));
+
+(function($) {
+	$.fn.initIntroduced = function() {
+			$("#dateIntroduced").css("border", "none");
+	};
+}(jQuery));
+
+(function($) {
+	$.fn.initDiscontinued = function() {
+			$("#dateDiscontinued").css("border", "none");
+	};
+}(jQuery));
 
 
 function isValidDate(dateString) {
-	dateArray = dateString.split("/");
+	if (dateString == '') {
+		return true;
+	}
+	dateArray = dateString.split("-");
 	var y = dateArray[0];
 	var m = dateArray[1];
 	var d = dateArray[2];

@@ -16,7 +16,7 @@
 						<div class="form-group">
 							<label for="name"><spring:message code="computer.name" /></label>
 							<input type="text"  class="form-control" id="name" name="name" placeholder="<spring:message code="computer.name" />"
-							onkeyup="$.fn.checkvalue0()">
+							onkeyup="$.fn.initName()">
 							<form:errors path="name" element="div" cssClass="alert alert-danger"/>
 						</div>
 						
@@ -24,13 +24,15 @@
 							<label for="introduced"><spring:message code="computer.introduced" /></label> 
 							<input
 								type="date" class="form-control" id="dateIntroduced"
-								name="dateIntroduced" placeholder="<spring:message code="computer.introduced" />">
+								name="dateIntroduced" placeholder="<spring:message code="computer.introduced" />"
+								onkeyup="$.fn.initIntroduced()">
 								<form:errors path="dateIntroduced" element="div" cssClass="alert alert-danger"/>
 						</div>
 						
 						<div class="form-group">
 							<label for="discontinued"><spring:message code="computer.discontinued" /></label> 
-							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="computer.discontinued" />">
+							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="computer.discontinued" />"
+							onkeyup="$.fn.initDiscontinued()">
 							<form:errors path="dateDiscontinued" element="div" cssClass="alert alert-danger"/>
 						</div>
 						
