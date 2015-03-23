@@ -1,13 +1,16 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +18,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
-import com.excilys.formation.cdb.persistence.MapperComputerDAO;
 
 @Repository
 public class ComputerDAO implements IComputerDAO {
 
     @Autowired
+    private SessionFactory sessionFactory;
+    @Autowired
     private DataSource dataSource;
 
     final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-
-    /*** METHODS FOR CLI ***/
 
     /*
      * (non-Javadoc)
@@ -37,17 +38,8 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public Computer find(long id) {
-
-	Computer computer = null;
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname "
-		+ "FROM computer comput LEFT OUTER JOIN company c ON c.id = comput.company_id "
-		+ "WHERE comput.id=?";
-
-	JdbcTemplate find = new JdbcTemplate(dataSource);
-	computer = (Computer) find.queryForObject(query, new Object[] { id },
-		new MapperComputerDAO());
-
-	return computer;
+	return (Computer) sessionFactory.getCurrentSession().get(
+		Computer.class, id);
     }
 
     /*
@@ -55,53 +47,17 @@ public class ComputerDAO implements IComputerDAO {
      * 
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List<Computer> findAll() {
-
-	ArrayList<Computer> computers = new ArrayList<Computer>();
-
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id";
-
-	JdbcTemplate search = new JdbcTemplate(dataSource);
-
-	List<Map<String, Object>> rows = search.queryForList(query);
-
-	for (Map<String, Object> row : rows) {
-	    Computer computer = null;
-	    Company company = null;
-	   
-	    if (row.get("cname") != null) {
-		Long idCompany = Long.parseLong(row.get("company_id")
-			.toString());
-		company = new Company(idCompany, row.get("cname").toString());
-	    }
-	    LocalDate dateIntroduced = null, dateDiscontinued = null;
-
-	    if (row.get("introduced") != null) {
-		Timestamp introducedTS = Timestamp.valueOf(row
-			.get("introduced").toString());
-		dateIntroduced = introducedTS.toLocalDateTime().toLocalDate();
-	    }
-
-	    if (row.get("discontinued") != null) {
-		Timestamp discontinuedTS = Timestamp.valueOf(row.get(
-			"discontinued").toString());
-		dateDiscontinued = discontinuedTS.toLocalDateTime()
-			.toLocalDate();
-
-	    }
-
-	    computer = new Computer(Long.parseLong(row.get("id").toString()),
-		    row.get("name").toString(), dateIntroduced,
-		    dateDiscontinued, company);
-
-	    computers.add(computer);
-	}
-	return computers;
+	Criteria crit = sessionFactory.getCurrentSession()
+		.createCriteria(Computer.class).addOrder(Order.asc("name"));
+	return crit.list();
     }
 
     /*** METHODS FOR WEB-UI ***/
 
+    @SuppressWarnings("unchecked")
     /*
      * (non-Javadoc)
      * 
@@ -109,45 +65,11 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public List<Computer> findAll(int num, int offset) {
-	ArrayList<Computer> computers = new ArrayList<Computer>();
-
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id LIMIT ?, ?";
-
-	JdbcTemplate search = new JdbcTemplate(dataSource);
-
-	List<Map<String, Object>> rows = search.queryForList(query,
-		new Object[] { num, offset });
-
-	for (Map<String, Object> row : rows) {
-	    Computer computer = null;
-	    Company company = null;
-	    if (row.get("cname") != null) {
-		Long idCompany = Long.parseLong(row.get("company_id")
-			.toString());
-		company = new Company(idCompany, row.get("cname").toString());
-	    }
-	    LocalDate dateIntroduced = null, dateDiscontinued = null;
-
-	    if (row.get("introduced") != null) {
-		Timestamp introducedTS = Timestamp.valueOf(row
-			.get("introduced").toString());
-		dateIntroduced = introducedTS.toLocalDateTime().toLocalDate();
-	    }
-
-	    if (row.get("discontinued") != null) {
-		Timestamp discontinuedTS = Timestamp.valueOf(row.get(
-			"discontinued").toString());
-		dateDiscontinued = discontinuedTS.toLocalDateTime()
-			.toLocalDate();
-	    }
-
-	    computer = new Computer(Long.parseLong(row.get("id").toString()),
-		    row.get("name").toString(), dateIntroduced,
-		    dateDiscontinued, company);
-
-	    computers.add(computer);
-	}
-	return computers;
+	Criteria crit = sessionFactory.getCurrentSession()
+		.createCriteria(Computer.class).addOrder(Order.asc("name"));
+	crit.setMaxResults(num);
+	crit.setFirstResult(offset);
+	return crit.list();
     }
 
     /*
@@ -160,22 +82,7 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public void create(Computer computer) {
-	String name = computer.getName();
-	Timestamp introduced = (computer.getDateIntroduced() != null) ? Timestamp
-		.valueOf(computer.getDateIntroduced().atStartOfDay()) : null;
-	Timestamp discontinued = (computer.getDateDiscontinued() != null) ? Timestamp
-		.valueOf(computer.getDateDiscontinued().atStartOfDay()) : null;
-	Long companyId = null;
-
-	if (computer.getCompany() != null) {
-	    companyId = computer.getCompany().getId();
-	}
-
-	String query = "INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?,?,?,?)";
-	JdbcTemplate create = new JdbcTemplate(dataSource);
-
-	create.update(query, new Object[] { name, introduced, discontinued,
-		companyId });
+	sessionFactory.getCurrentSession().save(computer);
     }
 
     /*
@@ -187,19 +94,8 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public void update(Computer computer) {
-	String name = computer.getName();
-
-	Timestamp dateIntroduced = (computer.getDateIntroduced() != null) ? Timestamp
-		.valueOf(computer.getDateIntroduced().atStartOfDay()) : null;
-	Timestamp dateDiscontinued = (computer.getDateDiscontinued() != null) ? Timestamp
-		.valueOf(computer.getDateDiscontinued().atStartOfDay()) : null;
-
-	String updateQuery = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
-
-	JdbcTemplate update = new JdbcTemplate(dataSource);
-	update.update(updateQuery, new Object[] { name, dateIntroduced,
-		dateDiscontinued });
-
+	System.out.println("FOUCKING FOUCKING FOUCK : "+computer.toString());
+	sessionFactory.getCurrentSession().update(computer);
     }
 
     /*
@@ -209,9 +105,8 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public void delete(long id) {
-	String query = "DELETE FROM computer WHERE id=?";
-	JdbcTemplate delete = new JdbcTemplate(dataSource);
-	delete.update(query, new Object[] { id });
+	Computer computer = (Computer) sessionFactory.getCurrentSession().load(Computer.class, id);
+	sessionFactory.getCurrentSession().delete(computer);
     }
 
     /*
@@ -221,49 +116,14 @@ public class ComputerDAO implements IComputerDAO {
      * com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String
      * , int, int)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List<Computer> search(String str, int num, int offset) {
-
-	ArrayList<Computer> computers = new ArrayList<Computer>();
-
-	String query = "SELECT comput.id, comput.name, introduced, discontinued, company_id , c.name AS cname FROM computer comput LEFT OUTER JOIN company c on c.id = comput.company_id  WHERE comput.name LIKE ? LIMIT ?, ?";
-
-	JdbcTemplate search = new JdbcTemplate(dataSource);
-
-	List<Map<String, Object>> rows = search.queryForList(query,
-		new Object[] { str + "%", num, offset });
-
-	for (Map<String, Object> row : rows) {
-	    Computer computer = null;
-	    Company company = null;
-	    if (row.get("cname") != null) {
-		Long idCompany = Long.parseLong(row.get("company_id")
-			.toString());
-		company = new Company(idCompany, row.get("cname").toString());
-	    }
-	    LocalDate dateIntroduced = null, dateDiscontinued = null;
-
-	    if (row.get("introduced") != null) {
-		Timestamp introducedTS = Timestamp.valueOf(row
-			.get("introduced").toString());
-		dateIntroduced = introducedTS.toLocalDateTime().toLocalDate();
-	    }
-
-	    if (row.get("discontinued") != null) {
-		Timestamp discontinuedTS = Timestamp.valueOf(row.get(
-			"discontinued").toString());
-		dateDiscontinued = discontinuedTS.toLocalDateTime()
-			.toLocalDate();
-
-	    }
-
-	    computer = new Computer(Long.parseLong(row.get("id").toString()),
-		    row.get("name").toString(), dateIntroduced,
-		    dateDiscontinued, company);
-
-	    computers.add(computer);
-	}
-	return computers;
+	Criteria crit = sessionFactory.getCurrentSession().createCriteria(Computer.class).addOrder(Order.asc("name"));;
+	crit.add(Restrictions.like("name", str+"%"));
+	crit.setFirstResult(num);
+	crit.setMaxResults(offset);
+	return crit.list();
     }
 
     /*
@@ -275,10 +135,9 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public int count(String name) {
-	String query = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
-	JdbcTemplate count = new JdbcTemplate(dataSource);
-	return count.queryForObject(query, new Object[] { name + "%" },
-		Integer.class);
+	Criteria crit = sessionFactory.getCurrentSession().createCriteria(Computer.class);
+	crit.add(Restrictions.like("name", name+"%"));
+		return (int) (long)crit.setProjection(Projections.rowCount()).uniqueResult();
     }
 
     /*

@@ -61,8 +61,7 @@ public class CtrlAddComputer {
 	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
 	    // Redirection
 	    Page page = new Page();
-	    page.setComputersDTO(MapperDTO.computersToDTO(computerService
-		    .search("", 1, 10)));// computerService.findAll()));
+	    page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
 	    model.addAttribute("page", page);
 	    model.addAttribute("computersFound", computerService.count(""));
 	    return "forward:/dashboard";

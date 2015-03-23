@@ -2,22 +2,42 @@ package com.excilys.formation.cdb.model;
 
 import java.time.LocalDate;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Component
+import com.excilys.formation.cdb.persistence.LocalDatePersistenceConverter;
+
+@Entity
+@Table(name = "computer")
 public class Computer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "introduced")
+    @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate dateIntroduced;
+    @Column(name = "discontinued")
+    @Convert(converter = LocalDatePersistenceConverter.class)
     private LocalDate dateDiscontinued;
+    @OneToOne(optional = true)
     private Company company;
 
     public Computer() {
 	super();
     }
 
-    public Computer(Long id, String name, LocalDate dateIntroduced, LocalDate dateDiscontinued, Company company) {
+    public Computer(Long id, String name, LocalDate dateIntroduced,
+	    LocalDate dateDiscontinued, Company company) {
 	super();
 	this.id = id;
 	this.name = name;
@@ -95,8 +115,11 @@ public class Computer {
 	final int prime = 31;
 	int result = 1;
 	result = prime * result + ((company == null) ? 0 : company.hashCode());
-	result = prime * result	+ ((dateDiscontinued == null) ? 0 : dateDiscontinued.hashCode());
-	result = prime * result	+ ((dateIntroduced == null) ? 0 : dateIntroduced.hashCode());
+	result = prime
+		* result
+		+ ((dateDiscontinued == null) ? 0 : dateDiscontinued.hashCode());
+	result = prime * result
+		+ ((dateIntroduced == null) ? 0 : dateIntroduced.hashCode());
 	result = prime * result + ((id == null) ? 0 : id.hashCode());
 	result = prime * result + ((name == null) ? 0 : name.hashCode());
 	return result;

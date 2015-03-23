@@ -37,7 +37,6 @@ public class CtrlDashBoard {
 	System.out.println("[GET] Ctrl-Dashboard");
 	int checkedIndex = 0;
 	int checkedOffset = 10;
-
 	
 	if (Util.checkDigit(index)) {
 	    checkedIndex = Integer.parseInt(index);
@@ -79,9 +78,7 @@ public class CtrlDashBoard {
 
 	Page page = new Page();
 	
-	//TODO A REMETTRE APRES HIB+CRITERIA
-	page.setComputersDTO(MapperDTO.computersToDTO(computerService.search("", 10, 100)));
-	//page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
+	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));
 	

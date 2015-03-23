@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 @Service
+@Transactional
 public class ComputerService implements IComputerService {
     
     @Autowired

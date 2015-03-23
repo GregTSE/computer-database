@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1><spring:message code="computer.add" /></h1>
-<%-- 				<form action="./addComputer" name="addform" method="POST"> --%>
+				
 				<form:form id="addComputer" action="./addComputer" name="addform" method="POST" modelAttribute="computerDTO">
 				
 					<fieldset>
