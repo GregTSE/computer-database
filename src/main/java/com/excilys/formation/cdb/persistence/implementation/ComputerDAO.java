@@ -94,7 +94,6 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public void update(Computer computer) {
-	System.out.println("FOUCKING FOUCKING FOUCK : "+computer.toString());
 	sessionFactory.getCurrentSession().update(computer);
     }
 

@@ -34,7 +34,7 @@ public class CtrlDashBoard {
 	    @RequestParam(value = SEARCH, required = false) String search,
 	    @RequestParam(value = INDEX, required = false) String index,
 	    @RequestParam(value = OFFSET, required = false) String offset) {
-	System.out.println("[GET] Ctrl-Dashboard");
+	
 	int checkedIndex = 0;
 	int checkedOffset = 10;
 	
@@ -64,7 +64,7 @@ public class CtrlDashBoard {
     protected String deleteComputers(
 	    ModelMap model,
 	    @RequestParam(value = "selection", required = false) String selection) {
-	System.out.println("[POST] Ctrl-Dashboard");
+
 	String[] checkedComputersId = null;
 	if (selection != null) {
 	    if (selection.length() > 0) {

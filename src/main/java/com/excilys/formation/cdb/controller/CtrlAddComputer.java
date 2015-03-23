@@ -35,7 +35,6 @@ public class CtrlAddComputer {
     @RequestMapping(method = RequestMethod.GET)
     protected String displayCompanies(ModelMap model) {
 
-	System.out.println("[GET] Ctrl-AddComputer");
 
 	List<Company> companies = new ArrayList<Company>();
 	companies = companyService.findAll();
@@ -48,7 +47,6 @@ public class CtrlAddComputer {
     protected String addComputer(ModelMap model,
 	    @Valid ComputerDTO computerDTO, BindingResult bindingResult) {
 
-	System.out.println("[POST] Ctrl-AddComputer");
 
 	if (bindingResult.hasErrors()) {
 	    model.addAttribute("computerDTO", computerDTO);

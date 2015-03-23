@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ICompanyService;
 import com.excilys.formation.cdb.service.IComputerService;
@@ -41,7 +40,6 @@ public class CtrlEditComputer {
     protected String doGet(ModelMap model,
 	    @RequestParam(value = PARAM_ID, required = true) String pId) {
 	
-	System.out.println("[GET] Ctrl-EditComputer");
 	List<Company> companies = new ArrayList<Company>();
 
 	companies = companyService.findAll();
@@ -50,7 +48,6 @@ public class CtrlEditComputer {
 	if (Util.checkDigit(pId)) {
 	    computerDTO = MapperDTO.computerToDTO(computerService.find(Long.parseLong(pId)));
 	}
-	System.out.println("HMM"+computerDTO.toString());
 	model.addAttribute("computer", computerDTO);
 	model.addAttribute("companies", companies);
 	// redirection
@@ -61,8 +58,6 @@ public class CtrlEditComputer {
     @RequestMapping(method = RequestMethod.POST)
     protected String doPost(ModelMap model,
 	    @Valid @ModelAttribute ComputerDTO computerDTO) {
-	System.out.println("[POST] Ctrl-EditComputer");
-	System.out.println("BOOOOOOOOON : "+computerDTO.toString());
 	computerService.update(MapperDTO.dtoToComputer(computerDTO));
 	Page page = new Page();
 	page.setComputersDTO(MapperDTO.computersToDTO(computerService.findAll()));
