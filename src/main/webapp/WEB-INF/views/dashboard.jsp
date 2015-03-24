@@ -9,7 +9,8 @@
 
 <section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${computersFound}
+		<h1 id="homeTitle">
+			${computersFound}
 			<spring:message code="computer.found" />
 		</h1>
 		<div id="actions" class="form-horizontal">
@@ -19,16 +20,21 @@
 					class="form-inline">
 
 					<input type="search" id="searchbox" name="search"
-						class="form-control" placeholder="<spring:message code="computer.search" />" /> <input
-						type="submit" id="searchsubmit" value="<spring:message code="computer.filter" />"
+						class="form-control"
+						placeholder="<spring:message code="computer.search" />" /> <input
+						type="submit" id="searchsubmit"
+						value="<spring:message code="computer.filter" />"
 						class="btn btn-primary" />
 				</form>
 
 			</div>
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer" href="./addComputer">
-					<spring:message code="computer.add" /> </a> <a class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();"> <spring:message code="computer.edit" /> </a>
+					<spring:message code="computer.add" />
+				</a> <a class="btn btn-default" id="editComputer" href="#"
+					onclick="$.fn.toggleEditMode();"> <spring:message
+						code="computer.edit" />
+				</a>
 			</div>
 		</div>
 	</div>
@@ -51,10 +57,9 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th>
-						<spring:message code="computer.name" />
-						<a href='#' style=float:right> <i class="fa fa-sort"></i> </a>
-					</th>
+					<th><spring:message code="computer.name" /> <a href='#'
+						style="float: right"> <i class="fa fa-sort"></i>
+					</a></th>
 					<th><spring:message code="computer.introduced" /></th>
 					<!-- Table header for Discontinued Date -->
 					<th><spring:message code="computer.discontinued" /></th>
