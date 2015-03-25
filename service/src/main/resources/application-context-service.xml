@@ -17,28 +17,17 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		transaction-manager="transactionManager" />
 
 	<import resource="spring-ds.xml" />
+	
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-		<property name="packagesToScan" value="com.excilys.formation.cdb.model" />
-	</bean>
-
 	<context:component-scan base-package="com.excilys.formation.cdb.service">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
+	<import resource="classpath*:/application-context-binding.xml" /> 
+	<import resource="classpath*:/application-context-persistence.xml" />
 
 
 </beans>

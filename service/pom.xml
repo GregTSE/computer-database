@@ -18,17 +18,12 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>persistence</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>core</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>binding</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>persistence</artifactId>
 		</dependency>
 
 		<dependency>

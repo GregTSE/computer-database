@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@include file="header.jsp"%>s
+<%@include file="header.jsp"%>
 
 <section id="main">
 	<div class="container">
