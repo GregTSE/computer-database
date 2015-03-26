@@ -56,6 +56,12 @@
 		</div>
 	</div>
 </section>
+
+<script type="text/javascript">
+  var strings = new Array();
+  strings['name.required'] = "<spring:message code='msg.view' javaScriptEscape='true' />";
+  strings['date.format'] = "<spring:message code='msg.edit' javaScriptEscape='true' />";
+</script>
 <script src="${request.getContextPath()}js/jquery.min.js"></script>
 <script src="${request.getContextPath()}js/addcomputer.js"></script>
 </body>

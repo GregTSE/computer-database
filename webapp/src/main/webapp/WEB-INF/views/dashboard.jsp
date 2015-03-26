@@ -35,7 +35,7 @@
 						<spring:message code="computer.add" />
 					</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();"> <spring:message
-							code="computer.edit" />
+							code="msg.edit" />
 					</a>
 				</div>
 			</sec:authorize>
@@ -91,6 +91,11 @@
 
 <%@include file="footer.jsp"%>
 
+<script type="text/javascript">
+  var strings = new Array();
+  strings['msg.view'] = "<spring:message code='msg.view' javaScriptEscape='true' />";
+  strings['msg.edit'] = "<spring:message code='msg.edit' javaScriptEscape='true' />";
+</script>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

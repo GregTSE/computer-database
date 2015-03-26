@@ -8,7 +8,7 @@ $(document).ready(function() {
 			e.preventDefault();
 			$("#name").css("border", "solid");
 			$("#name").css("border-color", "#ff0000");
-			alert("Name is required.");
+			alert(strings['name.required']);
 		} else {
 			if (introducedError || discontinuedError) {
 				if (introducedError) {
@@ -20,7 +20,7 @@ $(document).ready(function() {
 					$("#dateDiscontinued").css("border-color", "#ff0000");
 				}
 				e.preventDefault();
-				alert("Bad format.");
+				alert(strings['date.format']);
 			}	
 		}
 	});
