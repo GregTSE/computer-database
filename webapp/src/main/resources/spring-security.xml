@@ -1,22 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
- 
-	<http auto-config="true">
-		<intercept-url pattern="/**" access="ROLE_USER" />
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<global-method-security proxy-target-class="false"
+		pre-post-annotations="enabled" />
+
+	<http entry-point-ref="digestAuthenticationEntryPoint">
+		<intercept-url pattern="/dashboard" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/editComputer" access="ROLE_ADMIN" />
+		<intercept-url pattern="/addComputer" access="ROLE_ADMIN" />
+		<custom-filter ref="digestAuthenticationFilter"
+			position="BASIC_AUTH_FILTER" />
 	</http>
- 
+
 	<authentication-manager>
-	  <authentication-provider>
-	    <user-service>
-		<user name="mkyong" password="123456" authorities="ROLE_USER" />
-	    </user-service>
-	  </authentication-provider>
+		<authentication-provider user-service-ref="userService">
+			<!-- <password-encoder hash="bcrypt" /> -->
+		</authentication-provider>
 	</authentication-manager>
- 
+
+	<beans:bean id="digestAuthenticationFilter"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter"
+		p:authenticationEntryPoint-ref="digestAuthenticationEntryPoint"
+		p:userDetailsService-ref="userService" />
+
+	<beans:bean id="digestAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint"
+		p:realmName="ComputerDatabase" p:nonceValiditySeconds="10" p:key="acegi" />
+
 </beans:beans>
+
+
+

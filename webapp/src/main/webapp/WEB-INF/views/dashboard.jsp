@@ -4,7 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@include file="header.jsp"%>
 
 <section id="main">
@@ -28,14 +29,16 @@
 				</form>
 
 			</div>
-			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="./addComputer">
-					<spring:message code="computer.add" />
-				</a> <a class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();"> <spring:message
-						code="computer.edit" />
-				</a>
-			</div>
+			<sec:authorize ifAnyGranted="ROLE_ADMIN">
+				<div class="pull-right">
+					<a class="btn btn-success" id="addComputer" href="./addComputer">
+						<spring:message code="computer.add" />
+					</a> <a class="btn btn-default" id="editComputer" href="#"
+						onclick="$.fn.toggleEditMode();"> <spring:message
+							code="computer.edit" />
+					</a>
+				</div>
+			</sec:authorize>
 		</div>
 	</div>
 
