@@ -11,7 +11,7 @@ import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class ComputerService implements IComputerService {
     
     @Autowired

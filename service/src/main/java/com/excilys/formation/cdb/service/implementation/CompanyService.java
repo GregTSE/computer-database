@@ -12,7 +12,7 @@ import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.ICompanyService;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CompanyService implements ICompanyService {
     
    @Autowired
