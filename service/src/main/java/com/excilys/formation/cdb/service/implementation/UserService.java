@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.formation.cdb.persistence.implementation.UserDAO;
 
 @Service("userService")
-@Transactional
+@Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
 
     @Autowired
