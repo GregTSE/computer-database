@@ -22,4 +22,5 @@ public class LocalDatePersistenceConverter implements AttributeConverter<LocalDa
     }
     return null;
   }
+  
 }

@@ -20,18 +20,19 @@
 		<module>console</module>
 	</modules>
 
+	<!-- Versions -->
 	<properties>
 		<junit>4.12</junit>
 		<mockito>1.9.5</mockito>
 		<mysql>5.1.34</mysql>
 		<jdbc>8.0.20</jdbc>
 		<slf4j>1.7.10</slf4j>
+		<logback>1.1.2</logback>
 		<selenium>2.44.0</selenium>
 		<jstl>1.2</jstl>
 		<standard>1.1.2</standard>
 		<validator>1.4.0</validator>
-		<bonecp>0.8.0.RELEASE</bonecp>
-		<logback>1.1.2</logback>
+
 		<spring>4.1.5.RELEASE</spring>
 		<spring.security>3.2.6.RELEASE</spring.security>
 		<validation>1.0.0.GA</validation>
@@ -39,8 +40,22 @@
 		<hibernate.validator>4.1.0.Final</hibernate.validator>
 	</properties>
 
+	<!-- Dependencies declaration -->
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- Modules -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>binding</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>console</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>${project.groupId}</groupId>
@@ -56,79 +71,24 @@
 
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>webapp</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>${project.groupId}</groupId>
 				<artifactId>service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>binding</artifactId>
+				<artifactId>webapp</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>console</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit}</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>${mockito}</version>
-				<scope>test</scope>
-			</dependency>
-
+			<!-- Database -->
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-java</artifactId>
-				<version>${selenium}</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>jstl</groupId>
-				<artifactId>jstl</artifactId>
-				<version>${jstl}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-				<version>${standard}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>commons-validator</groupId>
-				<artifactId>commons-validator</artifactId>
-				<version>${validator}</version>
-			</dependency>
-
+			<!-- Tomcat -->
 			<dependency>
 				<groupId>org.apache.tomcat</groupId>
 				<artifactId>tomcat-jdbc</artifactId>
@@ -136,12 +96,34 @@
 				<scope>provided</scope>
 			</dependency>
 
+			<!-- Jstl -->
 			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback}</version>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl}</version>
 			</dependency>
 
+			<!-- Taglibs -->
+			<dependency>
+				<groupId>taglibs</groupId>
+				<artifactId>standard</artifactId>
+				<version>${standard}</version>
+			</dependency>
+
+			<!-- Hibernate -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate.validator}</version>
+			</dependency>
+
+			<!-- Spring -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
@@ -162,23 +144,9 @@
 
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
-				<version>${spring}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-aop</artifactId>
-				<version>${spring}</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring}</version>
 			</dependency>
-
 
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -186,24 +154,7 @@
 				<version>${spring}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>javax.validation</groupId>
-				<artifactId>validation-api</artifactId>
-				<version>${validation}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>${hibernate}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.validator}</version>
-			</dependency>
-
+			<!-- Spring security -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-taglibs</artifactId>
@@ -217,9 +168,64 @@
 				<version>${spring.security}</version>
 			</dependency>
 
+			<!-- Validation -->
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${validation}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${validator}</version>
+			</dependency>
 
 		</dependencies>
+
 	</dependencyManagement>
+
+
+	<!-- inherited dependencies -->
+
+	<dependencies>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Log -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback}</version>
+		</dependency>
+
+	</dependencies>
 
 	<reporting>
 		<plugins>
@@ -244,4 +250,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 </project>

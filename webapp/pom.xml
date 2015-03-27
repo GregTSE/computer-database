@@ -14,7 +14,6 @@
 	<packaging>war</packaging>
 	<name>webapp</name>
 
-
 	<dependencies>
 
 		<dependency>
@@ -47,16 +46,6 @@
 		<artifactId>spring-security-config</artifactId>
 		</dependency>
 
-
 	</dependencies>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</reporting>
 
 </project>

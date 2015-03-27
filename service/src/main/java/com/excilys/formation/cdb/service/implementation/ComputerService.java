@@ -70,7 +70,6 @@ public class ComputerService implements IComputerService {
 	return computerDAO.search(str, num, offset);
     }
     
-
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#count(java.lang.String)
      */
@@ -78,6 +77,5 @@ public class ComputerService implements IComputerService {
     public int count(String word) {
 	return computerDAO.count(word);
     }
-    
-    
+     
 }
