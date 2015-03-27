@@ -14,9 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
@@ -104,7 +102,8 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public void delete(long id) {
-	Computer computer = (Computer) sessionFactory.getCurrentSession().load(Computer.class, id);
+	Computer computer = (Computer) sessionFactory.getCurrentSession().load(
+		Computer.class, id);
 	sessionFactory.getCurrentSession().delete(computer);
     }
 
@@ -118,8 +117,10 @@ public class ComputerDAO implements IComputerDAO {
     @SuppressWarnings("unchecked")
     @Override
     public List<Computer> search(String str, int num, int offset) {
-	Criteria crit = sessionFactory.getCurrentSession().createCriteria(Computer.class).addOrder(Order.asc("name"));;
-	crit.add(Restrictions.like("name", str+"%"));
+	Criteria crit = sessionFactory.getCurrentSession()
+		.createCriteria(Computer.class).addOrder(Order.asc("name"));
+	;
+	crit.add(Restrictions.like("name", str + "%"));
 	crit.setFirstResult(num);
 	crit.setMaxResults(offset);
 	return crit.list();
@@ -134,9 +135,11 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public int count(String name) {
-	Criteria crit = sessionFactory.getCurrentSession().createCriteria(Computer.class);
-	crit.add(Restrictions.like("name", name+"%"));
-		return (int) (long)crit.setProjection(Projections.rowCount()).uniqueResult();
+	Criteria crit = sessionFactory.getCurrentSession().createCriteria(
+		Computer.class);
+	crit.add(Restrictions.like("name", name + "%"));
+	return (int) (long) crit.setProjection(Projections.rowCount())
+		.uniqueResult();
     }
 
     /*
@@ -150,14 +153,14 @@ public class ComputerDAO implements IComputerDAO {
     public List<Long> findByCompany(Long companyId) {
 
 	List<Long> computersId = new ArrayList<Long>();
-	String query = "SELECT id FROM computer WHERE company_id = ?";
-	JdbcTemplate find = new JdbcTemplate(dataSource);
-	List<Map<String, Object>> rows = find.queryForList(query,
-		new Object[] { companyId });
-
-	for (Map<String, Object> row : rows) {
-	    computersId.add(Long.parseLong(row.get(0).toString()));
-	}
+	// String query = "SELECT id FROM computer WHERE company_id = ?";
+	// JdbcTemplate find = new JdbcTemplate(dataSource);
+	// List<Map<String, Object>> rows = find.queryForList(query,
+	// new Object[] { companyId });
+	//
+	// for (Map<String, Object> row : rows) {
+	// computersId.add(Long.parseLong(row.get(0).toString()));
+	// }
 
 	return computersId;
     }
@@ -170,12 +173,10 @@ public class ComputerDAO implements IComputerDAO {
      * .lang.Long)
      */
     @Override
-    @Transactional
     public void deleteByCompany(Long id) {
 	List<Long> computersId = findByCompany(id);
-	for (Long computerId : computersId) {
-	    delete(computerId);
-	    logger.info("computer(" + computerId + ") removed");
-	}
+	// for (Long computerId : computersId) {
+	// delete(computerId);
+	// logger.info("computer(" + computerId + ") removed");
     }
 }

@@ -20,11 +20,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>service</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -40,12 +35,7 @@
 		<groupId>org.springframework.security</groupId>
 		<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
-
-		<dependency>
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-config</artifactId>
-		</dependency>
-
+		
 	</dependencies>
 
 </project>

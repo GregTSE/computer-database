@@ -14,19 +14,13 @@
 	<name>binding</name>
 
 	<dependencies>
-		
+
 		<!-- Modules -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
 
-		<!-- Validation for DTO -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-		</dependency>
-
 	</dependencies>
-	
+
 </project>
