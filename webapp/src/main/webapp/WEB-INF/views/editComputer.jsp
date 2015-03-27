@@ -39,8 +39,18 @@
 							<label for="companyId"><spring:message
 									code="company.name" /></label> <select class="form-control"
 								id="companyId" name="companyId">
+								<option value="0">--</option>
 								<c:forEach var="comp" items="${companies}">
-									<option value="${comp.id}">${comp.name}</option>
+									<c:choose>
+										<c:when test="${comp.id == computer.companyId }">
+											<option value="${comp.id}" selected="true"><c:out
+													value="${comp.name}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${comp.id}"><c:out
+													value="${comp.name}" /></option>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</select>
 						</div>

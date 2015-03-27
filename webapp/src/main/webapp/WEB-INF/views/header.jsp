@@ -22,10 +22,9 @@
 		<div class="container">
 			<a class="navbar-brand" href="./dashboard"> Application - Computer Database </a>
 			<span style=float:right>
-				<a href="?lang=en"> <img src="${request.getContextPath()}img/uk.png" /></a> 
-				<a href="?lang=fr"> <img src="${request.getContextPath()}img/fr.png" /> </a>
+				<a href="?lang=en&id=${computer.id}"> <img src="${request.getContextPath()}img/uk.png" /></a> 
+				<a href="?lang=fr&id=${computer.id}"> <img src="${request.getContextPath()}img/fr.png" /> </a>
 			</span>
 		</div>
-
 		
 	</header>
