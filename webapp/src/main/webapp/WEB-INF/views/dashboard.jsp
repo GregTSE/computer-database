@@ -12,7 +12,7 @@
 	<div class="container">
 		<h1 id="homeTitle">
 			${computersFound}
-			<spring:message code="computer.found" />
+			<spring:message code="computers.found" />
 		</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
@@ -22,9 +22,9 @@
 
 					<input type="search" id="searchbox" name="search"
 						class="form-control"
-						placeholder="<spring:message code="computer.search" />" /> <input
+						placeholder="<spring:message code="field.search" />" /> <input
 						type="submit" id="searchsubmit"
-						value="<spring:message code="computer.filter" />"
+						value="<spring:message code="button.filter" />"
 						class="btn btn-primary" />
 				</form>
 
@@ -32,10 +32,10 @@
 			<sec:authorize ifAnyGranted="ROLE_ADMIN">
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="./addComputer">
-						<spring:message code="computer.add" />
+						<spring:message code="button.add" />
 					</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();"> <spring:message
-							code="msg.edit" />
+							code="button.edit" />
 					</a>
 				</div>
 			</sec:authorize>
@@ -60,12 +60,12 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><spring:message code="computer.name" /> <a href='#'
+					<th><spring:message code="field.name" /> <a href='#'
 						style="float: right"> <i class="fa fa-sort"></i>
 					</a></th>
-					<th><spring:message code="computer.introduced" /></th>
+					<th><spring:message code="date.introduced" /></th>
 					<!-- Table header for Discontinued Date -->
-					<th><spring:message code="computer.discontinued" /></th>
+					<th><spring:message code="date.discontinued" /></th>
 					<!-- Table header for Company -->
 					<th><spring:message code="company.name" /></th>
 				</tr>
@@ -93,8 +93,8 @@
 
 <script type="text/javascript">
   var strings = new Array();
-  strings['msg.view'] = "<spring:message code='msg.view' javaScriptEscape='true' />";
-  strings['msg.edit'] = "<spring:message code='msg.edit' javaScriptEscape='true' />";
+  strings['button.view'] = "<spring:message code='button.view' javaScriptEscape='true' />";
+  strings['button.edit'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
 </script>
 
 <script src="js/jquery.min.js"></script>

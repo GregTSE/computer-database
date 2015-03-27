@@ -8,30 +8,30 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
-				<h1><spring:message code="computer.add" /></h1>
+				<h1><spring:message code="button.add" /></h1>
 				
 				<form:form id="addComputer" action="./addComputer" name="addform" method="POST" modelAttribute="computerDTO">
 				
 					<fieldset>
 						<div class="form-group">
-							<label for="name"><spring:message code="computer.name" /></label>
-							<input type="text"  class="form-control" id="name" name="name" placeholder="<spring:message code="computer.name" />"
+							<label for="name"><spring:message code="field.name" /></label>
+							<input type="text"  class="form-control" id="name" name="name" placeholder="<spring:message code="field.name" />"
 							onkeyup="$.fn.initName()">
 							<form:errors path="name" element="div" cssClass="alert alert-danger"/>
 						</div>
 						
 						<div class="form-group">
-							<label for="introduced"><spring:message code="computer.introduced" /></label> 
+							<label for="introduced"><spring:message code="date.introduced" /></label> 
 							<input
 								type="date" class="form-control" id="dateIntroduced"
-								name="dateIntroduced" placeholder="<spring:message code="computer.introduced" />"
+								name="dateIntroduced" placeholder="<spring:message code="date.introduced" />"
 								onkeyup="$.fn.initIntroduced()">
 								<form:errors path="dateIntroduced" element="div" cssClass="alert alert-danger"/>
 						</div>
 						
 						<div class="form-group">
-							<label for="discontinued"><spring:message code="computer.discontinued" /></label> 
-							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="computer.discontinued" />"
+							<label for="discontinued"><spring:message code="date.discontinued" /></label> 
+							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="date.discontinued" />"
 							onkeyup="$.fn.initDiscontinued()">
 							<form:errors path="dateDiscontinued" element="div" cssClass="alert alert-danger"/>
 						</div>
@@ -48,8 +48,8 @@
 						</div>
 					</fieldset>
 					<div class="actions pull-right">
-						<input type="submit" id="add" value="<spring:message code="computer.add" />" class="btn btn-primary">
-						<spring:message code="add.or" /> <a href="dashboard" class="btn btn-default"><spring:message code="add.cancel" /></a>
+						<input type="submit" id="add" value="<spring:message code="button.add" />" class="btn btn-primary">
+						<spring:message code="word.or" /> <a href="dashboard" class="btn btn-default"><spring:message code="button.cancel" /></a>
 					</div>
 				</form:form>
 			</div>
@@ -59,8 +59,8 @@
 
 <script type="text/javascript">
   var strings = new Array();
-  strings['name.required'] = "<spring:message code='msg.view' javaScriptEscape='true' />";
-  strings['date.format'] = "<spring:message code='msg.edit' javaScriptEscape='true' />";
+  strings['error.name'] = "<spring:message code='error.name' javaScriptEscape='true' />";
+  strings['error.date'] = "<spring:message code='error.date' javaScriptEscape='true' />";
 </script>
 <script src="${request.getContextPath()}js/jquery.min.js"></script>
 <script src="${request.getContextPath()}js/addcomputer.js"></script>
