@@ -10,11 +10,12 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>console</artifactId>
-	<name>console</name>
+	<artifactId>webservice</artifactId>
+	<packaging>war</packaging>
+	<name>webservice</name>
 
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>service</artifactId>
@@ -45,7 +46,7 @@
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-spring3</artifactId>
 		</dependency>
-		
+
 
 	</dependencies>
 
