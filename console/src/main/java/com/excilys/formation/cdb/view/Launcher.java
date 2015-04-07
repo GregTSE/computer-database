@@ -19,7 +19,6 @@ public class Launcher {
 	
 	console.start();
 	((AbstractApplicationContext) context).close();
-
     }
 
 }

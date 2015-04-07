@@ -5,11 +5,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.service.ICompanyService;
@@ -26,18 +34,18 @@ import com.excilys.formation.cdb.utils.Util;
 
 @Component
 public class Console {
-
-    @Autowired
-    private IComputerService computerService;
-    @Autowired
-    private ICompanyService companyService;
+//
+//    @Autowired
+//    private IComputerService computerService;
+//    @Autowired
+//    private ICompanyService companyService;
     
     final private Logger logger = LoggerFactory.getLogger(Console.class);
 
     public Console() {
 	super();
-	this.computerService = new ComputerService();
-	this.companyService = new CompanyService();
+//	this.computerService = new ComputerService();
+//	this.companyService = new CompanyService();
     }
 
     /**
@@ -93,20 +101,25 @@ public class Console {
      * Display the current list of the computers
      */
     private void displayAllComputers() {
-	List<Computer> computers = computerService.findAll();
-	for (Computer computer : computers) {
-	    System.out.println(computer.toBasicString());
-	}
+	Client client = ClientBuilder.newBuilder().register(JacksonFeature.class)
+                .build();
+       WebTarget computerTarget = client.target("http://localhost:8081/ComputerDatabase/rest/hello");
+        ComputerDTO computer = computerTarget.path("/"+"zouh").request(MediaType.APPLICATION_JSON).get(new GenericType<ComputerDTO>() {});
+        computer.toString();
+//	List<Computer> computers = computerService.findAll();
+//	for (ComputerDTO computer : computers) {
+//	    System.out.println(computer.toBasicString());
+//	}
     }
 
     /**
      * Display the complete list of the companies
      */
     private void displayAllCompanies() {
-	List<Company> companies = companyService.findAll();
-	for (Company company : companies) {
-	    System.out.println(company.toString());
-	}
+//	List<Company> companies = companyService.findAll();
+//	for (Company company : companies) {
+//	    System.out.println(company.toString());
+//	}
     }
 
     /**
@@ -115,19 +128,19 @@ public class Console {
      * @param Scanner
      */
     private void displayComputerInfo(Scanner sc) {
-	Logger logger = LoggerFactory.getLogger(Console.class);
-	System.out.println("Enter the computer's id : ");
-	String id = sc.nextLine();
-	if (Util.checkDigit(id)) {
-	    Computer computer = computerService.find(Integer.parseInt(id));
-	    if (computer != null) {
-		System.out.println(computer);
-	    } else {
-		logger.error("ID not found");
-	    }
-	} else {
-	    logger.error("wrong ID format");
-	}
+//	Logger logger = LoggerFactory.getLogger(Console.class);
+//	System.out.println("Enter the computer's id : ");
+//	String id = sc.nextLine();
+//	if (Util.checkDigit(id)) {
+//	    Computer computer = computerService.find(Integer.parseInt(id));
+//	    if (computer != null) {
+//		System.out.println(computer);
+//	    } else {
+//		logger.error("ID not found");
+//	    }
+//	} else {
+//	    logger.error("wrong ID format");
+//	}
     }
 
     /**
@@ -137,29 +150,29 @@ public class Console {
      */
     private void createComputer(Scanner sc) {
 
-	System.out.println("Name of the computer :");
-	String name = sc.nextLine();
-
-	System.out.println("Introduced date : (format aaaa-mm-jj)");
-	String introduced = sc.nextLine();
-	if (!Util.checkDateFormat(introduced)) {
-	    introduced = null;
-	}
-
-	System.out.println("Discontinued date : (format aaaa-mm-jj)");
-	String discontinued = sc.nextLine();
-	if (!Util.checkDateFormat(discontinued)) {
-	    discontinued = null;
-	}
-
-	System.out.println("ID of the Company :");
-	String idCompany = sc.nextLine();
-	Company company = null;
-	if (Util.checkDigit(idCompany)) {
-	    //company = Util.getCompany(idCompany); VOIR POUR FAIRE AUTREMENT
-	}
-	//computerService.create(name, introduced, discontinued, company);
-	System.out.println("Success : ");
+//	System.out.println("Name of the computer :");
+//	String name = sc.nextLine();
+//
+//	System.out.println("Introduced date : (format aaaa-mm-jj)");
+//	String introduced = sc.nextLine();
+//	if (!Util.checkDateFormat(introduced)) {
+//	    introduced = null;
+//	}
+//
+//	System.out.println("Discontinued date : (format aaaa-mm-jj)");
+//	String discontinued = sc.nextLine();
+//	if (!Util.checkDateFormat(discontinued)) {
+//	    discontinued = null;
+//	}
+//
+//	System.out.println("ID of the Company :");
+//	String idCompany = sc.nextLine();
+//	Company company = null;
+//	if (Util.checkDigit(idCompany)) {
+//	    //company = Util.getCompany(idCompany); VOIR POUR FAIRE AUTREMENT
+//	}
+//	//computerService.create(name, introduced, discontinued, company);
+//	System.out.println("Success : ");
     }
 
     /**
@@ -168,13 +181,13 @@ public class Console {
      * @param Scanner
      */
     private void deleteComputer(Scanner sc) {
-	System.out.println("ID of computer :");
-	String id = sc.nextLine();
-	if (Util.checkDigit(id)) {
-	    computerService.delete(Integer.parseInt(id));
-	} else {
-	    logger.error("wrong Id format");
-	}
+//	System.out.println("ID of computer :");
+//	String id = sc.nextLine();
+//	if (Util.checkDigit(id)) {
+//	    computerService.delete(Integer.parseInt(id));
+//	} else {
+//	    logger.error("wrong Id format");
+//	}
     }
 
     /**
@@ -183,50 +196,50 @@ public class Console {
      * @param Scanner
      */
     private void updateComputer(Scanner sc) {
-	System.out.println("ID of computer :");
-	String id = sc.nextLine();
-	if (Util.checkDigit(id)) {
-	    Computer computer = computerService.find(Integer.parseInt(id));
-	    if (computer == null) {
-	    	logger.error("This computer does not exist.");
-	    } else {
-		System.out.println(computer.toString() + "\n");
-		System.out.println("Name of the computer:");
-		computer.setName(sc.nextLine());
-	    }
-
-	    DateTimeFormatter formatter = DateTimeFormatter
-		    .ofPattern("yyyy-MM-dd");
-	    System.out.println("Introduced date : (format aaaa-mm-jj)");
-	    String introduced = sc.nextLine();
-	    if (Util.checkDateFormat(introduced)) {
-		computer.setDateIntroduced(LocalDate.parse(introduced,
-			formatter));
-	    }
-
-	    System.out.println("Discontinued date : (format aaaa-mm-jj)");
-	    String discontinued = sc.nextLine();
-	    if (Util.checkDateFormat(discontinued)) {
-		computer.setDateIntroduced(LocalDate.parse(discontinued,
-			formatter));
-	    }
-
-	    computerService.update(computer);
-	    System.out.println("Update OK.");
-
-	} else {
-	    logger.error("ID must be an integer");
-	}
+//	System.out.println("ID of computer :");
+//	String id = sc.nextLine();
+//	if (Util.checkDigit(id)) {
+//	    Computer computer = computerService.find(Integer.parseInt(id));
+//	    if (computer == null) {
+//	    	logger.error("This computer does not exist.");
+//	    } else {
+//		System.out.println(computer.toString() + "\n");
+//		System.out.println("Name of the computer:");
+//		computer.setName(sc.nextLine());
+//	    }
+//
+//	    DateTimeFormatter formatter = DateTimeFormatter
+//		    .ofPattern("yyyy-MM-dd");
+//	    System.out.println("Introduced date : (format aaaa-mm-jj)");
+//	    String introduced = sc.nextLine();
+//	    if (Util.checkDateFormat(introduced)) {
+//		computer.setDateIntroduced(LocalDate.parse(introduced,
+//			formatter));
+//	    }
+//
+//	    System.out.println("Discontinued date : (format aaaa-mm-jj)");
+//	    String discontinued = sc.nextLine();
+//	    if (Util.checkDateFormat(discontinued)) {
+//		computer.setDateIntroduced(LocalDate.parse(discontinued,
+//			formatter));
+//	    }
+//
+//	    computerService.update(computer);
+//	    System.out.println("Update OK.");
+//
+//	} else {
+//	    logger.error("ID must be an integer");
+//	}
     }
     
     public void deleteCompany(Scanner sc){
 	
-	System.out.println("Enter the company ID : ");
-	String id = sc.nextLine();
-	
-	if (Util.checkDigit(id)) {
-	    companyService.delete(Long.parseLong(id));
-	}
+//	System.out.println("Enter the company ID : ");
+//	String id = sc.nextLine();
+//	
+//	if (Util.checkDigit(id)) {
+//	    companyService.delete(Long.parseLong(id));
+//	}
     }
 
 

@@ -18,5 +18,4 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-
 </beans>
