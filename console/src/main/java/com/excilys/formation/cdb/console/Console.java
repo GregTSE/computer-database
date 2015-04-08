@@ -121,7 +121,7 @@ public class Console {
 	String id = sc.nextLine();
 	if (Util.checkDigit(id)) {
 	    ComputerDTO computerDTO = webServiceComputer.get(id);
-	    if (computerDTO != null) {
+	    if (computerDTO.getId() != 0) {
 		System.out.println(computerDTO);
 	    } else {
 		logger.error("ID not found");
@@ -139,13 +139,13 @@ public class Console {
     private void createComputer(Scanner sc) {
 	System.out.println("Name of the computer :");
 	String name = sc.nextLine();
-	System.out.println("Introduced date : (format aaaa-mm-jj)");
+	System.out.println("Introduced date : (format yyyy-mm-dd)");
 	String introduced = sc.nextLine();
 	if (!Util.checkDateFormat(introduced)) {
 	    introduced = null;
 	}
 
-	System.out.println("Discontinued date : (format aaaa-mm-jj)");
+	System.out.println("Discontinued date : (format yyyy-mm-dd)");
 	String discontinued = sc.nextLine();
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;
