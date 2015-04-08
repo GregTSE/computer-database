@@ -30,6 +30,10 @@ public class ComputerDTO {
 	this.companyId = companyId;
 	this.companyName = companyName;
     }
+    
+    public ComputerDTO(String name, String dateIntroduced, String dateDiscontinued, String companyName) {
+	this(0, name, dateIntroduced, dateDiscontinued, 0, companyName);
+    }
 
     public long getId() {
 	return id;
@@ -81,9 +85,10 @@ public class ComputerDTO {
 
     @Override
     public String toString() {
-	return "ComputerDTO [id=" + id + ", name=" + name + ", dateIntroduced="
-		+ dateIntroduced + ", dateDiscontinued=" + dateDiscontinued
-		+ ", company=" + companyName + "]";
+	String introduced = (dateIntroduced== null) ? "" : ", introduced:"+dateIntroduced;
+	String discontinued = (dateDiscontinued == null) ? "" : ", discontinued:"+dateDiscontinued;
+	String company = (companyName == null || companyName.equals("")) ? "" : " [Company : "+companyName+"]";
+	return name + introduced + discontinued + company;
     }
 
     @Override

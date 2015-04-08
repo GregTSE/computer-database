@@ -33,15 +33,13 @@ final public class Util {
     }
 
     /**
-     * Check the english format date
+     * Check the format date
      * @param date
      * @return true if the format is correct
      */
     public static boolean checkDateFormat(String date) {
 	DateValidator dateValidator = DateValidator.getInstance();
-	Locale locale = LocaleContextHolder.getLocale();
-	String pattern = (locale.getLanguage().equals("fr") ? "dd-MM-yyyy" : "yyyy-MM-dd");
-	return dateValidator.isValid(date, pattern);
+	return dateValidator.isValid(date, "dd-MM-yyyy") || dateValidator.isValid(date, "yyyy-MM-dd");
     }
 
 }

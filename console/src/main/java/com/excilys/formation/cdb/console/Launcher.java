@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.view;
+package com.excilys.formation.cdb.console;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;

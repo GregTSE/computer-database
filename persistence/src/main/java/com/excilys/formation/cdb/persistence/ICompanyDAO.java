@@ -17,5 +17,4 @@ public interface ICompanyDAO {
     
     public abstract Company find(long id);
 
-
 }
