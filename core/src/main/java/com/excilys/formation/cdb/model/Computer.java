@@ -1,5 +1,6 @@
 package com.excilys.formation.cdb.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -14,8 +15,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "computer")
-public class Computer {
+public class Computer implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 998634873350978969L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

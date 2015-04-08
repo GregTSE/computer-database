@@ -103,23 +103,26 @@ public class Console {
     private void displayAllComputers() {
 	Client client = ClientBuilder.newBuilder().register(JacksonFeature.class)
                 .build();
-       WebTarget computerTarget = client.target("http://localhost:8081/ComputerDatabase/rest/hello");
-        ComputerDTO computer = computerTarget.path("/"+"zouh").request(MediaType.APPLICATION_JSON).get(new GenericType<ComputerDTO>() {});
-        computer.toString();
-//	List<Computer> computers = computerService.findAll();
-//	for (ComputerDTO computer : computers) {
-//	    System.out.println(computer.toBasicString());
-//	}
+       WebTarget computerTarget = client.target("http://localhost:8080/ComputerDatabase/webservice/computer");
+       List<ComputerDTO> computers = computerTarget.request(MediaType.APPLICATION_JSON).get(new GenericType<List<ComputerDTO>>() {});
+	for (ComputerDTO computer : computers) {
+	    System.out.println(computer.toString());
+	}
     }
 
     /**
      * Display the complete list of the companies
      */
     private void displayAllCompanies() {
-//	List<Company> companies = companyService.findAll();
-//	for (Company company : companies) {
-//	    System.out.println(company.toString());
-//	}
+
+	Client client = ClientBuilder.newBuilder().register(JacksonFeature.class)
+	            .build();
+	WebTarget compTarget = client.target("http://localhost:8080/ComputerDatabase/webservice/company");
+	List<Company> comps = compTarget.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Company>>() {});
+
+	for (Company company : comps) {
+	    System.out.println(company.toString());
+	}
     }
 
     /**
