@@ -88,7 +88,7 @@ public class ComputerDTO {
 	String introduced = (dateIntroduced== null) ? "" : ", introduced:"+dateIntroduced;
 	String discontinued = (dateDiscontinued == null) ? "" : ", discontinued:"+dateDiscontinued;
 	String company = (companyName == null || companyName.equals("")) ? "" : " [Company : "+companyName+"]";
-	return name + introduced + discontinued + company;
+	return id+" : "+name + introduced + discontinued + company;
     }
 
     @Override

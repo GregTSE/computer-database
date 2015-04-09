@@ -46,7 +46,7 @@ public class CtrlEditComputer {
 	ComputerDTO computerDTO = null;
 
 	if (Util.checkDigit(pId)) {
-	    computerDTO = MapperDTO.computerToDTO(computerService.find(Long.parseLong(pId)));
+	    computerDTO = computerService.find(Long.parseLong(pId));
 	}
 	
 	model.addAttribute("computer", computerDTO);

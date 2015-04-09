@@ -15,8 +15,6 @@ import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.IComputerService;
 import com.excilys.formation.cdb.utils.Util;
 
-//TODO PAR ORDRE ALPHABETIQUE !!!
-
 @Controller
 @RequestMapping("/dashboard")
 public class CtrlDashBoard {
@@ -37,10 +35,10 @@ public class CtrlDashBoard {
 	    @RequestParam(value = SEARCH, required = false) String search,
 	    @RequestParam(value = INDEX, required = false) String index,
 	    @RequestParam(value = OFFSET, required = false) String offset) {
-	
+
 	int checkedIndex = 0;
 	int checkedOffset = 10;
-	
+
 	if (Util.checkDigit(index)) {
 	    checkedIndex = Integer.parseInt(index);
 	}
@@ -54,12 +52,13 @@ public class CtrlDashBoard {
 	}
 
 	Page page = new Page(checkedIndex, checkedOffset, search);
-	List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.search(
-		search, checkedIndex * checkedOffset, checkedOffset));
+	List<ComputerDTO> computersDTO = MapperDTO
+		.computersToDTO(computerService.search(search, checkedIndex
+			* checkedOffset, checkedOffset));
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(search));
-	
+
 	return "dashboard";
     }
 
@@ -80,12 +79,12 @@ public class CtrlDashBoard {
 	}
 
 	Page page = new Page();
-	
+
 	List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.findAll());
-	model.addAttribute("computersDTO",computersDTO);
+	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));
-	
+
 	return "dashboard";
     }
     

@@ -27,25 +27,39 @@ public class ComputerWebService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ComputerDTO> getAll() {
-	List<ComputerDTO> computers = MapperDTO.computersToDTO(computerService.findAll());
+	List<ComputerDTO> computers = MapperDTO.computersToDTO(computerService
+		.findAll());
 	return computers;
     }
-    
-    
+
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void add(ComputerDTO computerDTO){
+    public void add(ComputerDTO computerDTO) {
 	computerService.insert(MapperDTO.dtoToComputer(computerDTO));
     }
-    
+
     @GET
     @Path("/{param}")
     @Produces(MediaType.APPLICATION_JSON)
     public ComputerDTO get(@PathParam("param") long id) {
-	ComputerDTO computerDTO = MapperDTO.computerToDTO(computerService.find(id));
+	ComputerDTO computerDTO = computerService.find(id);
 	return computerDTO;
     }
 
+    @POST
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void update(ComputerDTO computerDTO) {
+	computerService.update(MapperDTO.dtoToComputer(computerDTO));
+    }
+
+    @GET
+    @Path("/delete/{id}")
+    @Produces("application/json")
+    public String removeComputer(@PathParam("id") long id) {
+	computerService.delete(id);
+	return "Success";
+    }
 
 }

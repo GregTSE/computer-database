@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
@@ -34,8 +36,8 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#find(int)
      */
     @Override
-    public Computer find(long id) {
-	return computerDAO.find(id);
+    public ComputerDTO find(long id) {
+	return MapperDTO.computerToDTO(computerDAO.find(id));
     }
 
     /* (non-Javadoc)

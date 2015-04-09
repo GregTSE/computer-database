@@ -1,11 +1,13 @@
 package com.excilys.formation.cdb.model;
 
+
 //TODO : Ne pas afficher les pages sans contenu
 public class Page {
 
     private int index;
     private int offset;
     private String search;
+    
 
     private static final int NB_OF_DISPLAYED_PAGES = 5;
 

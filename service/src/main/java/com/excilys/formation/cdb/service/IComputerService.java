@@ -2,6 +2,7 @@ package com.excilys.formation.cdb.service;
 
 import java.util.List;
 
+import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.model.Computer;
 
 public interface IComputerService {
@@ -17,7 +18,7 @@ public interface IComputerService {
      * @param id
      * @return computer
      */
-    public abstract Computer find(long id);
+    public abstract ComputerDTO find(long id);
 
     /**
      * insert a new computer in the database

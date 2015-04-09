@@ -5,8 +5,8 @@
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<form action="./dashboard" Method="GET">
 				<input type="submit" name="offset" value="10" />
-				<input type="submit" name="offset" value="50" /> <input type="submit"
-					name="offset" value="100" />
+				<input type="submit" name="offset" value="50" />
+				<input type="submit" name="offset" value="100" />
 			</form>
 		</div>
 

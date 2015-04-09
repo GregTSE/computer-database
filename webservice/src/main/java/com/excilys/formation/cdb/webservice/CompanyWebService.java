@@ -28,12 +28,18 @@ public class CompanyWebService {
 	return companies;
     }
 
+    @GET
+    @Path("/delete/{id}")
+    @Produces("application/json")
     public void delete(Long id) {
 	companyService.delete(id);
     }
 
+    @GET
+    @Path("/{param}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Company find(Long id) {
 	return companyService.find(id);
     }
-
+    
 }
