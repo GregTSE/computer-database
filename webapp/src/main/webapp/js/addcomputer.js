@@ -44,6 +44,12 @@ $(document).ready(function() {
 	};
 }(jQuery));
 
+(function($) {
+	$.gg = function() {
+			alert('YOLO');
+	};
+}(jQuery));
+
 
 function isValidDate(dateString) {
 	if (dateString == '') {

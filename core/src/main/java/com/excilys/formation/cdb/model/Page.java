@@ -19,7 +19,10 @@ public class Page {
     
     public Page() {
 	super();
-	init();
+	this.index = 0;
+	this.offset = 10;
+	this.search = "";
+	this.sort = "ASC";
     }
 
     public Page(int index, int offset, String search, String sort) {

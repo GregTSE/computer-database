@@ -86,7 +86,7 @@ public class CtrlDashBoard {
 
 	Page page = new Page();
 
-	List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.findAll());
+	List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.search("",1,10,""));
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));

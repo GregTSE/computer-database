@@ -47,7 +47,6 @@ public class CtrlAddComputer {
     protected String addComputer(ModelMap model,
 	    @Valid ComputerDTO computerDTO, BindingResult bindingResult) {
 
-
 	if (bindingResult.hasErrors()) {
 	    model.addAttribute("computerDTO", computerDTO);
 	    List<Company> companies = new ArrayList<Company>();

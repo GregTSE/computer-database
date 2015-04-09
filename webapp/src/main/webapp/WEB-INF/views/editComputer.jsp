@@ -67,5 +67,6 @@
 		</div>
 	</div>
 </section>
+<script src="${request.getContextPath()}js/addcomputer.js"></script>
 </body>
 </html>
