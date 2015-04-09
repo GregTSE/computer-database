@@ -69,23 +69,13 @@ public class MapperDTO {
 
 	if (introduced != null) {
 	    if (Util.checkDateFormat(introduced)) {
-		if (locale.getLanguage().equals("fr")) {
-		    introducedDate = LocalDate.parse(introduced,
-			    DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
-		} else {
-		    introducedDate = LocalDate.parse(introduced);
-		}
+		introducedDate = LocalDate.parse(introduced);
 	    }
 	}
 
 	if (discontinued != null) {
 	    if (Util.checkDateFormat(discontinued)) {
-		if (locale.getLanguage().equals("fr")) {
-		    discontinuedDate = LocalDate.parse(discontinued,
-			    DateTimeFormatter.ofPattern("dd-MM-yyyy", locale));
-		} else {
-		    discontinuedDate = LocalDate.parse(discontinued);
-		}
+		discontinuedDate = LocalDate.parse(discontinued);
 	    }
 	}
 

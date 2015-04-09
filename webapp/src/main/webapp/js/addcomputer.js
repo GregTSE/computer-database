@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	$("#add").click(function(e) {
+		alert(strings['lang']);
 		var name = $("#name").val();
 		var introducedError = !isValidDate($("#dateIntroduced").val());
 		var discontinuedError = !isValidDate($("#dateDiscontinued").val())
@@ -14,58 +15,69 @@ $(document).ready(function() {
 				if (introducedError) {
 					$("#dateIntroduced").css("border", "solid");
 					$("#dateIntroduced").css("border-color", "#ff0000");
-				}	
+				}
 				if (discontinuedError) {
 					$("#dateDiscontinued").css("border", "solid");
 					$("#dateDiscontinued").css("border-color", "#ff0000");
 				}
 				e.preventDefault();
 				alert(strings['error.date']);
-			}	
+
+			}
 		}
 	});
 });
 
 (function($) {
 	$.fn.initName = function() {
-			$("#name").css("border", "none");
+		$("#name").css("border", "none");
 	};
 }(jQuery));
 
 (function($) {
 	$.fn.initIntroduced = function() {
-			$("#dateIntroduced").css("border", "none");
+		$("#dateIntroduced").css("border", "none");
 	};
 }(jQuery));
 
 (function($) {
 	$.fn.initDiscontinued = function() {
-			$("#dateDiscontinued").css("border", "none");
+		$("#dateDiscontinued").css("border", "none");
 	};
 }(jQuery));
 
 (function($) {
 	$.gg = function() {
-			alert('YOLO');
+		alert('YOLO');
 	};
 }(jQuery));
-
 
 function isValidDate(dateString) {
 	if (dateString == '') {
 		return true;
 	}
 	dateArray = dateString.split("-");
-	var y = dateArray[0];
-	var m = dateArray[1];
-	var d = dateArray[2];
-	var date = new Date(y,m-1,d);
-	var currentMonth = date.getMonth()+1;
-	var currentDay = date.getDate();
-	if (currentMonth < 10) { currentMonth = '0' + currentMonth; }
-	if (currentDay < 10) { currentDay = '0' + currentDay; }
+	if (strings['lang'] == 'en') {
+		var y = dateArray[0];
+		var m = dateArray[1];
+		var d = dateArray[2];
 
-	var convertedDate =""+date.getFullYear() + currentMonth + currentDay;
+	} else {
+		var y = dateArray[2];
+		var m = dateArray[1];
+		var d = dateArray[0];
+	}
+	var date = new Date(y, m - 1, d);
+	var currentMonth = date.getMonth() + 1;
+	var currentDay = date.getDate();
+	if (currentMonth < 10) {
+		currentMonth = '0' + currentMonth;
+	}
+	if (currentDay < 10) {
+		currentDay = '0' + currentDay;
+	}
+
+	var convertedDate = "" + date.getFullYear() + currentMonth + currentDay;
 	var givenDate = "" + y + m + d;
-	return ( givenDate == convertedDate);
+	return (givenDate == convertedDate);
 }

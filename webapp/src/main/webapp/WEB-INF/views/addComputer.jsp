@@ -61,6 +61,7 @@
   var strings = new Array();
   strings['error.name'] = "<spring:message code='error.name' javaScriptEscape='true' />";
   strings['error.date'] = "<spring:message code='error.date' javaScriptEscape='true' />";
+  strings['lang'] = "<spring:message code='lang' javaScriptEscape='true' />";
 </script>
 <script src="${request.getContextPath()}js/jquery.min.js"></script>
 <script src="${request.getContextPath()}js/addcomputer.js"></script>

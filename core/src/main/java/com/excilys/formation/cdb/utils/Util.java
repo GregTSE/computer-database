@@ -39,5 +39,19 @@ final public class Util {
 	return dateValidator.isValid(date, "dd-MM-yyyy")
 		|| dateValidator.isValid(date, "yyyy-MM-dd");
     }
+    
+    public static String englishToFrenchDate(String dateEnglish) {
+	if (dateEnglish == null) {
+	    return null;
+	}
+	if (dateEnglish.equals("")) {
+	    return "";
+	}
+ 	String[] dateArray = dateEnglish.split("-");
+ 	String year = dateArray[0];
+ 	String month = dateArray[1];
+ 	String day = dateArray[2];
+ 	return day+"-"+month+"-"+year;
+     }
 
 }

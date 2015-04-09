@@ -1,6 +1,12 @@
 package com.excilys.formation.cdb.dto;
 
+import java.util.Locale;
+import com.excilys.formation.cdb.utils.Util;
+
 import javax.validation.constraints.Size;
+
+import org.springframework.context.i18n.LocaleContextHolder;
+
 
 import com.excilys.formation.cdb.utils.DateAnnotation;
 
@@ -52,7 +58,8 @@ public class ComputerDTO {
     }
 
     public String getDateIntroduced() {
-	return dateIntroduced;
+	Locale locale = LocaleContextHolder.getLocale();
+	return locale.getLanguage().equals("fr") ? Util.englishToFrenchDate(this.dateIntroduced) : this.dateIntroduced;
     }
 
     public void setDateIntroduced(String dateIntroduced) {
