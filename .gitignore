@@ -32,3 +32,9 @@
 /webapp/.project
 /webapp/.settings/
 /webapp/src/main/webapp/WEB-INF/.gitignore
+/webservice/.classpath
+/webservice/.gitignore
+/webservice/.project
+/webservice/.settings/
+/webservice/src/main/webapp/WEB-INF/.gitignore
+
