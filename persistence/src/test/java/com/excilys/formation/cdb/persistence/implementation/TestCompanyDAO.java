@@ -1,12 +1,9 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-
 import java.sql.Connection;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import com.excilys.formation.cdb.persistence.ConnectionDAO4Test;
 
 public class TestCompanyDAO {
 
@@ -14,11 +11,11 @@ public class TestCompanyDAO {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-	
-//	ConnectionDAO4Test.INSTANCE.init();
-//	connection = ConnectionDAO4Test.INSTANCE.connection;
-	//connection.createStatement().executeUpdate(CREATE);
-	//connection.createStatement().executeUpdate(INSERT);
+
+	// ConnectionDAO4Test.INSTANCE.init();
+	// connection = ConnectionDAO4Test.INSTANCE.connection;
+	// connection.createStatement().executeUpdate(CREATE);
+	// connection.createStatement().executeUpdate(INSERT);
     }
 
     @AfterClass
@@ -26,9 +23,9 @@ public class TestCompanyDAO {
 	connection.close();
     }
 
- //   @Test
-//    public void testFindAll() {
-//	assertEquals(CompanyDAO.INSTANCE.findAll(connection).size(), 3);
-//    }
+    // @Test
+    // public void testFindAll() {
+    // assertEquals(CompanyDAO.INSTANCE.findAll(connection).size(), 3);
+    // }
 
 }

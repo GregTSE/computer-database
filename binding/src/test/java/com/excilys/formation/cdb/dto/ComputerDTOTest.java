@@ -1,11 +1,8 @@
 package com.excilys.formation.cdb.dto;
 
-import static org.junit.Assert.*;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.validation.ValidationUtils;
 
 public class ComputerDTOTest {
 

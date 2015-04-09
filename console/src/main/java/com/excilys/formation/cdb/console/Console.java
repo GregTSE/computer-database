@@ -16,7 +16,6 @@ import com.excilys.formation.cdb.utils.Util;
 
 /**
  * Console user interface
- * 
  * @author Greg T.
  */
 
@@ -25,9 +24,9 @@ public class Console {
 
     final private Logger logger = LoggerFactory.getLogger(Console.class);
     @Autowired
-    WebServiceCompany webServiceCompany;
+    private WebServiceCompany webServiceCompany;
     @Autowired
-    WebServiceComputer webServiceComputer;
+    private WebServiceComputer webServiceComputer;
 
     public Console() {
 	super();
@@ -44,9 +43,7 @@ public class Console {
 	while (!stopApp) {
 	    displayMenu();
 	    String choice = sc.nextLine();
-
 	    if (Util.checkDigit(choice)) {
-
 		switch (Integer.parseInt(choice)) {
 		case 1:
 		    displayAllComputers();
@@ -83,7 +80,7 @@ public class Console {
     }
 
     /**
-     * Display the current list of the computers
+     * Display the list of the computers
      */
     private void displayAllComputers() {
 	List<ComputerDTO> computers = webServiceComputer.getAll();
@@ -93,7 +90,7 @@ public class Console {
     }
 
     /**
-     * Display the complete list of the companies
+     * Display the list of the companies
      */
     private void displayAllCompanies() {
 	List<Company> companies = webServiceCompany.getAll();
@@ -134,13 +131,11 @@ public class Console {
 	if (!Util.checkDateFormat(introduced)) {
 	    introduced = null;
 	}
-
 	System.out.println("Discontinued date : (format yyyy-mm-dd)");
 	String discontinued = sc.nextLine();
 	if (!Util.checkDateFormat(discontinued)) {
 	    discontinued = null;
 	}
-
 	System.out.println("ID of the Company :");
 	String idCompany = sc.nextLine();
 	Company company = null;

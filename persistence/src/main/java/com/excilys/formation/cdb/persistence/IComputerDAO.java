@@ -1,6 +1,7 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.util.List;
+
 import com.excilys.formation.cdb.model.Computer;
 
 public interface IComputerDAO {
@@ -60,9 +61,10 @@ public interface IComputerDAO {
      * @param str
      * @param num
      * @param offset
+     * @param sort 
      * @return a computers list
      */
-    public abstract List<Computer> search(String str, int num, int offset);
+    public abstract List<Computer> search(String str, int num, int offset, String sort);
 
     public abstract int count(String name);
 

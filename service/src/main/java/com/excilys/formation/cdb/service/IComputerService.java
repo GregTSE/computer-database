@@ -43,9 +43,10 @@ public interface IComputerService {
      * @param str 
      * @param num
      * @param offset
+     * @param sort 
      * @return List of computers
      */
-    public abstract List<Computer> search(String str, int num, int offset);
+    public abstract List<Computer> search(String str, int num, int offset, String sort);
 
     /**
      * Count the computers beginning by 'word'

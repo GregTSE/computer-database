@@ -25,6 +25,7 @@ public class CtrlDashBoard {
     private static final String OFFSET = "offset";
     private static final String INDEX = "index";
     private static final String SEARCH = "search";
+    private static final String SORT = "sort";
 
     public CtrlDashBoard() {
 	super();
@@ -34,7 +35,8 @@ public class CtrlDashBoard {
     public String displayComputers(ModelMap model,
 	    @RequestParam(value = SEARCH, required = false) String search,
 	    @RequestParam(value = INDEX, required = false) String index,
-	    @RequestParam(value = OFFSET, required = false) String offset) {
+	    @RequestParam(value = OFFSET, required = false) String offset, 
+	    @RequestParam(value = SORT, required = false) String sort) {
 
 	int checkedIndex = 0;
 	int checkedOffset = 10;
@@ -50,11 +52,15 @@ public class CtrlDashBoard {
 	if (search == null) {
 	    search = "";
 	}
+	
+	if (sort == null) {
+	    sort = "DESC";
+	}
 
 	Page page = new Page(checkedIndex, checkedOffset, search);
 	List<ComputerDTO> computersDTO = MapperDTO
 		.computersToDTO(computerService.search(search, checkedIndex
-			* checkedOffset, checkedOffset));
+			* checkedOffset, checkedOffset, sort));
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(search));

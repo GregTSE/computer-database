@@ -2,7 +2,6 @@ package com.excilys.formation.cdb.persistence.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -116,10 +115,15 @@ public class ComputerDAO implements IComputerDAO {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Computer> search(String str, int num, int offset) {
-	Criteria crit = sessionFactory.getCurrentSession()
-		.createCriteria(Computer.class).addOrder(Order.asc("name"));
-	;
+    public List<Computer> search(String str, int num, int offset, String sort) {
+
+	Criteria crit = sessionFactory.getCurrentSession().createCriteria(
+		Computer.class);
+	if (sort.equalsIgnoreCase("DESC")) {
+	    crit.addOrder(Order.desc("name"));
+	} else {
+	    crit.addOrder(Order.asc("name"));
+	}
 	crit.add(Restrictions.like("name", str + "%"));
 	crit.setFirstResult(num);
 	crit.setMaxResults(offset);

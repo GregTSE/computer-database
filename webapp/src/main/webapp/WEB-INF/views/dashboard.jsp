@@ -22,8 +22,8 @@
 
 					<input type="search" id="searchbox" name="search"
 						class="form-control"
-						placeholder="<spring:message code="field.search" />" /> 
-						<input type="submit" id="searchsubmit"
+						placeholder="<spring:message code="field.search" />" /> <input
+						type="submit" id="searchsubmit"
 						value="<spring:message code="button.filter" />"
 						class="btn btn-primary" />
 				</form>

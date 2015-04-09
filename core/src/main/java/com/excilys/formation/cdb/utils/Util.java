@@ -1,11 +1,6 @@
 package com.excilys.formation.cdb.utils;
 
-
-import java.util.Locale;
-
-
 import org.apache.commons.validator.routines.DateValidator;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * Provide static methods to check properties
@@ -15,14 +10,15 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 final public class Util {
 
-   
-    private Util(){
+    private Util() {
 	super();
     }
-    
+
     /**
      * Check if the parameter is a digit
-     * @param id Computer's id
+     * 
+     * @param id
+     *            Computer's id
      * @return true if the format is correct.
      */
     public static boolean checkDigit(String id) {
@@ -34,12 +30,14 @@ final public class Util {
 
     /**
      * Check the format date
+     * 
      * @param date
      * @return true if the format is correct
      */
     public static boolean checkDateFormat(String date) {
 	DateValidator dateValidator = DateValidator.getInstance();
-	return dateValidator.isValid(date, "dd-MM-yyyy") || dateValidator.isValid(date, "yyyy-MM-dd");
+	return dateValidator.isValid(date, "dd-MM-yyyy")
+		|| dateValidator.isValid(date, "yyyy-MM-dd");
     }
 
 }

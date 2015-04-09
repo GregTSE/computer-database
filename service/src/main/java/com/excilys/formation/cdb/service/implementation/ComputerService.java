@@ -68,8 +68,8 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#search(java.lang.String, int, int)
      */
     @Override
-    public List<Computer> search(String str, int num, int offset) {
-	return computerDAO.search(str, num, offset);
+    public List<Computer> search(String str, int num, int offset, String sort) {
+	return computerDAO.search(str, num, offset, sort);
     }
     
     /* (non-Javadoc)
