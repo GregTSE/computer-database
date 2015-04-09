@@ -54,10 +54,10 @@ public class CtrlDashBoard {
 	}
 	
 	if (sort == null) {
-	    sort = "DESC";
+	    sort = "ASC";
 	}
 
-	Page page = new Page(checkedIndex, checkedOffset, search);
+	Page page = new Page(checkedIndex, checkedOffset, search, sort);
 	List<ComputerDTO> computersDTO = MapperDTO
 		.computersToDTO(computerService.search(search, checkedIndex
 			* checkedOffset, checkedOffset, sort));

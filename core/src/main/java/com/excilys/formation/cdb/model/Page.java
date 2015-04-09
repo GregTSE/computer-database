@@ -16,20 +16,18 @@ public class Page {
     
 
     private static final int NB_OF_DISPLAYED_PAGES = 5;
-
+    
     public Page() {
-	this.index = 0;
-	this.offset = 10;
-	this.search = "";
-	this.sort = "ASC";
+	super();
+	init();
     }
 
-    public Page(int index, int offset, String search) {
+    public Page(int index, int offset, String search, String sort) {
 	super();
 	this.index = index;
 	this.offset = offset;
 	this.search = search;
-	this.sort = "ASC";
+	this.sort = sort;
     }
 
     public void init() {
@@ -78,12 +76,18 @@ public class Page {
 	this.search = search;
     }
 
-    public String getSort() {
-	if (sort.equals(Sort.ASC)) {
-	    return "DESC";
+    public String getToogleSort() {
+	if (sort.equals(Sort.ASC.name())) {
+	    this.sort = "DESC";
+	    return this.sort;
 	} else {
-	    return "ASC";
+	    this.sort = "ASC";
+	    return this.sort;
 	}
+    }
+    
+    public String getSort() {
+	return this.sort;
     }
 
     public void setSort(String sort) {

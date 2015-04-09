@@ -60,8 +60,9 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><spring:message code="field.name" /> <a href='#'
+					<th><spring:message code="field.name" /> <a href='?offset=${page.offset}&sort=${page.toogleSort}'
 						style="float: right"> <i class="fa fa-sort"></i>
+						<input type="hidden" id="offset" name="offset" value="0"/>
 					</a></th>
 					<th><spring:message code="date.introduced" /></th>
 					<!-- Table header for Discontinued Date -->
