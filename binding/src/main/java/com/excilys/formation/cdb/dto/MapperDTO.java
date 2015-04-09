@@ -1,12 +1,9 @@
 package com.excilys.formation.cdb.dto;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -60,7 +57,7 @@ public class MapperDTO {
      */
     public static Computer dtoToComputer(ComputerDTO computerDTO) {
 
-	Locale locale = LocaleContextHolder.getLocale();
+
 	LocalDate introducedDate = null;
 	LocalDate discontinuedDate = null;
 
