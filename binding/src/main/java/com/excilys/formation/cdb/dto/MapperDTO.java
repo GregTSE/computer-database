@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.utils.Util;
@@ -31,7 +30,6 @@ public class MapperDTO {
 		.getDateDiscontinued().toString() : "";
 	String companyName = "";
 	int companyId = 0;
-
 	if (computer.getCompany() != null) {
 	    companyName = computer.getCompany().getName();
 	    companyId = computer.getCompany().getId().intValue();
@@ -56,7 +54,6 @@ public class MapperDTO {
      * @return computer
      */
     public static Computer dtoToComputer(ComputerDTO computerDTO) {
-
 
 	LocalDate introducedDate = null;
 	LocalDate discontinuedDate = null;
