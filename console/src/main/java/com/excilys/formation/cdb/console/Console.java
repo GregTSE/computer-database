@@ -16,6 +16,7 @@ import com.excilys.formation.cdb.utils.Util;
 
 /**
  * Console user interface
+ * 
  * @author Greg T.
  */
 
@@ -101,6 +102,7 @@ public class Console {
 
     /**
      * Display the informations about a computer by id
+     * 
      * @param Scanner
      */
     private void displayComputerInfo(Scanner sc) {
@@ -121,6 +123,7 @@ public class Console {
 
     /**
      * Call the method to insert a new computer in the database
+     * 
      * @param Scanner
      */
     private void createComputer(Scanner sc) {
@@ -128,14 +131,8 @@ public class Console {
 	String name = sc.nextLine();
 	System.out.println("Introduced date : (format yyyy-mm-dd)");
 	String introduced = sc.nextLine();
-	if (!Util.checkDateFormat(introduced)) {
-	    introduced = null;
-	}
 	System.out.println("Discontinued date : (format yyyy-mm-dd)");
 	String discontinued = sc.nextLine();
-	if (!Util.checkDateFormat(discontinued)) {
-	    discontinued = null;
-	}
 	System.out.println("ID of the Company :");
 	String idCompany = sc.nextLine();
 	Company company = null;
@@ -153,6 +150,7 @@ public class Console {
 
     /**
      * Call the method to delete a computer from the database
+     * 
      * @param Scanner
      */
     private void deleteComputer(Scanner sc) {
@@ -168,6 +166,7 @@ public class Console {
 
     /**
      * Call the method to update a computer
+     * 
      * @param Scanner
      */
     private void updateComputer(Scanner sc) {
@@ -185,15 +184,11 @@ public class Console {
 
 	    System.out.println("Introduced date : (format yyyy-mm-dd)");
 	    String introduced = sc.nextLine();
-	    if (Util.checkDateFormat(introduced)) {
-		computerDTO.setDateIntroduced(introduced);
-	    }
+	    computerDTO.setDateIntroduced(introduced);
 
 	    System.out.println("Discontinued date : (format yyyy-mm-dd)");
 	    String discontinued = sc.nextLine();
-	    if (Util.checkDateFormat(discontinued)) {
-		computerDTO.setDateIntroduced(discontinued);
-	    }
+	    computerDTO.setDateIntroduced(discontinued);
 
 	    webServiceComputer.update(computerDTO);
 	    System.out.println("Update OK.");
@@ -205,6 +200,7 @@ public class Console {
 
     /**
      * Delete company and all its computers
+     * 
      * @param sc
      */
     public void deleteCompany(Scanner sc) {
