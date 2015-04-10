@@ -14,6 +14,7 @@ public class MapperDTO {
 	super();
     }
 
+   
     /**
      * Build the DTO equivalent to the object
      * 
