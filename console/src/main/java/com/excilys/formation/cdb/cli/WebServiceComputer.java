@@ -13,8 +13,10 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
+
 /**
- * Client part of the web service for Computers
+ * Client class using the webservice for computers
+ * 
  * @author Gregori T.
  */
 @Component
@@ -32,8 +34,9 @@ public class WebServiceComputer {
     }
 
     /**
+     * Return the list of computers as data transfert objects
      * 
-     * @return List of data transfert computers
+     * @return list of computerDTO
      */
     public List<ComputerDTO> getAll() {
 	return webTarget.request(MediaType.APPLICATION_JSON).get(
@@ -43,8 +46,9 @@ public class WebServiceComputer {
 
     /**
      * Get a computer by ID
+     * 
      * @param id
-     * @return
+     * @return computerDTO
      */
     public ComputerDTO get(String id) {
 	return webTarget.path(id).request(MediaType.APPLICATION_JSON)
@@ -53,6 +57,7 @@ public class WebServiceComputer {
     }
 
     /**
+     * Add a computer in the database
      * 
      * @param computerDTO
      */
@@ -62,6 +67,7 @@ public class WebServiceComputer {
     }
 
     /**
+     * Update a computer
      * 
      * @param computerDTO
      */
@@ -71,6 +77,7 @@ public class WebServiceComputer {
     }
 
     /**
+     * Delete a computer by ID
      * 
      * @param id
      * @return

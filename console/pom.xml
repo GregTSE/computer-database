@@ -56,8 +56,6 @@
 			<artifactId>jersey-client</artifactId>
 		</dependency>
 
-
-
 	</dependencies>
 
 </project>

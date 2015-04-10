@@ -17,6 +17,10 @@ import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.service.IComputerService;
 
+/**
+ * @author Gregori T.
+ *
+ */
 @Path("/computer")
 @Component
 public class ComputerWebService {
@@ -24,6 +28,10 @@ public class ComputerWebService {
     @Autowired
     IComputerService computerService;
 
+    /**
+     * Return the list of computers in json 
+     * @return list of computerDTO
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ComputerDTO> getAll() {
@@ -32,6 +40,10 @@ public class ComputerWebService {
 	return computers;
     }
 
+    /**
+     * Add a computer in the database
+     * @param computerDTO
+     */
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -39,6 +51,11 @@ public class ComputerWebService {
 	computerService.insert(MapperDTO.dtoToComputer(computerDTO));
     }
 
+    /**
+     * Return a computer by ID in json 
+     * @param id
+     * @return computerDTO
+     */
     @GET
     @Path("/{param}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,6 +64,10 @@ public class ComputerWebService {
 	return computerDTO;
     }
 
+    /**
+     * Update a computer
+     * @param computerDTO
+     */
     @POST
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -54,6 +75,10 @@ public class ComputerWebService {
 	computerService.update(MapperDTO.dtoToComputer(computerDTO));
     }
 
+    /**
+     * Delete a computer by ID
+     * @param id
+     */
     @GET
     @Path("/delete/{id}")
     @Produces("application/json")

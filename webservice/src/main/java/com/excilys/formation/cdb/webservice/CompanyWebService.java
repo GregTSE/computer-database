@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.service.ICompanyService;
 
+/**
+ * @author Gregori T.
+ *
+ */
 @Path("/company")
 @Component
 public class CompanyWebService {
@@ -21,13 +25,22 @@ public class CompanyWebService {
     @Autowired
     ICompanyService companyService;
 
+    /**
+     * 
+     * @param msg
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Company> getAll(@PathParam("param") String msg) {
+    public List<Company> getAll() {
 	List<Company> companies = companyService.findAll();
 	return companies;
     }
 
+    /**
+     * 
+     * @param id
+     */
     @GET
     @Path("/delete/{id}")
     @Produces("application/json")
@@ -35,6 +48,11 @@ public class CompanyWebService {
 	companyService.delete(id);
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     */
     @GET
     @Path("/{param}")
     @Produces(MediaType.APPLICATION_JSON)

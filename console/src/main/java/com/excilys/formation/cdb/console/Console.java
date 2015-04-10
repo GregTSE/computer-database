@@ -102,6 +102,7 @@ public class Console {
 
     /**
      * Display the informations about a computer by id
+     * 
      * @param Scanner
      */
     private void displayComputerInfo(Scanner sc) {

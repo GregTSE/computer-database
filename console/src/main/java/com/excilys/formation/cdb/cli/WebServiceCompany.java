@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.model.Company;
 
+/**
+ * Client class using the webservice for companies
+ * @author Gregori T.
+ */
 @Component
 public class WebServiceCompany {
 
@@ -28,7 +32,7 @@ public class WebServiceCompany {
     }
 
     /**
-     * 
+     * Return the list of companies
      * @return
      */
     public List<Company> getAll() {
@@ -38,7 +42,7 @@ public class WebServiceCompany {
     }
 
     /**
-     * 
+     * Delete a company by ID
      * @param id
      */
     public void delete(Long id) {
@@ -49,9 +53,9 @@ public class WebServiceCompany {
     }
 
     /**
-     * 
+     * Return a company by ID
      * @param id
-     * @return
+     * @return Company
      */
     public Company get(String id) {
 	return webTarget.path(id).request(MediaType.APPLICATION_JSON)
