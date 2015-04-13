@@ -37,4 +37,6 @@
 /webservice/.project
 /webservice/.settings/
 /webservice/src/main/webapp/WEB-INF/.gitignore
+/webservice/src/main/webapp/META-INF/
+
 
