@@ -56,7 +56,7 @@ public class Page {
     }
 
     public int getIndex() {
-	return index;
+	return index+1;
     }
 
     public void setIndex(int index) {
@@ -78,24 +78,24 @@ public class Page {
     public void setSearch(String search) {
 	this.search = search;
     }
-
-    public String getToogleSort() {
-	if (sort.equals(Sort.ASC.name())) {
-	    this.sort = "DESC";
-	    return this.sort;
-	} else {
-	    this.sort = "ASC";
-	    return this.sort;
-	}
-    }
     
     public String getSort() {
 	return this.sort;
     }
-
+    
     public void setSort(String sort) {
         this.sort = sort;
     }
+
+    public String getToogle() {
+	if (sort.equals(Sort.ASC.name())) {
+	    return "DESC";
+	} else {
+	    return "ASC";
+	}
+    }
+
+
 
 
 }

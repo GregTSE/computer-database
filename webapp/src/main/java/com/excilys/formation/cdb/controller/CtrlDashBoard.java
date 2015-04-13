@@ -81,10 +81,9 @@ public class CtrlDashBoard {
 		computerService.delete(Integer.parseInt(checkedId));
 	    }
 	}
-
+	
 	Page page = new Page();
-
-	List<ComputerDTO> computersDTO = computerService.search("",1,10,"");
+	List<ComputerDTO> computersDTO = computerService.search("",0,10,"");
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));

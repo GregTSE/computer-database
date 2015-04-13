@@ -24,14 +24,14 @@
 							<label for="introduced"><spring:message code="date.introduced" /></label> 
 							<input
 								type="date" class="form-control" id="dateIntroduced"
-								name="dateIntroduced" placeholder="<spring:message code="date.introduced" />"
+								name="dateIntroduced" placeholder="<spring:message code="example.date" />"
 								onkeyup="$.fn.initIntroduced()">
 								<form:errors path="dateIntroduced" element="div" cssClass="alert alert-danger"/>
 						</div>
 						
 						<div class="form-group">
 							<label for="discontinued"><spring:message code="date.discontinued" /></label> 
-							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="date.discontinued" />"
+							<input type="date" class="form-control" id="dateDiscontinued" name="dateDiscontinued" placeholder="<spring:message code="example.date" />"
 							onkeyup="$.fn.initDiscontinued()">
 							<form:errors path="dateDiscontinued" element="div" cssClass="alert alert-danger"/>
 						</div>
@@ -63,6 +63,7 @@
   strings['error.date'] = "<spring:message code='error.date' javaScriptEscape='true' />";
   strings['lang'] = "<spring:message code='lang' javaScriptEscape='true' />";
 </script>
+
 <script src="${request.getContextPath()}js/jquery.min.js"></script>
 <script src="${request.getContextPath()}js/addcomputer.js"></script>
 </body>

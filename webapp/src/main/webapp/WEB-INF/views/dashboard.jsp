@@ -60,7 +60,7 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><spring:message code="field.name" /> <a href='?offset=${page.offset}&sort=${page.toogleSort}'
+					<th><spring:message code="field.name" /> <a href='?offset=${page.offset}&sort=${page.toogle}'
 						style="float: right"> <i class="fa fa-sort"></i>
 						<input type="hidden" id="offset" name="offset" value="0"/>
 					</a></th>
@@ -77,8 +77,16 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="${computer.id}"></td>
-						<td><a href="./editComputer?id=${computer.id}" onclick="">${computer.name}</a>
+							
+						<td>
+							<sec:authorize ifAnyGranted="ROLE_ADMIN">
+								<a href="./editComputer?id=${computer.id}" onclick="">${computer.name}</a>
+							</sec:authorize>
+							<sec:authorize ifAnyGranted="ROLE_USER">
+								${computer.name}
+							</sec:authorize>
 						</td>
+						
 						<td>${computer.dateIntroduced}</td>
 						<td>${computer.dateDiscontinued}</td>
 						<td>${computer.companyName}</td>
@@ -92,15 +100,16 @@
 
 <%@include file="footer.jsp"%>
 
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/dashboard.js"></script>
+
 <script type="text/javascript">
   var strings = new Array();
   strings['button.view'] = "<spring:message code='button.view' javaScriptEscape='true' />";
   strings['button.edit'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
+  strings['confirm.delete'] = "<spring:message code='confirm.delete' javaScriptEscape='true' />";
 </script>
-
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
 
 </body>
 </html>

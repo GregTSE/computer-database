@@ -21,20 +21,28 @@
 						<div class="form-group">
 							<label for="name"><spring:message code="field.name" /></label> <input
 								type="text" class="form-control" id="name" name="name"
-								value="${computer.name}">
+								value="${computer.name}" onkeyup="$.fn.initName()">
+								<form:errors path="name" element="div" cssClass="alert alert-danger"/>
 						</div>
 						<div class="form-group">
 							<label for="dateIntroduced"><spring:message
 									code="date.introduced" /></label> <input type="date"
 								class="form-control" id="dateIntroduced" name="dateIntroduced"
-								value="${computer.dateIntroduced}">
+								value="${computer.dateIntroduced}"
+								onkeyup="$.fn.initIntroduced()">
+								<form:errors path="dateIntroduced" element="div" cssClass="alert alert-danger"/>
 						</div>
+						
+						
 						<div class="form-group">
 							<label for="dateDiscontinued"><spring:message
 									code="date.discontinued" /></label> <input type="date"
 								class="form-control" id="dateDiscontinued"
-								name="dateDiscontinued" value="${computer.dateDiscontinued}">
+								name="dateDiscontinued" value="${computer.dateDiscontinued}"
+								onkeyup="$.fn.initDiscontinued()">
+								<form:errors path="dateDiscontinued" element="div" cssClass="alert alert-danger"/>
 						</div>
+						
 						<div class="form-group">
 							<label for="companyId"><spring:message
 									code="company.name" /></label> <select class="form-control"
@@ -56,7 +64,7 @@
 						</div>
 					</fieldset>
 					<div class="actions pull-right">
-						<input type="submit" value="<spring:message code="button.edit" />"
+						<input type="submit" id="edit" value="<spring:message code="button.edit" />"
 							class="btn btn-primary">
 						<spring:message code="word.or" />
 						<a href="./dashboard" class="btn btn-default"><spring:message
@@ -67,6 +75,16 @@
 		</div>
 	</div>
 </section>
-<script src="${request.getContextPath()}js/addcomputer.js"></script>
+
+<script type="text/javascript">
+  var strings = new Array();
+  strings['error.name'] = "<spring:message code='error.name' javaScriptEscape='true' />";
+  strings['error.date'] = "<spring:message code='error.date' javaScriptEscape='true' />";
+  strings['lang'] = "<spring:message code='lang' javaScriptEscape='true' />";
+</script>
+
+<script src="${request.getContextPath()}js/jquery.min.js"></script>
+<script src="${request.getContextPath()}js/editcomputer.js"></script>
+
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.excilys.formation.cdb.webservice;
 
 import java.util.List;
 
+import javax.jws.WebService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.service.IComputerService;
@@ -21,7 +21,7 @@ import com.excilys.formation.cdb.service.IComputerService;
  *
  */
 @Path("/computer")
-@Component
+@WebService
 public class ComputerWebService {
 
     @Autowired

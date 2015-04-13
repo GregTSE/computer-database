@@ -10,7 +10,7 @@
 	<c:forEach var="index" begin="${page.beginPage}" end="${page.endPage}">
 <%-- 		<c:if test="${ page.nbComputersPerPage > 0 }"> --%>
 			<li><a
-				href="./dashboard?index=${index}&offset=${page.offset}&search=${page.search}">
+				href="./dashboard?sort=${page.sort}&index=${index-1}&offset=${page.offset}&search=${page.search}">
 					<c:if test="${ index == page.index }">
 						<b>
 					</c:if> ${index} <c:if test="${ index == page.index }">

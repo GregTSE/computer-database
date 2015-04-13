@@ -15,7 +15,6 @@ import com.excilys.formation.cdb.service.ICompanyService;
 
 /**
  * @author Gregori T.
- *
  */
 @Path("/company")
 @Component
