@@ -12,7 +12,6 @@ import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.ICompanyService;
 
 @Service
-@Transactional
 public class CompanyService implements ICompanyService {
     
    @Autowired
@@ -36,6 +35,7 @@ public class CompanyService implements ICompanyService {
      * @see com.excilys.formation.cdb.service.ICompanyService#delete(java.lang.Long)
      */
     @Override
+    @Transactional
     public void delete(Long id) {
 	computerDAO.deleteByCompany(id);
 	companyDAO.delete(id);

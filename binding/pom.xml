@@ -20,6 +20,25 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
+		
+		
+		<!-- For Utils.checkDate() : LocaleContextHolder -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		
+			<!-- For validation date -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+		</dependency>
+		
+		<!-- For customized annotation DateAnnotation -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
 
 	</dependencies>
 

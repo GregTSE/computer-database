@@ -1,7 +1,5 @@
 package com.excilys.formation.cdb.persistence.implementation;
 
-import javax.sql.DataSource;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,8 +12,6 @@ public class UserDAO implements IUserDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
-    private DataSource dataSource;
     
     public UserDAO() {
 	super();

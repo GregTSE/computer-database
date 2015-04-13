@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ICompanyService;
@@ -55,10 +54,10 @@ public class CtrlAddComputer {
 	    return "addComputer";
 	} else {
 	    // Insert in the database
-	    computerService.insert(MapperDTO.dtoToComputer(computerDTO));
+	    computerService.insert(computerDTO);
 	    // Redirection
 	    Page page = new Page();
-	    List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.findAll());
+	    List<ComputerDTO> computersDTO = computerService.findAll();
 	    model.addAttribute("computersDTO",computersDTO);
 	    model.addAttribute("page", page);
 	    model.addAttribute("computersFound", computerService.count(""));

@@ -2,8 +2,6 @@ package com.excilys.formation.cdb.persistence.implementation;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,13 +16,7 @@ public class CompanyDAO implements ICompanyDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
-    private DataSource dataSource;
 
-    @Autowired
-    public void setDataSource(DataSource ds) {
-	dataSource = ds;
-    }
 
     /*
      * (non-Javadoc)

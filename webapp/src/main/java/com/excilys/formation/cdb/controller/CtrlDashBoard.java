@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.IComputerService;
 import com.excilys.formation.cdb.utils.Util;
@@ -58,9 +57,8 @@ public class CtrlDashBoard {
 	}
 
 	Page page = new Page(checkedIndex, checkedOffset, search, sort);
-	List<ComputerDTO> computersDTO = MapperDTO
-		.computersToDTO(computerService.search(search, checkedIndex
-			* checkedOffset, checkedOffset, sort));
+	List<ComputerDTO> computersDTO = computerService.search(search, checkedIndex
+			* checkedOffset, checkedOffset, sort);
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(search));
@@ -86,7 +84,7 @@ public class CtrlDashBoard {
 
 	Page page = new Page();
 
-	List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.search("",1,10,""));
+	List<ComputerDTO> computersDTO = computerService.search("",1,10,"");
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));

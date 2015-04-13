@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Page;
 import com.excilys.formation.cdb.service.ICompanyService;
@@ -59,9 +58,9 @@ public class CtrlEditComputer {
     @RequestMapping(method = RequestMethod.POST)
     protected String doPost(ModelMap model,
 	    @Valid @ModelAttribute ComputerDTO computerDTO) {
-	computerService.update(MapperDTO.dtoToComputer(computerDTO));
+	computerService.update(computerDTO);
 	Page page = new Page();
-	List<ComputerDTO> computersDTO = MapperDTO.computersToDTO(computerService.findAll());
+	List<ComputerDTO> computersDTO = computerService.findAll();
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(""));

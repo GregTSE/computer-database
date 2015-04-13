@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	$("#add").click(function(e) {
-		alert(strings['lang']);
 		var name = $("#name").val();
 		var introducedError = !isValidDate($("#dateIntroduced").val());
 		var discontinuedError = !isValidDate($("#dateDiscontinued").val())

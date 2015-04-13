@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.dto.MapperDTO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 /**
@@ -29,30 +28,32 @@ public class ComputerWebService {
     IComputerService computerService;
 
     /**
-     * Return the list of computers in json 
+     * Return the list of computers in json
+     * 
      * @return list of computerDTO
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ComputerDTO> getAll() {
-	List<ComputerDTO> computers = MapperDTO.computersToDTO(computerService
-		.findAll());
+	List<ComputerDTO> computers = computerService.findAll();
 	return computers;
     }
 
     /**
      * Add a computer in the database
+     * 
      * @param computerDTO
      */
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public void add(ComputerDTO computerDTO) {
-	computerService.insert(MapperDTO.dtoToComputer(computerDTO));
+	computerService.insert(computerDTO);
     }
 
     /**
-     * Return a computer by ID in json 
+     * Return a computer by ID in json
+     * 
      * @param id
      * @return computerDTO
      */
@@ -66,17 +67,19 @@ public class ComputerWebService {
 
     /**
      * Update a computer
+     * 
      * @param computerDTO
      */
     @POST
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public void update(ComputerDTO computerDTO) {
-	computerService.update(MapperDTO.dtoToComputer(computerDTO));
+	computerService.update(computerDTO);
     }
 
     /**
      * Delete a computer by ID
+     * 
      * @param id
      */
     @GET

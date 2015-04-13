@@ -3,7 +3,6 @@ package com.excilys.formation.cdb.service;
 import java.util.List;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.model.Computer;
 
 public interface IComputerService {
 
@@ -11,7 +10,7 @@ public interface IComputerService {
      * Get all the computers in the database
      * @return List of the computers
      */
-    public abstract List<Computer> findAll();
+    public abstract List<ComputerDTO> findAll();
 
     /**
      * Get the computer by id
@@ -24,7 +23,7 @@ public interface IComputerService {
      * insert a new computer in the database
      * @param computer
      */
-    public abstract void insert(Computer computer);
+    public abstract void insert(ComputerDTO computer);
 
     /**
      * delete the computer
@@ -36,7 +35,7 @@ public interface IComputerService {
      * update the fields of the computer
      * @param computer
      */
-    public abstract void update(Computer computer);
+    public abstract void update(ComputerDTO computer);
 
     /**
      * Get the computers beginning by 'str' between 'num' and 'num+offset'
@@ -46,13 +45,13 @@ public interface IComputerService {
      * @param sort 
      * @return List of computers
      */
-    public abstract List<Computer> search(String str, int num, int offset, String sort);
+    public abstract List<ComputerDTO> search(String str, int num, int offset, String sort);
 
     /**
-     * Count the computers beginning by 'word'
+     * Count the computers beginning by 'prefix'
      * @param word
-     * @return the number of computers beginning by 'word'
+     * @return the number of computers beginning by 'prefix'
      */
-    public abstract int count(String word);
+    public abstract int count(String prefix);
 
 }

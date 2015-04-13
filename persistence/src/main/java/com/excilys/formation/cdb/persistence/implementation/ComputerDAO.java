@@ -3,8 +3,6 @@ package com.excilys.formation.cdb.persistence.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -23,8 +21,6 @@ public class ComputerDAO implements IComputerDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
-    @Autowired
-    private DataSource dataSource;
 
     final Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
@@ -44,7 +40,6 @@ public class ComputerDAO implements IComputerDAO {
      * 
      * @see com.excilys.formation.cdb.persistence.IComputerDAO#findAll()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<Computer> findAll() {
 	Criteria crit = sessionFactory.getCurrentSession()
@@ -54,7 +49,6 @@ public class ComputerDAO implements IComputerDAO {
 
     /*** METHODS FOR WEB-UI ***/
 
-    @SuppressWarnings("unchecked")
     /*
      * (non-Javadoc)
      * 
@@ -113,7 +107,6 @@ public class ComputerDAO implements IComputerDAO {
      * com.excilys.formation.cdb.persistence.IComputerDAO#search(java.lang.String
      * , int, int)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<Computer> search(String str, int num, int offset, String sort) {
 

@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.dto.MapperDTO;
-import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.IComputerService;
 
 @Service
 @Transactional
+//TODO Bug en enlevant @transactional
 public class ComputerService implements IComputerService {
     
     @Autowired
@@ -27,8 +27,8 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#findAll()
      */
     @Override
-    public List<Computer> findAll() {
-	return computerDAO.findAll();
+    public List<ComputerDTO> findAll() {
+	return MapperDTO.computersToDTO(computerDAO.findAll());
 	
     }
 
@@ -44,8 +44,8 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#create(java.lang.String, java.lang.String, java.lang.String, com.excilys.formation.cdb.model.Company)
      */
     @Override
-    public void insert(Computer computer) {
-	computerDAO.create(computer);
+    public void insert(ComputerDTO computerDTO) {
+	computerDAO.create(MapperDTO.dtoToComputer(computerDTO));
     }
 
     /* (non-Javadoc)
@@ -60,22 +60,23 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#update(com.excilys.formation.cdb.model.Computer)
      */
     @Override
-    public void update(Computer computer) {
-	computerDAO.update(computer);
+    public void update(ComputerDTO computerDTO) {
+	computerDAO.update(MapperDTO.dtoToComputer(computerDTO));
     }
 
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#search(java.lang.String, int, int)
      */
     @Override
-    public List<Computer> search(String str, int num, int offset, String sort) {
-	return computerDAO.search(str, num, offset, sort);
+    public List<ComputerDTO> search(String str, int num, int offset, String sort) {
+	return MapperDTO.computersToDTO(computerDAO.search(str, num, offset, sort));
     }
     
     /* (non-Javadoc)
      * @see com.excilys.formation.cdb.service.IComputerService#count(java.lang.String)
      */
     @Override
+    @Transactional(readOnly = true)
     public int count(String word) {
 	return computerDAO.count(word);
     }
