@@ -18,14 +18,14 @@ import com.excilys.formation.cdb.model.Company;
  * @author Gregori T.
  */
 @Component
-public class WebServiceCompany {
+public class ClientCompany {
 
     private Client client;
     private WebTarget webTarget;
   
     public static final String URL = "http://localhost:8080/ComputerDatabase/webservice/company";
 
-    public WebServiceCompany() {
+    public ClientCompany() {
 	this.client = ClientBuilder.newBuilder().register(JacksonFeature.class)
 		.build();
 	this.webTarget = client.target(URL);

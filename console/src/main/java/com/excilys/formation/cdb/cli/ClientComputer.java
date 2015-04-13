@@ -20,14 +20,14 @@ import com.excilys.formation.cdb.dto.ComputerDTO;
  * @author Gregori T.
  */
 @Component
-public class WebServiceComputer {
+public class ClientComputer {
 
     private Client client;
     private WebTarget webTarget;
 
     private static final String URL = "http://localhost:8080/ComputerDatabase/webservice/computer";
 
-    public WebServiceComputer() {
+    public ClientComputer() {
 	this.client = ClientBuilder.newBuilder().register(JacksonFeature.class)
 		.build();
 	this.webTarget = client.target(URL);

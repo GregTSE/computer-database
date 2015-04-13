@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.formation.cdb.cli.WebServiceCompany;
-import com.excilys.formation.cdb.cli.WebServiceComputer;
+import com.excilys.formation.cdb.cli.ClientCompany;
+import com.excilys.formation.cdb.cli.ClientComputer;
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.utils.Util;
@@ -25,9 +25,9 @@ public class Console {
 
     final private Logger logger = LoggerFactory.getLogger(Console.class);
     @Autowired
-    private WebServiceCompany webServiceCompany;
+    private ClientCompany webServiceCompany;
     @Autowired
-    private WebServiceComputer webServiceComputer;
+    private ClientComputer webServiceComputer;
 
     public Console() {
 	super();
