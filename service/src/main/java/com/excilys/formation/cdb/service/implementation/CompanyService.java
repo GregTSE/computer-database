@@ -12,6 +12,8 @@ import com.excilys.formation.cdb.persistence.IComputerDAO;
 import com.excilys.formation.cdb.service.ICompanyService;
 
 @Service
+@Transactional
+//TODO Bug : en enlevant transactional
 public class CompanyService implements ICompanyService {
     
    @Autowired
