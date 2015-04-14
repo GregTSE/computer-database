@@ -60,7 +60,7 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><spring:message code="field.name" /> <a href='?offset=${page.offset}&sort=${page.toogle}'
+					<th><spring:message code="field.name" /> <a href='dashboard?offset=${page.offset}&sort=${page.toogle}'
 						style="float: right"> <i class="fa fa-sort"></i>
 						<input type="hidden" id="offset" name="offset" value="0"/>
 					</a></th>

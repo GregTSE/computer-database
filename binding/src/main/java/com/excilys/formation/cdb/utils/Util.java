@@ -54,4 +54,17 @@ final public class Util {
  	return day+"-"+month+"-"+year;
      }
 
+    public static String frenchToEnglishDate(String dateFrench) {
+	if (dateFrench == null) {
+	    return null;
+	}
+	if (dateFrench.equals("")) {
+	    return "";
+	}
+ 	String[] dateArray = dateFrench.split("-");
+ 	String year = dateArray[2];
+ 	String month = dateArray[1];
+ 	String day = dateArray[0];
+ 	return year+"-"+month+"-"+day;
+     }
 }

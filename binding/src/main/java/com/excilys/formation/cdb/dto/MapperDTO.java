@@ -59,8 +59,8 @@ public class MapperDTO {
 	LocalDate introducedDate = null;
 	LocalDate discontinuedDate = null;
 
-	String introduced = computerDTO.getDateIntroduced();
-	String discontinued = computerDTO.getDateDiscontinued();
+	String introduced = computerDTO.getEnglishDateIntroduced();
+	String discontinued = computerDTO.getEnglishDateDiscontinued();
 
 	if (introduced != null) {
 	    if (Util.checkDateFormat(introduced)) {

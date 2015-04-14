@@ -7,14 +7,13 @@ import javax.validation.constraints.Size;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 
-
 import com.excilys.formation.cdb.utils.DateAnnotation;
 
 public class ComputerDTO {
 
     private long id;
 
-    @Size(min=1, max=30)
+    @Size(min = 1, max = 30)
     private String name;
     @DateAnnotation
     private String dateIntroduced;
@@ -27,7 +26,8 @@ public class ComputerDTO {
 	super();
     }
 
-    public ComputerDTO(long id, String name, String dateIntroduced, String dateDiscontinued, long companyId, String companyName) {
+    public ComputerDTO(long id, String name, String dateIntroduced,
+	    String dateDiscontinued, long companyId, String companyName) {
 	super();
 	this.id = id;
 	this.name = name;
@@ -36,8 +36,9 @@ public class ComputerDTO {
 	this.companyId = companyId;
 	this.companyName = companyName;
     }
-    
-    public ComputerDTO(String name, String dateIntroduced, String dateDiscontinued, String companyName) {
+
+    public ComputerDTO(String name, String dateIntroduced,
+	    String dateDiscontinued, String companyName) {
 	this(0, name, dateIntroduced, dateDiscontinued, 0, companyName);
     }
 
@@ -59,19 +60,35 @@ public class ComputerDTO {
 
     public String getDateIntroduced() {
 	Locale locale = LocaleContextHolder.getLocale();
-	return locale.getLanguage().equals("fr") ? Util.englishToFrenchDate(this.dateIntroduced) : this.dateIntroduced;
+	return locale.getLanguage().equals("fr") ? Util
+		.englishToFrenchDate(this.dateIntroduced) : this.dateIntroduced;
     }
 
     public void setDateIntroduced(String dateIntroduced) {
-	this.dateIntroduced = dateIntroduced;
+	Locale locale = LocaleContextHolder.getLocale();
+	this.dateIntroduced = locale.getLanguage().equals("fr") ? Util
+		.frenchToEnglishDate(dateIntroduced) : dateIntroduced;
     }
 
     public String getDateDiscontinued() {
-	return dateDiscontinued;
+	Locale locale = LocaleContextHolder.getLocale();
+	return locale.getLanguage().equals("fr") ? Util
+		.englishToFrenchDate(this.dateDiscontinued)
+		: this.dateDiscontinued;
+    }
+
+    public String getEnglishDateDiscontinued() {
+	return this.dateDiscontinued;
+    }
+    
+    public String getEnglishDateIntroduced() {
+	return this.dateIntroduced;
     }
 
     public void setDateDiscontinued(String dateDiscontinued) {
-	this.dateDiscontinued = dateDiscontinued;
+	Locale locale = LocaleContextHolder.getLocale();
+	this.dateDiscontinued = locale.getLanguage().equals("fr") ? Util
+		.frenchToEnglishDate(dateDiscontinued) : dateDiscontinued;
     }
 
     public long getCompanyId() {
@@ -92,10 +109,13 @@ public class ComputerDTO {
 
     @Override
     public String toString() {
-	String introduced = (dateIntroduced== null) ? "" : ", introduced:"+dateIntroduced;
-	String discontinued = (dateDiscontinued == null) ? "" : ", discontinued:"+dateDiscontinued;
-	String company = (companyName == null || companyName.equals("")) ? "" : " [Company : "+companyName+"]";
-	return id+" : "+name + introduced + discontinued + company;
+	String introduced = (dateIntroduced == null) ? "" : ", introduced:"
+		+ dateIntroduced;
+	String discontinued = (dateDiscontinued == null) ? ""
+		: ", discontinued:" + dateDiscontinued;
+	String company = (companyName == null || companyName.equals("")) ? ""
+		: " [Company : " + companyName + "]";
+	return id + " : " + name + introduced + discontinued + company;
     }
 
     @Override

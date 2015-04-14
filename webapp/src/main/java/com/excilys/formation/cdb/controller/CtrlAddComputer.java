@@ -46,13 +46,16 @@ public class CtrlAddComputer {
     protected String addComputer(ModelMap model,
 	    @Valid ComputerDTO computerDTO, BindingResult bindingResult) {
 
+	System.out.println("Et c'est parti pour le show !");
 	if (bindingResult.hasErrors()) {
+	    System.out.println("Ereuuur");
 	    model.addAttribute("computerDTO", computerDTO);
 	    List<Company> companies = new ArrayList<Company>();
 	    companies = companyService.findAll();
 	    model.addAttribute("companies", companies);
 	    return "addComputer";
 	} else {
+	    System.out.println("padreuuur");
 	    // Insert in the database
 	    computerService.insert(computerDTO);
 	    // Redirection
@@ -60,8 +63,7 @@ public class CtrlAddComputer {
 	    List<ComputerDTO> computersDTO = computerService.findAll();
 	    model.addAttribute("computersDTO",computersDTO);
 	    model.addAttribute("page", page);
-	    model.addAttribute("computersFound", computerService.count(""));
-	    return "forward:/dashboard";
+	    return "redirect:/dashboard";
 	}
     }
 

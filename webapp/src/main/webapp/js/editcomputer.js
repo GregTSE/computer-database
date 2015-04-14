@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var introducedError = !isValidDate($("#dateIntroduced").val());
 		var discontinuedError = !isValidDate($("#dateDiscontinued").val())
 		$("#name").css("border", "none");
-		if (name.length < 2) {
+		if (name.length < 1) {
 			e.preventDefault();
 			$("#name").css("border", "solid");
 			$("#name").css("border-color", "#ff0000");

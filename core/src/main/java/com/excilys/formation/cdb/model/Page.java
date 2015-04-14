@@ -1,22 +1,19 @@
 package com.excilys.formation.cdb.model;
 
-
 //TODO : Ne pas afficher les pages sans contenu
 public class Page {
-    
+
     public enum Sort {
-	ASC,
-	DESC
+	ASC, DESC
     }
 
     private int index;
     private int offset;
     private String search;
     private String sort;
-    
 
     private static final int NB_OF_DISPLAYED_PAGES = 5;
-    
+
     public Page() {
 	super();
 	this.index = 0;
@@ -47,16 +44,36 @@ public class Page {
     }
 
     public int getBeginPage() {
-	return ((index - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1);
+	return (index / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1);
     }
 
     public int getEndPage() {
-	return ((index - 1) / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1)
+	return (index / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1)
+		+ (NB_OF_DISPLAYED_PAGES);
+    }
+
+    public int getEndPage(int computers) {
+	int lastPage = computers / offset + 1;
+	int endPage = (index / NB_OF_DISPLAYED_PAGES * NB_OF_DISPLAYED_PAGES + 1)
 		+ (NB_OF_DISPLAYED_PAGES - 1);
+	if (endPage > lastPage) {
+	    return lastPage;
+	} else {
+	    return endPage;
+	}
     }
 
     public int getIndex() {
-	return index+1;
+	return index;
+    }
+    
+    public int getNextIndex(int computers) {
+	int lastPage = computers / offset + 1;
+	if (index+1 >= lastPage ) {
+	    return index;
+	} else {
+	    return index+1;
+	}
     }
 
     public void setIndex(int index) {
@@ -78,13 +95,13 @@ public class Page {
     public void setSearch(String search) {
 	this.search = search;
     }
-    
+
     public String getSort() {
 	return this.sort;
     }
-    
+
     public void setSort(String sort) {
-        this.sort = sort;
+	this.sort = sort;
     }
 
     public String getToogle() {
@@ -94,8 +111,5 @@ public class Page {
 	    return "ASC";
 	}
     }
-
-
-
 
 }

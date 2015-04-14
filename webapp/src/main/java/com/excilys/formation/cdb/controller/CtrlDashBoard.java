@@ -46,6 +46,9 @@ public class CtrlDashBoard {
 
 	if (Util.checkDigit(offset)) {
 	    checkedOffset = Integer.parseInt(offset);
+	   if (checkedOffset != 10 && checkedOffset != 50 && checkedOffset != 100) {
+	       checkedOffset = 10;
+	   }
 	}
 
 	if (search == null) {
@@ -59,6 +62,7 @@ public class CtrlDashBoard {
 	Page page = new Page(checkedIndex, checkedOffset, search, sort);
 	List<ComputerDTO> computersDTO = computerService.search(search, checkedIndex
 			* checkedOffset, checkedOffset, sort);
+
 	model.addAttribute("computersDTO", computersDTO);
 	model.addAttribute("page", page);
 	model.addAttribute("computersFound", computerService.count(search));
