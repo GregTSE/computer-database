@@ -9,6 +9,12 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.excilys.formation.cdb.utils.DateAnnotation;
 
+/**
+ * Data transfert object computer
+ * 
+ * @author Gregori Tirsatine
+ *
+ */
 public class ComputerDTO {
 
     private long id;
@@ -58,18 +64,33 @@ public class ComputerDTO {
 	this.name = name;
     }
 
+    /**
+     * Get introduced date in local format
+     * 
+     * @return String date
+     */
     public String getDateIntroduced() {
 	Locale locale = LocaleContextHolder.getLocale();
 	return locale.getLanguage().equals("fr") ? Util
 		.englishToFrenchDate(this.dateIntroduced) : this.dateIntroduced;
     }
 
+    /**
+     * Save introduced date in english format
+     * 
+     * @param dateIntroduced
+     */
     public void setDateIntroduced(String dateIntroduced) {
 	Locale locale = LocaleContextHolder.getLocale();
 	this.dateIntroduced = locale.getLanguage().equals("fr") ? Util
 		.frenchToEnglishDate(dateIntroduced) : dateIntroduced;
     }
 
+    /**
+     * Get discontinued date in local format
+     * 
+     * @return String date
+     */
     public String getDateDiscontinued() {
 	Locale locale = LocaleContextHolder.getLocale();
 	return locale.getLanguage().equals("fr") ? Util
@@ -80,11 +101,16 @@ public class ComputerDTO {
     public String getEnglishDateDiscontinued() {
 	return this.dateDiscontinued;
     }
-    
+
     public String getEnglishDateIntroduced() {
 	return this.dateIntroduced;
     }
 
+    /**
+     * Save discontinued date in english format
+     * 
+     * @param dateDiscontinued
+     */
     public void setDateDiscontinued(String dateDiscontinued) {
 	Locale locale = LocaleContextHolder.getLocale();
 	this.dateDiscontinued = locale.getLanguage().equals("fr") ? Util

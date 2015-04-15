@@ -13,7 +13,6 @@ import com.excilys.formation.cdb.service.IComputerService;
 
 @Service
 @Transactional
-//TODO Bug en enlevant @transactional
 public class ComputerService implements IComputerService {
     
     @Autowired
@@ -76,7 +75,6 @@ public class ComputerService implements IComputerService {
      * @see com.excilys.formation.cdb.service.IComputerService#count(java.lang.String)
      */
     @Override
-    @Transactional(readOnly = true)
     public int count(String word) {
 	return computerDAO.count(word);
     }

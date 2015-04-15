@@ -1,6 +1,5 @@
 package com.excilys.formation.cdb.model;
 
-//TODO : Ne pas afficher les pages sans contenu
 public class Page {
 
     public enum Sort {
