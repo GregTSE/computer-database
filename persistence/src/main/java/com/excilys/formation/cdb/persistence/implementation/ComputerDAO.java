@@ -148,18 +148,10 @@ public class ComputerDAO implements IComputerDAO {
      */
     @Override
     public List<Long> findByCompany(Long companyId) {
-
-	List<Long> computersId = new ArrayList<Long>();
-	// String query = "SELECT id FROM computer WHERE company_id = ?";
-	// JdbcTemplate find = new JdbcTemplate(dataSource);
-	// List<Map<String, Object>> rows = find.queryForList(query,
-	// new Object[] { companyId });
-	//
-	// for (Map<String, Object> row : rows) {
-	// computersId.add(Long.parseLong(row.get(0).toString()));
-	// }
-
-	return computersId;
+	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Computer.class);
+	criteria.add(Restrictions.eq("company", companyId));
+	System.out.println(criteria.list().toString());
+	return criteria.list();
     }
 
     /*
